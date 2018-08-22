@@ -11,10 +11,10 @@ import android.widget.ImageView;
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-    private List<ImageView> picturesList;
+    private List<PhotoItem> picturesList;
     private OnItemClickListener itemClickListener;
 
-    public RecyclerViewAdapter(List<ImageView> picturesList) {
+    public RecyclerViewAdapter(List<PhotoItem> picturesList) {
         this.picturesList = picturesList;
     }
 
@@ -27,13 +27,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater
                 .from(viewGroup.getContext())
-                .inflate(R.layout.item, viewGroup, false);
+                .inflate(R.layout.item_view, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final @NonNull RecyclerViewAdapter.ViewHolder viewHolder, int i) {
-//        viewHolder.imgViewPicture.setImageBitmap(picturesList.get(i));
+        viewHolder.imgViewPicture.setImageBitmap(picturesList.get(i).getPhoto());
     }
 
     @Override

@@ -35,6 +35,7 @@ public class SettingsActivity extends PreferenceActivity {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 setTheme(R.style.AppTheme);
+                recreate();
                 return true;
             }
         });
@@ -43,6 +44,7 @@ public class SettingsActivity extends PreferenceActivity {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 setTheme(R.style.LightTheme);
+                recreate();
                 return true;
             }
         });
