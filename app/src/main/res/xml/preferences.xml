@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="Color Style">
-        <CheckBoxPreference android:title="Light Theme" />
-        <CheckBoxPreference android:title="Dark Theme" />
+    <PreferenceCategory android:title="@string/color_style">
+        <Preference
+            android:key="0565f9f8-3eb5-4702-a34f-58a1a2628237"
+            android:title="@string/default_theme" />
+        <Preference
+            android:key="7073d1a2-b8f5-4087-afd2-07cf6fd7983b"
+            android:title="@string/light_theme" />
+        <Preference
+            android:key="e15f52b6-70e8-4c89-9f61-c109fbfa767d"
+            android:title="@string/dark_theme" />
     </PreferenceCategory>
 </PreferenceScreen>

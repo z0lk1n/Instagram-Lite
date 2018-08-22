@@ -8,21 +8,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="EditTextStyle" parent="Theme.AppCompat.Light">
-        <item name="colorControlNormal">@android:color/black</item>
-        <item name="colorControlActivated">@android:color/holo_blue_light</item>
+    <style name="LightTheme" parent="Theme.AppCompat.Light.DarkActionBar" >
+        <item name="colorAccent">@color/colorLightThemePrimary</item>
+        <item name="colorPrimaryDark">@color/colorLightThemePrimaryDark</item>
+        <item name="colorPrimary">@color/colorLightThemeAccent</item>
     </style>
 
-    <style name="HintTextStyle" parent="TextAppearance.Design.Hint">
-        <item name="android:textColor">@android:color/holo_blue_dark</item>
+    <style name="DarkTheme" parent="Theme.AppCompat.Light.DarkActionBar" >
+        <item name="colorAccent">@color/colorDarkThemePrimary</item>
+        <item name="colorPrimaryDark">@color/colorDarkThemePrimaryDark</item>
+        <item name="colorPrimary">@color/colorDarkThemeAccent</item>
     </style>
-
-    <style name="OverflowCounterTextStyle" parent="TextAppearance.Design.Counter.Overflow">
-        <item name="android:textColor">@android:color/holo_orange_dark</item>
-    </style>
-
-    <style name="ErrorTextStyle" parent="TextAppearance.Design.Error">
-        <item name="android:textColor">@android:color/holo_red_dark</item>
-    </style>
-
 </resources>

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Instagram-Lite</string>
-    <string name="hint_edit_text">Enter your name:</string>
-    <string name="error_input_text">Minimum number of characters:</string>
+    <string name="color_style">Color Style</string>
+    <string name="default_theme">Default Theme</string>
+    <string name="light_theme">Light Theme</string>
+    <string name="dark_theme">Dark Theme</string>
 </resources>
