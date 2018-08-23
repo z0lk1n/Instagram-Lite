@@ -29,14 +29,14 @@ public class SettingsActivity extends PreferenceActivity {
         setTheme(preferences.getTheme());
     }
 
-    private void initialize()   {
+    private void initialize() {
         preferences = new Preferences(this);
         prefDefaultTheme = findPreference(KEY_PREF_DEFAULT_THEME);
         prefLightTheme = findPreference(KEY_PREF_LIGHT_THEME);
         prefDarkTheme = findPreference(KEY_PREF_DARK_THEME);
     }
 
-    private void initializeListener()   {
+    private void initializeListener() {
         prefDefaultTheme.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {

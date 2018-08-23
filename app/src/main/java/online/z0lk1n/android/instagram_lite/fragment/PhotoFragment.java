@@ -136,7 +136,7 @@ public class PhotoFragment extends android.app.Fragment implements View.OnClickL
 
     private Set<String> getFilesList() {
         Set<String> set = new HashSet<>();
-        for (File file: storageDir.listFiles()) {
+        for (File file : storageDir.listFiles()) {
             set.add(file.getPath());
         }
         return set;
