@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite;
+package online.z0lk1n.android.instagram_lite.fragment;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -8,20 +8,25 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import online.z0lk1n.android.instagram_lite.R;
+import online.z0lk1n.android.instagram_lite.model.PhotoItem;
+import online.z0lk1n.android.instagram_lite.util.AutoFitGridLayoutManager;
+import online.z0lk1n.android.instagram_lite.util.Preferences;
+import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -31,21 +36,23 @@ public class PhotoFragment extends android.app.Fragment implements View.OnClickL
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
     private int currentPosition = 0;
-
     private final int CAMERA_REQUEST = 1;
-    private String mCurrentPhotoPath;
-    private ImageView imageView;
     private Uri photoURI;
+    private Preferences preferences;
+    private File storageDir;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_photo, container, false);
+        preferences = new Preferences(getActivity());
+        storageDir = getActivity().getApplicationContext()
+                .getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        preferences.setPhotoSet(getFilesList());
         recyclerView = view.findViewById(R.id.recycler_view);
         FloatingActionButton fab = view.findViewById(R.id.fab_add_picture);
         fab.setOnClickListener(this);
-        imageView = view.findViewById(R.id.image_I);
         return view;
     }
 
@@ -53,11 +60,13 @@ public class PhotoFragment extends android.app.Fragment implements View.OnClickL
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),
-                2, GridLayoutManager.VERTICAL, false);
+        AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getActivity(), 150);
         recyclerView.setLayoutManager(layoutManager);
 
         List<PhotoItem> list = new ArrayList<>();
+        for (File file : storageDir.listFiles()) {
+            list.add(new PhotoItem(Uri.fromFile(file), false));
+        }
         adapter = new RecyclerViewAdapter(list);
 
         recyclerView.setAdapter(adapter);
@@ -106,7 +115,6 @@ public class PhotoFragment extends android.app.Fragment implements View.OnClickL
                 photoURI = Uri.fromFile(photoFile);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(intent, CAMERA_REQUEST);
-                Snackbar.make(view, R.string.photo_uploaded, Snackbar.LENGTH_SHORT).show();
             }
         }
     }
@@ -115,18 +123,22 @@ public class PhotoFragment extends android.app.Fragment implements View.OnClickL
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-            imageView.setImageURI(photoURI);
+            preferences.getPhotoSet().add(photoURI.getPath());
+//            Snackbar.make(view, R.string.photo_uploaded, Snackbar.LENGTH_SHORT).show();
         }
     }
 
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getActivity()
-                .getApplicationContext()
-                .getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
+        String imageFileName = "IMG_" + timeStamp;
+        return File.createTempFile(imageFileName, ".jpg", storageDir);
+    }
+
+    private Set<String> getFilesList() {
+        Set<String> set = new HashSet<>();
+        for (File file: storageDir.listFiles()) {
+            set.add(file.getPath());
+        }
+        return set;
     }
 }
