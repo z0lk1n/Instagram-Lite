@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +31,7 @@ import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
 
 import static android.app.Activity.RESULT_OK;
 
-public class PhotoFragment extends android.app.Fragment implements View.OnClickListener {
+public class PhotoFragment extends Fragment implements View.OnClickListener {
     public static final String NAME = "cb2d00bb-ca6b-45e6-a501-80f70efa65b9";
     public static final String PICTURE = "205348a2-a71c-4269-b894-6eb778180e5f";
     private RecyclerView recyclerView;
