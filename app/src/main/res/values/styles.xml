@@ -6,18 +6,21 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
     <style name="LightTheme" parent="Theme.AppCompat.Light.DarkActionBar" >
         <item name="colorAccent">@color/colorLightThemePrimary</item>
         <item name="colorPrimaryDark">@color/colorLightThemePrimaryDark</item>
         <item name="colorPrimary">@color/colorLightThemeAccent</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
     <style name="DarkTheme" parent="Theme.AppCompat.Light.DarkActionBar" >
         <item name="colorAccent">@color/colorDarkThemePrimary</item>
         <item name="colorPrimaryDark">@color/colorDarkThemePrimaryDark</item>
         <item name="colorPrimary">@color/colorDarkThemeAccent</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

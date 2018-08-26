@@ -92,18 +92,17 @@ public class PhotoFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-
         switch (view.getId()) {
             case R.id.fab_add_picture:
-                makePhoto(view);
+                capturePhoto();
                 break;
             default:
                 break;
         }
     }
 
-    private void makePhoto(View view) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+    private void capturePhoto() {
+        Intent intent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
         if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
             File photoFile = null;
 

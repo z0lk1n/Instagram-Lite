@@ -44,7 +44,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 .load(photoItemList.get(i).getPhoto())
                 .resize(150, 150)
                 .centerCrop()
-                .error(R.drawable.ic_photo_black_24dp)
+                .error(R.drawable.ic_photo)
                 .into(viewHolder.imgViewPhoto);
     }
 

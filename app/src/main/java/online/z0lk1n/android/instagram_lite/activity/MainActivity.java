@@ -19,21 +19,21 @@ import online.z0lk1n.android.instagram_lite.util.Preferences;
 
 public class MainActivity extends AppCompatActivity implements Navigator,
         NavigationView.OnNavigationItemSelectedListener {
-    private Toolbar toolbar;
+
     private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTheme(new Preferences(this).getTheme());
+        setTheme(new Preferences(MainActivity.this).getTheme());
 
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this,
+                MainActivity.this,
                 drawer,
                 toolbar,
                 R.string.navigation_drawer_open,
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements Navigator,
         toggle.syncState();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setNavigationItemSelectedListener(MainActivity.this);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
@@ -54,8 +54,7 @@ public class MainActivity extends AppCompatActivity implements Navigator,
 
     @Override
     public void openSettingsActivity() {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(MainActivity.this, SettingsActivity.class));
     }
 
     @Override
@@ -87,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements Navigator,
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -104,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements Navigator,
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.home:
-
+                openPhotoFragment();
                 break;
             case R.id.settings:
                 openSettingsActivity();
@@ -112,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements Navigator,
             default:
                 break;
         }
-
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
