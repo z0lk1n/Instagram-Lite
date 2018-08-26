@@ -44,6 +44,7 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
     private Preferences preferences;
     private File storageDir;
     private Snackbar uploadedSnackbar;
+    private RecyclerViewAdapter adapter;
 
     @Nullable
     @Override
@@ -69,11 +70,12 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
         recyclerView.setLayoutManager(layoutManager);
 
         List<PhotoItem> list = new ArrayList<>();
+
         for (File file : storageDir.listFiles()) {
             list.add(new PhotoItem(Uri.fromFile(file), false));
         }
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(list);
 
+        adapter = new RecyclerViewAdapter(list);
         recyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
@@ -130,6 +132,7 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             preferences.getPhotoSet().add(photoURI.getPath());
+            adapter.notifyDataSetChanged();
             uploadedSnackbar.show();
         }
     }
