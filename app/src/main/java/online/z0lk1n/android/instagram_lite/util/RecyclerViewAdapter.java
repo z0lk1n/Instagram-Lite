@@ -42,7 +42,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(final @NonNull RecyclerViewAdapter.ViewHolder viewHolder, int i) {
         Picasso.get()
                 .load(photoItemList.get(i).getPhoto())
-                .resize(150, 150)
+                .resize(300, 300)
                 .centerCrop()
                 .error(R.drawable.ic_photo)
                 .into(viewHolder.imgViewPhoto);
@@ -56,12 +56,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgViewPhoto;
-//        Button btnFavorites;
+//        ImageView imgFavorites;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imgViewPhoto = itemView.findViewById(R.id.imgView_picture);
-//            btnFavorites = itemView.findViewById(R.id.btn_Favorites);
+//            imgFavorites = itemView.findViewById(R.id.imgView_favorites);
 
             imgViewPhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -80,13 +80,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     return true;
                 }
             });
-
-//            btnFavorites.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//
-//                }
-//            });
         }
     }
 

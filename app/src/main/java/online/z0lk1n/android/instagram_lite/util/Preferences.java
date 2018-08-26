@@ -15,11 +15,11 @@ public class Preferences {
     }
 
     public Set<String> getPhotoSet() {
-        return sharedPref.getStringSet(Const.PREF_KEY_PHOTO, null);
+        return sharedPref.getStringSet(Const.PREF_KEY_PHOTO_SET, null);
     }
 
     public void setPhotoSet(Set<String> photoSet) {
-        editor.putStringSet(Const.PREF_KEY_PHOTO, photoSet).apply();
+        editor.putStringSet(Const.PREF_KEY_PHOTO_SET, photoSet).apply();
     }
 
     public int getTheme() {
@@ -28,5 +28,13 @@ public class Preferences {
 
     public void setTheme(int theme) {
         editor.putInt(Const.PREF_KEY_THEME, theme).apply();
+    }
+
+    public String getPhoto() {
+        return sharedPref.getString(Const.PREF_KEY_PHOTO, null);
+    }
+
+    public void setPhoto(String path) {
+        editor.putString(Const.PREF_KEY_PHOTO, path).apply();
     }
 }

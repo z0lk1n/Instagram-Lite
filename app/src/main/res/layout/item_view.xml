@@ -13,12 +13,13 @@
             android:id="@+id/imgView_picture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="TODO" />
+            android:contentDescription="Picture" />
 
-        <!--<Button-->
-        <!--android:id="@+id/btn_Favorites"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content" />-->
+        <!--<ImageView-->
+            <!--android:id="@+id/imgView_favorites"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:contentDescription="Favorites" />-->
     </android.support.design.card.MaterialCardView>
 
 </LinearLayout>

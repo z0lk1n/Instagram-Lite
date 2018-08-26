@@ -15,18 +15,21 @@ import android.view.MenuItem;
 
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.fragment.PhotoFragment;
+import online.z0lk1n.android.instagram_lite.fragment.PhotoTilesFragment;
 import online.z0lk1n.android.instagram_lite.util.Preferences;
 
 public class MainActivity extends AppCompatActivity implements Navigator,
         NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
+    private Preferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTheme(new Preferences(MainActivity.this).getTheme());
+        preferences = new Preferences(MainActivity.this);
+        setTheme(preferences.getTheme());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements Navigator,
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.fragment_container, new PhotoFragment(), PhotoFragment.NAME)
+                    .add(R.id.fragment_container, new PhotoTilesFragment(), PhotoTilesFragment.NAME)
                     .commit();
         }
     }
@@ -58,22 +61,31 @@ public class MainActivity extends AppCompatActivity implements Navigator,
     }
 
     @Override
-    public void openPhotoFragment() {
+    public void openPhotoTilesFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        PhotoFragment photoFragment = (PhotoFragment) fragmentManager
-                .findFragmentByTag(PhotoFragment.NAME);
+        PhotoTilesFragment photoTilesFragment = (PhotoTilesFragment) fragmentManager
+                .findFragmentByTag(PhotoTilesFragment.NAME);
 
-        if (photoFragment != null) {
+        if (photoTilesFragment != null) {
             fragmentManager
                     .beginTransaction()
-                    .show(photoFragment)
+                    .show(photoTilesFragment)
                     .commit();
         }
 
         fragmentManager.popBackStack();
     }
 
+    @Override
+    public void openPhotoFragment(String path) {
+        preferences.setPhoto(path);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new PhotoFragment(), PhotoFragment.NAME)
+                .addToBackStack(null)
+                .commit();
+    }
 
     @Override
     public void onBackPressed() {
@@ -103,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements Navigator,
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.home:
-                openPhotoFragment();
+                openPhotoTilesFragment();
                 break;
             case R.id.settings:
                 openSettingsActivity();
