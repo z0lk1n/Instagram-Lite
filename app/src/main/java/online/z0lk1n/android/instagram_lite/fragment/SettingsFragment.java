@@ -14,6 +14,7 @@ import online.z0lk1n.android.instagram_lite.util.Preferences;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
     public static final String NAME = "1b7cc406-5e05-431f-9cbe-cc1401f03152";
+    private static final String TAG = "SettingsFragment";
 
     private Preferences preferences;
     private Preference prefDefaultTheme;

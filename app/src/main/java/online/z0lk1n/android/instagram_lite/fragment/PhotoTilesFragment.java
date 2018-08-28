@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class PhotoTilesFragment extends Fragment implements View.OnClickListener {
     public static final String NAME = "cb2d00bb-ca6b-45e6-a501-80f70efa65b9";
+    private static final String TAG = "PhotoTilesFragment";
     public static final String PICTURE = "205348a2-a71c-4269-b894-6eb778180e5f";
     private RecyclerView recyclerView;
     private int currentPosition = 0;
@@ -45,6 +47,7 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
     private File storageDir;
     private Snackbar uploadedSnackbar;
     private RecyclerViewAdapter adapter;
+    private Navigator navigator;
 
     @Nullable
     @Override
@@ -52,6 +55,7 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_photo_tiles, container, false);
         preferences = new Preferences(getActivity());
+        navigator = new Navigator();
         storageDir = getActivity().getApplicationContext()
                 .getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         preferences.setPhotoSet(getFilesList());
@@ -151,8 +155,10 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
         return set;
     }
 
-    private void openPhotoFragment()    {
-        Navigator fragmentNavigator = (Navigator) getActivity();
-        fragmentNavigator.openPhotoFragment(photoURI.getPath());
+    private void openPhotoFragment() {
+        navigator.showPhotoFragment(
+                (AppCompatActivity) getActivity(),
+                preferences,
+                photoURI.getPath());
     }
 }

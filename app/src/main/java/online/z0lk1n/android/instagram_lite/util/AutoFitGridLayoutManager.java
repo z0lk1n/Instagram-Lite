@@ -5,6 +5,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 public class AutoFitGridLayoutManager extends GridLayoutManager {
+    private static final String TAG = "AutoFitGridLayoutManager";
     private int columnWidth;
     private boolean columnWidthChanged = true;
 

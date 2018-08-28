@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import java.util.Set;
 
 public class Preferences {
+    private static final String TAG = "Preferences";
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
 

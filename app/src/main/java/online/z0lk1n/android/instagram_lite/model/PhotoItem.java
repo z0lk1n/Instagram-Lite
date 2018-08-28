@@ -3,6 +3,7 @@ package online.z0lk1n.android.instagram_lite.model;
 import android.net.Uri;
 
 public class PhotoItem {
+    private static final String TAG = "PhotoItem";
     private long id;
     private Uri photo;
     private boolean isFavorites;

@@ -16,6 +16,8 @@ import online.z0lk1n.android.instagram_lite.util.Preferences;
 
 public class PhotoFragment extends Fragment {
     public static final String NAME = "b9e6ee8c-3f43-457d-ad77-4d99891ef7bc";
+    private static final String TAG = "PhotoFragment";
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

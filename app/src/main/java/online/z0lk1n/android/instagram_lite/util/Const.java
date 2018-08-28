@@ -3,6 +3,7 @@ package online.z0lk1n.android.instagram_lite.util;
 import online.z0lk1n.android.instagram_lite.R;
 
 public final class Const {
+    private static final String TAG = "Const";
     public static final int PREF_DEFAULT_THEME = R.style.AppTheme;
     public static final String PREF_KEY_PHOTO = "69835d5e-2227-4937-a4e8-2abd24401a3c";
     public static final String PREF_KEY_PHOTO_SET = "8663a03b-b0f7-451b-9a15-6517c385350e";

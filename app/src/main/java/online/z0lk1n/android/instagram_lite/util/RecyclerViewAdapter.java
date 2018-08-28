@@ -18,6 +18,7 @@ import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+    private static final String TAG = "RecyclerViewAdapter";
     private List<PhotoItem> photoItemList;
     private OnItemClickListener itemClickListener;
 
