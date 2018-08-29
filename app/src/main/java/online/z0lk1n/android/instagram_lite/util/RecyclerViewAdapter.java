@@ -3,6 +3,7 @@ package online.z0lk1n.android.instagram_lite.util;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.util.List;
 
 import online.z0lk1n.android.instagram_lite.R;
+import online.z0lk1n.android.instagram_lite.activity.Navigator;
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
@@ -57,26 +59,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgViewPhoto;
-//        ImageView imgFavorites;
+        ImageView imgFavorites;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull final View itemView) {
             super(itemView);
             imgViewPhoto = itemView.findViewById(R.id.imgView_picture);
-//            imgFavorites = itemView.findViewById(R.id.imgView_favorites);
+            imgFavorites = itemView.findViewById(R.id.imgView_favorites);
 
             imgViewPhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    if(itemClickListener != null)   {
-//                        itemClickListener.onItemClick(view, getAdapterPosition());
-//                    }
-//                    notifyItemChanged(getAdapterPosition());
+                    new Navigator().showPhotoFragment((AppCompatActivity) itemView.getContext(),
+                            photoItemList.get(getAdapterPosition()).getPhoto().getPath());
                 }
             });
             imgViewPhoto.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    showDeletePhotoDialog(view);
+                    showDeletePhotoDialog(view, getAdapterPosition());
                     notifyItemChanged(getAdapterPosition());
                     return true;
                 }
@@ -88,14 +88,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.itemClickListener = itemClickListener;
     }
 
-    private void showDeletePhotoDialog(View view) {
+    private void showDeletePhotoDialog(View view, final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext())
                 .setTitle("Delete Photo?")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new File(photoItemList.get(which).getPhoto().getPath()).deleteOnExit();
-                        photoItemList.remove(which);
+                        new File(photoItemList.get(position).getPhoto().getPath()).delete();
+                        photoItemList.remove(position);
                     }
                 })
                 .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {

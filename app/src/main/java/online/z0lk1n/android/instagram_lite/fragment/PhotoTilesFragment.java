@@ -1,5 +1,6 @@
 package online.z0lk1n.android.instagram_lite.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,7 +12,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,11 +25,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.activity.Navigator;
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
+import online.z0lk1n.android.instagram_lite.util.AutoFitGridLayoutManager;
 import online.z0lk1n.android.instagram_lite.util.Preferences;
 import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
 
@@ -48,16 +50,22 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
     private Snackbar uploadedSnackbar;
     private RecyclerViewAdapter adapter;
     private Navigator navigator;
+    private int numberOfColumns;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        preferences = new Preferences(context);
+        numberOfColumns = AutoFitGridLayoutManager.calculateNumberOfColumns(context);
+        storageDir = context.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_photo_tiles, container, false);
-        preferences = new Preferences(getActivity());
         navigator = new Navigator();
-        storageDir = getActivity().getApplicationContext()
-                .getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         preferences.setPhotoSet(getFilesList());
         recyclerView = view.findViewById(R.id.recycler_view);
         FloatingActionButton fab = view.findViewById(R.id.fab_add_picture);
@@ -70,12 +78,10 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-//        AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getActivity(), 300);
-        GridLayoutManager layoutManager = new GridLayoutManager (getActivity(), 2);
+        GridLayoutManager layoutManager = new GridLayoutManager (getActivity(), numberOfColumns);
         recyclerView.setLayoutManager(layoutManager);
 
         List<PhotoItem> list = new ArrayList<>();
-
         for (File file : storageDir.listFiles()) {
             list.add(new PhotoItem(Uri.fromFile(file), false));
         }
@@ -142,7 +148,7 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
     }
 
     private File createImageFile() throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
         String imageFileName = "IMG_" + timeStamp;
         return File.createTempFile(imageFileName, ".jpg", storageDir);
     }
@@ -155,10 +161,4 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
         return set;
     }
 
-    private void openPhotoFragment() {
-        navigator.showPhotoFragment(
-                (AppCompatActivity) getActivity(),
-                preferences,
-                photoURI.getPath());
-    }
 }

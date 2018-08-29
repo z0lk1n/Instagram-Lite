@@ -29,8 +29,8 @@ public class Navigator {
         fragmentManager.popBackStack();
     }
 
-    public void showPhotoFragment(AppCompatActivity activity, Preferences preferences, String path) {
-        preferences.setPhoto(path);
+    public void showPhotoFragment(AppCompatActivity activity, String path) {
+        new Preferences(activity).setPhoto(path);
         activity.getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, new PhotoFragment(), PhotoFragment.NAME)
