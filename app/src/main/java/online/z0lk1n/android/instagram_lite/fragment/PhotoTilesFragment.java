@@ -21,18 +21,15 @@ import android.view.ViewGroup;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
 import online.z0lk1n.android.instagram_lite.util.AutoFitGridLayoutManager;
-import online.z0lk1n.android.instagram_lite.util.Preferences;
 import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
+import online.z0lk1n.android.instagram_lite.util.VirtualDatabase;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -44,16 +41,15 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
     private int currentPosition = 0;
     private final int CAMERA_REQUEST = 1;
     private Uri photoURI;
-    private Preferences preferences;
     private File storageDir;
     private Snackbar uploadedSnackbar;
     private RecyclerViewAdapter adapter;
     private int numberOfColumns;
+    private List<PhotoItem> photoItemList;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        preferences = new Preferences(context);
         numberOfColumns = AutoFitGridLayoutManager.calculateNumberOfColumns(context);
         storageDir = context.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
     }
@@ -63,7 +59,8 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_photo_tiles, container, false);
-        preferences.setPhotoSet(getFilesList());
+        photoItemList = VirtualDatabase.getInstance().photoItemList;
+        getFilesList();
         recyclerView = view.findViewById(R.id.recycler_view);
         FloatingActionButton fab = view.findViewById(R.id.fab_add_picture);
         fab.setOnClickListener(this);
@@ -78,12 +75,7 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
         recyclerView.setLayoutManager(layoutManager);
 
-        List<PhotoItem> list = new ArrayList<>();
-        for (File file : storageDir.listFiles()) {
-            list.add(new PhotoItem(Uri.fromFile(file), false));
-        }
-
-        adapter = new RecyclerViewAdapter(list);
+        adapter = new RecyclerViewAdapter(photoItemList);
         recyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
@@ -138,9 +130,10 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-            preferences.getPhotoSet().add(photoURI.getPath());
-            adapter.notifyDataSetChanged();
+            photoItemList.add(new PhotoItem(photoURI.getPath(), false));
+//            adapter.notifyDataSetChanged();
             uploadedSnackbar.show();
+
         }
     }
 
@@ -150,11 +143,12 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
         return File.createTempFile(imageFileName, ".jpg", storageDir);
     }
 
-    private Set<String> getFilesList() {
-        Set<String> set = new HashSet<>();
-        for (File file : storageDir.listFiles()) {
-            set.add(file.getPath());
+    private void getFilesList() {
+
+        if (photoItemList.size() != storageDir.listFiles().length) {
+            for (File file : storageDir.listFiles()) {
+               photoItemList.add(new PhotoItem(file.getPath(), false));
+            }
         }
-        return set;
     }
 }

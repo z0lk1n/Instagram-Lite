@@ -99,6 +99,6 @@ public class MainActivity extends AppCompatActivity implements
 /**
  * todo
  * 1. FAB
- * 3. список фоток
+ * 3. обновление фото
  * 6. MVP
  */

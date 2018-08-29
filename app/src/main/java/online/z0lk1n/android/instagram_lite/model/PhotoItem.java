@@ -1,20 +1,18 @@
 package online.z0lk1n.android.instagram_lite.model;
 
-import android.net.Uri;
-
 public class PhotoItem {
     private static final String TAG = "PhotoItem";
     private long id;
-    private Uri photo;
+    private String photoPath;
     private boolean isFavorites;
 
-    public PhotoItem(Uri photo, boolean isFavorites) {
-        this.photo = photo;
+    public PhotoItem(String photoPath, boolean isFavorites) {
+        this.photoPath = photoPath;
         this.isFavorites = isFavorites;
     }
 
-    public Uri getPhoto() {
-        return photo;
+    public String getPhotoPath() {
+        return photoPath;
     }
 
     public boolean isFavorites() {

@@ -44,7 +44,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(final @NonNull RecyclerViewAdapter.ViewHolder viewHolder, int i) {
         Picasso.get()
-                .load(photoItemList.get(i).getPhoto())
+                .load("file://" + photoItemList.get(i).getPhotoPath())
                 .resize(300, 300)
                 .centerCrop()
                 .error(R.drawable.ic_photo)
@@ -70,14 +70,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 @Override
                 public void onClick(View view) {
                     new Navigator().showPhotoFragment((AppCompatActivity) itemView.getContext(),
-                            photoItemList.get(getAdapterPosition()).getPhoto().getPath());
+                            photoItemList.get(getAdapterPosition()).getPhotoPath());
                 }
             });
             imgViewPhoto.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
                     showDeletePhotoDialog(view, getAdapterPosition());
-                    notifyItemChanged(getAdapterPosition());
                     return true;
                 }
             });
@@ -94,8 +93,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new File(photoItemList.get(position).getPhoto().getPath()).delete();
+                        new File(photoItemList.get(position).getPhotoPath()).delete();
                         photoItemList.remove(position);
+                        notifyItemChanged(position);
                     }
                 })
                 .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
