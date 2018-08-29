@@ -29,7 +29,6 @@ import java.util.Locale;
 import java.util.Set;
 
 import online.z0lk1n.android.instagram_lite.R;
-import online.z0lk1n.android.instagram_lite.activity.Navigator;
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
 import online.z0lk1n.android.instagram_lite.util.AutoFitGridLayoutManager;
 import online.z0lk1n.android.instagram_lite.util.Preferences;
@@ -49,7 +48,6 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
     private File storageDir;
     private Snackbar uploadedSnackbar;
     private RecyclerViewAdapter adapter;
-    private Navigator navigator;
     private int numberOfColumns;
 
     @Override
@@ -65,7 +63,6 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_photo_tiles, container, false);
-        navigator = new Navigator();
         preferences.setPhotoSet(getFilesList());
         recyclerView = view.findViewById(R.id.recycler_view);
         FloatingActionButton fab = view.findViewById(R.id.fab_add_picture);
@@ -78,7 +75,7 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        GridLayoutManager layoutManager = new GridLayoutManager (getActivity(), numberOfColumns);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
         recyclerView.setLayoutManager(layoutManager);
 
         List<PhotoItem> list = new ArrayList<>();
@@ -160,5 +157,4 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
         }
         return set;
     }
-
 }
