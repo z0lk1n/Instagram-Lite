@@ -12,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +30,6 @@ import java.util.Set;
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.activity.Navigator;
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
-import online.z0lk1n.android.instagram_lite.util.AutoFitGridLayoutManager;
 import online.z0lk1n.android.instagram_lite.util.Preferences;
 import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
 
@@ -70,7 +70,8 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getActivity(), 300);
+//        AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getActivity(), 300);
+        GridLayoutManager layoutManager = new GridLayoutManager (getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
 
         List<PhotoItem> list = new ArrayList<>();
