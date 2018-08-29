@@ -2,7 +2,6 @@ package online.z0lk1n.android.instagram_lite.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -24,14 +23,16 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Preferences preferences = new Preferences(MainActivity.this);
+        setTheme(preferences.getTheme());
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Preferences preferences = new Preferences(MainActivity.this);
-        navigator = new Navigator();
-        setTheme(preferences.getTheme());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        navigator = new Navigator();
 
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

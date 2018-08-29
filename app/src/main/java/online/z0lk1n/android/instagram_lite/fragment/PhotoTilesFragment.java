@@ -115,7 +115,6 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
             File photoFile = null;
-
             try {
                 photoFile = createImageFile();
             } catch (IOException e) {
