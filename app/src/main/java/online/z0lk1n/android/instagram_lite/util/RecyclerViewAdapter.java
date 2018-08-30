@@ -3,6 +3,7 @@ package online.z0lk1n.android.instagram_lite.util;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,18 +16,15 @@ import java.io.File;
 import java.util.List;
 
 import online.z0lk1n.android.instagram_lite.R;
+import online.z0lk1n.android.instagram_lite.activity.Navigator;
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+    private static final String TAG = "RecyclerViewAdapter";
     private List<PhotoItem> photoItemList;
-    private OnItemClickListener itemClickListener;
 
     public RecyclerViewAdapter(List<PhotoItem> photoItemList) {
         this.photoItemList = photoItemList;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(View view, int position);
     }
 
     @NonNull
@@ -41,10 +39,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(final @NonNull RecyclerViewAdapter.ViewHolder viewHolder, int i) {
         Picasso.get()
-                .load(photoItemList.get(i).getPhoto())
-                .resize(150, 150)
-                .centerCrop()
-                .error(R.drawable.ic_photo_black_24dp)
+                .load("file://" + photoItemList.get(i).getPhotoPath())
+                .resize(500, 500)
+                .centerInside()
+                .error(R.drawable.ic_photo)
                 .into(viewHolder.imgViewPhoto);
     }
 
@@ -53,55 +51,41 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return photoItemList.size();
     }
 
-
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgViewPhoto;
-//        Button btnFavorites;
+        ImageView imgFavorites;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull final View itemView) {
             super(itemView);
             imgViewPhoto = itemView.findViewById(R.id.imgView_picture);
-//            btnFavorites = itemView.findViewById(R.id.btn_Favorites);
+            imgFavorites = itemView.findViewById(R.id.imgView_favorites);
 
             imgViewPhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    if(itemClickListener != null)   {
-//                        itemClickListener.onItemClick(view, getAdapterPosition());
-//                    }
-//                    notifyItemChanged(getAdapterPosition());
+                    new Navigator().showPhotoFragment((AppCompatActivity) itemView.getContext(),
+                            photoItemList.get(getAdapterPosition()).getPhotoPath());
                 }
             });
             imgViewPhoto.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    showDeletePhotoDialog(view);
-                    notifyItemChanged(getAdapterPosition());
+                    showDeletePhotoDialog(view, getAdapterPosition());
                     return true;
                 }
             });
-
-//            btnFavorites.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//
-//                }
-//            });
         }
     }
 
-    public void setOnItemClickListener(OnItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
-    }
-
-    private void showDeletePhotoDialog(View view) {
+    private void showDeletePhotoDialog(View view, final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext())
                 .setTitle("Delete Photo?")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new File(photoItemList.get(which).getPhoto().getPath()).deleteOnExit();
-                        photoItemList.remove(which);
+                        new File(photoItemList.get(position).getPhotoPath()).delete();
+                        photoItemList.remove(position);
+                        notifyItemRemoved(position);
                     }
                 })
                 .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {

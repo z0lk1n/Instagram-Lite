@@ -1,67 +1,36 @@
 package online.z0lk1n.android.instagram_lite.activity;
 
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.util.Preferences;
 
-public class SettingsActivity extends PreferenceActivity {
-
+public class SettingsActivity extends AppCompatActivity {
     public static final String NAME = "a845ed06-721b-4da3-af5a-7f867b5a80b3";
-    public static final String KEY_PREF_DEFAULT_THEME = "0565f9f8-3eb5-4702-a34f-58a1a2628237";
-    public static final String KEY_PREF_LIGHT_THEME = "7073d1a2-b8f5-4087-afd2-07cf6fd7983b";
-    public static final String KEY_PREF_DARK_THEME = "e15f52b6-70e8-4c89-9f61-c109fbfa767d";
-
-    private Preferences preferences;
-    private Preference prefDefaultTheme;
-    private Preference prefLightTheme;
-    private Preference prefDarkTheme;
+    private static final String TAG = "SettingsActivity";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        setTheme(new Preferences(this).getTheme());
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.preferences);
-        initialize();
-        initializeListener();
-        setTheme(preferences.getTheme());
+        init();
+        if (savedInstanceState == null) {
+            new Navigator().showSettingsFragment(this);
+        }
     }
 
-    private void initialize() {
-        preferences = new Preferences(this);
-        prefDefaultTheme = findPreference(KEY_PREF_DEFAULT_THEME);
-        prefLightTheme = findPreference(KEY_PREF_LIGHT_THEME);
-        prefDarkTheme = findPreference(KEY_PREF_DARK_THEME);
-    }
-
-    private void initializeListener() {
-        prefDefaultTheme.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                preferences.setTheme(R.style.AppTheme);
-                recreate();
-                return true;
-            }
-        });
-
-        prefLightTheme.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                preferences.setTheme(R.style.LightTheme);
-                recreate();
-                return true;
-            }
-        });
-
-        prefDarkTheme.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                preferences.setTheme(R.style.DarkTheme);
-                recreate();
-                return true;
-            }
-        });
+    private void init() {
+        setContentView(R.layout.activity_settings);
+        Toolbar toolbar = findViewById(R.id.toolbar_settings);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
+        }
     }
 }

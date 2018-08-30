@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ThemeStandard" parent="AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="appBarLayoutStyle">@style/standard_AppBarLayoutStyle</item>
+        <item name="fabStyle">@style/fabStyle</item>
+    </style>
+
+    <style name="ThemeStandard.Light">
+        <item name="colorAccent">@color/colorLightThemePrimary</item>
+        <item name="colorPrimaryDark">@color/colorLightThemePrimaryDark</item>
+        <item name="colorPrimary">@color/colorLightThemeAccent</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="appBarLayoutStyle">@style/standard_AppBarLayoutStyle.Light</item>
+        <item name="fabStyle">@style/fabStyle.Light</item>
+    </style>
+
+    <style name="ThemeStandard.Dark">
+        <item name="colorAccent">@color/colorDarkThemePrimary</item>
+        <item name="colorPrimaryDark">@color/colorDarkThemePrimaryDark</item>
+        <item name="colorPrimary">@color/colorDarkThemeAccent</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="appBarLayoutStyle">@style/standard_AppBarLayoutStyle.Dark</item>
+        <item name="fabStyle">@style/fabStyle.Dark</item>
+    </style>
+</resources>

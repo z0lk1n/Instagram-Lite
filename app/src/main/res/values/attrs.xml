@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ThemeStandard" >
+        <attr name="appBarLayoutStyle" format="reference" />
+        <attr name="fabStyle" format="reference" />
+    </declare-styleable>
+</resources>
