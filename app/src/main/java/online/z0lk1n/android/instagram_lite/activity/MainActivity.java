@@ -95,10 +95,3 @@ public class MainActivity extends AppCompatActivity implements
         return true;
     }
 }
-
-/**
- * todo
- * 1. FAB
- * 3. обновление фото
- * 6. MVP
- */

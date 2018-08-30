@@ -12,8 +12,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +62,15 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_photo_tiles, container, false);
+
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.show();
+            actionBar.setDisplayShowCustomEnabled(true);
+        }
+
         photoItemList = VirtualDatabase.getInstance().photoItemList;
         getFilesList();
         recyclerView = view.findViewById(R.id.recycler_view);
@@ -118,7 +130,7 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
             }
             if (photoFile != null) {
                 photoURI = FileProvider.getUriForFile(getActivity(),
-                        "com.example.android.provider",
+                        getActivity().getPackageName(),
                         photoFile);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(intent, CAMERA_REQUEST);
@@ -131,9 +143,8 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             photoItemList.add(new PhotoItem(photoURI.getPath(), false));
-//            adapter.notifyDataSetChanged();
+            adapter.notifyItemInserted(currentPosition);
             uploadedSnackbar.show();
-
         }
     }
 
@@ -144,10 +155,9 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
     }
 
     private void getFilesList() {
-
         if (photoItemList.size() != storageDir.listFiles().length) {
             for (File file : storageDir.listFiles()) {
-               photoItemList.add(new PhotoItem(file.getPath(), false));
+                photoItemList.add(new PhotoItem(file.getPath(), false));
             }
         }
     }

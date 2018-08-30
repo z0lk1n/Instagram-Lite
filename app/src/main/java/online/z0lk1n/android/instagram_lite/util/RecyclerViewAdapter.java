@@ -45,8 +45,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(final @NonNull RecyclerViewAdapter.ViewHolder viewHolder, int i) {
         Picasso.get()
                 .load("file://" + photoItemList.get(i).getPhotoPath())
-                .resize(300, 300)
-                .centerCrop()
+                .resize(500, 500)
+                .centerInside()
                 .error(R.drawable.ic_photo)
                 .into(viewHolder.imgViewPhoto);
     }
@@ -95,7 +95,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     public void onClick(DialogInterface dialog, int which) {
                         new File(photoItemList.get(position).getPhotoPath()).delete();
                         photoItemList.remove(position);
-                        notifyItemChanged(position);
+                        notifyItemRemoved(position);
                     }
                 })
                 .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {

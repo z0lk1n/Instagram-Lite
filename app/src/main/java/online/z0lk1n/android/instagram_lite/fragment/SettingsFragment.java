@@ -86,7 +86,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     .addNextIntent(new Intent(getActivity(), MainActivity.class))
                     .addNextIntent(getActivity().getIntent())
                     .startActivities();
-            getActivity().finish();
         }
     }
 }
