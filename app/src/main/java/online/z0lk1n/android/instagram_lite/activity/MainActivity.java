@@ -23,17 +23,22 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Preferences preferences = new Preferences(MainActivity.this);
-        setTheme(preferences.getTheme());
-
+        setTheme(new Preferences(MainActivity.this).getTheme());
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        init();
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.fragment_container, new PhotoTilesFragment(), PhotoTilesFragment.NAME)
+                    .commit();
+        }
+    }
 
+    private void init() {
+        setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         navigator = new Navigator();
-
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 MainActivity.this,
@@ -43,16 +48,8 @@ public class MainActivity extends AppCompatActivity implements
                 R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(MainActivity.this);
-
-        if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.fragment_container, new PhotoTilesFragment(), PhotoTilesFragment.NAME)
-                    .commit();
-        }
     }
 
     @Override

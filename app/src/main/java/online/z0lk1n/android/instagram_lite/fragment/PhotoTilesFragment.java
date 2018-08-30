@@ -39,9 +39,7 @@ import static android.app.Activity.RESULT_OK;
 public class PhotoTilesFragment extends Fragment implements View.OnClickListener {
     public static final String NAME = "cb2d00bb-ca6b-45e6-a501-80f70efa65b9";
     private static final String TAG = "PhotoTilesFragment";
-    public static final String PICTURE = "205348a2-a71c-4269-b894-6eb778180e5f";
-    private RecyclerView recyclerView;
-    private int currentPosition = 0;
+
     private final int CAMERA_REQUEST = 1;
     private Uri photoURI;
     private File storageDir;
@@ -62,50 +60,28 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_photo_tiles, container, false);
-
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.show();
-            actionBar.setDisplayShowCustomEnabled(true);
-        }
-
-        photoItemList = VirtualDatabase.getInstance().photoItemList;
-        getFilesList();
-        recyclerView = view.findViewById(R.id.recycler_view);
-        FloatingActionButton fab = view.findViewById(R.id.fab_add_picture);
-        fab.setOnClickListener(this);
-        uploadedSnackbar = Snackbar.make(view, R.string.photo_uploaded, Snackbar.LENGTH_SHORT);
+        init(view);
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
-        recyclerView.setLayoutManager(layoutManager);
-
-        adapter = new RecyclerViewAdapter(photoItemList);
-        recyclerView.setAdapter(adapter);
-
-        adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                currentPosition = position;
-            }
-        });
-
-        if (savedInstanceState != null) {
-            currentPosition = savedInstanceState.getInt(PICTURE, 0);
+    private void init(View view) {
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        //todo add hamburger menu
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.show();
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt(PICTURE, currentPosition);
+        photoItemList = VirtualDatabase.getInstance().photoItemList;
+        getFilesList();
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        uploadedSnackbar = Snackbar.make(view, R.string.photo_uploaded, Snackbar.LENGTH_SHORT);
+        FloatingActionButton fab = view.findViewById(R.id.fab_add_picture);
+        fab.setOnClickListener(this);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
+        adapter = new RecyclerViewAdapter(photoItemList);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -143,14 +119,15 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             photoItemList.add(new PhotoItem(photoURI.getPath(), false));
-            adapter.notifyItemInserted(currentPosition);
+            //todo fix update photo
+            adapter.notifyItemInserted(adapter.getItemCount() - 1);
             uploadedSnackbar.show();
         }
     }
 
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
-        String imageFileName = "IMG_" + timeStamp;
+        String imageFileName = "IMG_" + timeStamp + "_";
         return File.createTempFile(imageFileName, ".jpg", storageDir);
     }
 

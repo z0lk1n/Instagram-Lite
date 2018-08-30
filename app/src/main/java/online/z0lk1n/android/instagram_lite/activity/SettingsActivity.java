@@ -17,6 +17,13 @@ public class SettingsActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setTheme(new Preferences(this).getTheme());
         super.onCreate(savedInstanceState);
+        init();
+        if (savedInstanceState == null) {
+            new Navigator().showSettingsFragment(this);
+        }
+    }
+
+    private void init() {
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = findViewById(R.id.toolbar_settings);
         setSupportActionBar(toolbar);
@@ -24,9 +31,6 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
-        }
-        if (savedInstanceState == null) {
-            new Navigator().showSettingsFragment(this);
         }
     }
 }

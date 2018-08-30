@@ -22,14 +22,9 @@ import online.z0lk1n.android.instagram_lite.model.PhotoItem;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private static final String TAG = "RecyclerViewAdapter";
     private List<PhotoItem> photoItemList;
-    private OnItemClickListener itemClickListener;
 
     public RecyclerViewAdapter(List<PhotoItem> photoItemList) {
         this.photoItemList = photoItemList;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(View view, int position);
     }
 
     @NonNull
@@ -56,7 +51,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return photoItemList.size();
     }
 
-
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgViewPhoto;
         ImageView imgFavorites;
@@ -81,10 +75,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 }
             });
         }
-    }
-
-    public void setOnItemClickListener(OnItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
     }
 
     private void showDeletePhotoDialog(View view, final int position) {

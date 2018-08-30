@@ -22,13 +22,12 @@ public class PhotoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_photo, container, false);
-        ImageView imgViewFullScreenPhoto = view.findViewById(R.id.full_screen_photo);
         Picasso.get()
                 .load("file://" + new Preferences(getActivity()).getPhoto())
-                .resize(300, 300)
-                .centerCrop()
+                .resize(500, 500)
+                .centerInside()
                 .error(R.drawable.ic_photo)
-                .into(imgViewFullScreenPhoto);
+                .into((ImageView)view.findViewById(R.id.full_screen_photo));
         return view;
     }
 }
