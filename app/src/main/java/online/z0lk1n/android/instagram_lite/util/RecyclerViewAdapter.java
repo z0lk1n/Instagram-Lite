@@ -37,12 +37,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(final @NonNull RecyclerViewAdapter.ViewHolder viewHolder, int i) {
-        Picasso.get()
-                .load("file://" + photoItemList.get(i).getPhotoPath())
-                .resize(500, 500)
-                .centerInside()
-                .error(R.drawable.ic_photo)
-                .into(viewHolder.imgViewPhoto);
+        viewHolder.bindView(i);
     }
 
     @Override
@@ -68,6 +63,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 showDeletePhotoDialog(view, getAdapterPosition());
                 return true;
             });
+            imgFavorites.setOnClickListener(view -> addOrRemoveFavorites());
+        }
+
+        private void bindView(int position) {
+            Picasso.get()
+                    .load("file://" + photoItemList.get(position).getPhotoPath())
+                    .resize(500, 500)
+                    .centerInside()
+                    .error(R.drawable.ic_photo)
+                    .into(imgViewPhoto);
         }
     }
 
@@ -81,5 +86,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 })
                 .setNegativeButton("CANCEL", (dialog, which) -> dialog.dismiss());
         builder.show();
+    }
+
+    private void addOrRemoveFavorites() {
+
     }
 }

@@ -12,11 +12,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,13 +62,6 @@ public class PhotoTilesFragment extends Fragment {
     }
 
     private void init(View view) {
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        //todo add hamburger menu
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.show();
-        }
         photoItemList = VirtualDatabase.getInstance().photoItemList;
         getFilesList();
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
@@ -95,7 +85,7 @@ public class PhotoTilesFragment extends Fragment {
             }
             if (photoFile != null) {
                 photoURI = FileProvider.getUriForFile(getActivity(),
-                        getActivity().getPackageName(),
+                        getResources().getString(R.string.package_name),
                         photoFile);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(intent, CAMERA_REQUEST);

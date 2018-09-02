@@ -30,7 +30,7 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="online.z0lk1n.android.instagram_lite"
+            android:authorities="@string/package_name"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
