@@ -11,6 +11,8 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.util.Preferences;
 
@@ -23,11 +25,13 @@ public class PhotoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_photo, container, false);
         Picasso.get()
-                .load("file://" + new Preferences(getActivity()).getPhoto())
-                .resize(500, 500)
-                .centerInside()
+                .load(getFile())
                 .error(R.drawable.ic_photo)
-                .into((ImageView)view.findViewById(R.id.full_screen_photo));
+                .into((ImageView) view.findViewById(R.id.full_screen_photo));
         return view;
+    }
+
+    private File getFile() {
+        return new File(new Preferences(getActivity()).getPhoto());
     }
 }
