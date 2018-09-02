@@ -1,6 +1,5 @@
 package online.z0lk1n.android.instagram_lite.util;
 
-import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -60,19 +59,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             imgViewPhoto = itemView.findViewById(R.id.imgView_picture);
             imgFavorites = itemView.findViewById(R.id.imgView_favorites);
 
-            imgViewPhoto.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    new Navigator().showPhotoFragment((AppCompatActivity) itemView.getContext(),
-                            photoItemList.get(getAdapterPosition()).getPhotoPath());
-                }
-            });
-            imgViewPhoto.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    showDeletePhotoDialog(view, getAdapterPosition());
-                    return true;
-                }
+            imgViewPhoto.setOnClickListener(view ->
+                    new Navigator().showPhotoFragment(
+                            (AppCompatActivity) itemView.getContext(),
+                            photoItemList.get(getAdapterPosition()).getPhotoPath())
+            );
+            imgViewPhoto.setOnLongClickListener(view -> {
+                showDeletePhotoDialog(view, getAdapterPosition());
+                return true;
             });
         }
     }
@@ -80,20 +74,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private void showDeletePhotoDialog(View view, final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext())
                 .setTitle("Delete Photo?")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        new File(photoItemList.get(position).getPhotoPath()).delete();
-                        photoItemList.remove(position);
-                        notifyItemRemoved(position);
-                    }
+                .setPositiveButton("OK", (dialog, which) -> {
+                    new File(photoItemList.get(position).getPhotoPath()).delete();
+                    photoItemList.remove(position);
+                    notifyItemRemoved(position);
                 })
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                .setNegativeButton("CANCEL", (dialog, which) -> dialog.dismiss());
         builder.show();
     }
 }

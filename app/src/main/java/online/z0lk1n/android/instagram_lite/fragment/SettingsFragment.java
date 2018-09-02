@@ -39,26 +39,17 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     private void initListener() {
-        prefDefaultTheme.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                changeTheme(R.style.ThemeStandard);
-                return true;
-            }
+        prefDefaultTheme.setOnPreferenceClickListener(preference -> {
+            changeTheme(R.style.ThemeStandard);
+            return true;
         });
-        prefLightTheme.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                changeTheme(R.style.ThemeStandard_Light);
-                return true;
-            }
+        prefLightTheme.setOnPreferenceClickListener(preference -> {
+            changeTheme(R.style.ThemeStandard_Light);
+            return true;
         });
-        prefDarkTheme.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                changeTheme(R.style.ThemeStandard_Dark);
-                return true;
-            }
+        prefDarkTheme.setOnPreferenceClickListener(preference -> {
+            changeTheme(R.style.ThemeStandard_Dark);
+            return true;
         });
     }
 

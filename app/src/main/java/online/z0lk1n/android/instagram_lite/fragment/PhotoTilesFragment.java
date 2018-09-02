@@ -36,7 +36,7 @@ import online.z0lk1n.android.instagram_lite.util.VirtualDatabase;
 
 import static android.app.Activity.RESULT_OK;
 
-public class PhotoTilesFragment extends Fragment implements View.OnClickListener {
+public class PhotoTilesFragment extends Fragment {
     public static final String NAME = "cb2d00bb-ca6b-45e6-a501-80f70efa65b9";
     private static final String TAG = "PhotoTilesFragment";
 
@@ -77,22 +77,11 @@ public class PhotoTilesFragment extends Fragment implements View.OnClickListener
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         uploadedSnackbar = Snackbar.make(view, R.string.photo_uploaded, Snackbar.LENGTH_SHORT);
         FloatingActionButton fab = view.findViewById(R.id.fab_add_picture);
-        fab.setOnClickListener(this);
+        fab.setOnClickListener(v -> capturePhoto());
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
         adapter = new RecyclerViewAdapter(photoItemList);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.fab_add_picture:
-                capturePhoto();
-                break;
-            default:
-                break;
-        }
     }
 
     private void capturePhoto() {
