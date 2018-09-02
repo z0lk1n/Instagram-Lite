@@ -6,23 +6,23 @@ import android.support.v7.app.AppCompatActivity;
 
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.fragment.PhotoFragment;
-import online.z0lk1n.android.instagram_lite.fragment.PhotoTilesFragment;
+import online.z0lk1n.android.instagram_lite.fragment.PhotoGalleryFragment;
 import online.z0lk1n.android.instagram_lite.fragment.SettingsFragment;
 import online.z0lk1n.android.instagram_lite.util.Preferences;
 
 public class Navigator {
     private static final String TAG = "Navigator";
 
-    public void showPhotoTilesFragment(AppCompatActivity activity) {
+    public void showPhotoGalleryFragment(AppCompatActivity activity) {
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
 
-        PhotoTilesFragment photoTilesFragment = (PhotoTilesFragment) fragmentManager
-                .findFragmentByTag(PhotoTilesFragment.NAME);
+        PhotoGalleryFragment photoGalleryFragment = (PhotoGalleryFragment) fragmentManager
+                .findFragmentByTag(PhotoGalleryFragment.NAME);
 
-        if (photoTilesFragment != null) {
+        if (photoGalleryFragment != null) {
             fragmentManager
                     .beginTransaction()
-                    .show(photoTilesFragment)
+                    .show(photoGalleryFragment)
                     .commit();
         }
 

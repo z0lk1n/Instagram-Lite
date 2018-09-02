@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -28,13 +29,12 @@ import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
 import online.z0lk1n.android.instagram_lite.util.AutoFitGridLayoutManager;
 import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
-import online.z0lk1n.android.instagram_lite.util.VirtualDatabase;
 
 import static android.app.Activity.RESULT_OK;
 
-public class PhotoTilesFragment extends Fragment {
+public class PhotoGalleryFragment extends Fragment {
     public static final String NAME = "cb2d00bb-ca6b-45e6-a501-80f70efa65b9";
-    private static final String TAG = "PhotoTilesFragment";
+    private static final String TAG = "PhotoGalleryFragment";
 
     private final int CAMERA_REQUEST = 1;
     private File storageDir;
@@ -54,13 +54,13 @@ public class PhotoTilesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_photo_tiles, container, false);
+        View view = inflater.inflate(R.layout.fragment_photo_gallery, container, false);
         init(view);
         return view;
     }
 
     private void init(View view) {
-        photoItemList = VirtualDatabase.getInstance().photoItemList;
+        photoItemList = new ArrayList<>();
         getFilesList();
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), numberOfColumns);

@@ -13,6 +13,7 @@ import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.activity.MainActivity;
 import online.z0lk1n.android.instagram_lite.util.Const;
 import online.z0lk1n.android.instagram_lite.util.Preferences;
+import online.z0lk1n.android.instagram_lite.util.Theme;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
     public static final String NAME = "1b7cc406-5e05-431f-9cbe-cc1401f03152";
@@ -33,22 +34,22 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private void init() {
         setHasOptionsMenu(true);
         preferences = new Preferences(getActivity());
-        prefDefaultTheme = findPreference(Const.KEY_PREF_DEFAULT_THEME);
+        prefDefaultTheme = findPreference(Const.KEY_PREF_STANDARD_THEME);
         prefLightTheme = findPreference(Const.KEY_PREF_LIGHT_THEME);
         prefDarkTheme = findPreference(Const.KEY_PREF_DARK_THEME);
     }
 
     private void initListener() {
         prefDefaultTheme.setOnPreferenceClickListener(preference -> {
-            changeTheme(R.style.ThemeStandard);
+            changeTheme(Theme.STANDARD);
             return true;
         });
         prefLightTheme.setOnPreferenceClickListener(preference -> {
-            changeTheme(R.style.ThemeStandard_Light);
+            changeTheme(Theme.LIGHT);
             return true;
         });
         prefDarkTheme.setOnPreferenceClickListener(preference -> {
-            changeTheme(R.style.ThemeStandard_Dark);
+            changeTheme(Theme.DARK);
             return true;
         });
     }
@@ -70,7 +71,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         }
     }
 
-    public void changeTheme(int theme) {
+    public void changeTheme(Theme theme) {
         if (preferences.getTheme() != theme) {
             preferences.setTheme(theme);
             TaskStackBuilder.create(getActivity())

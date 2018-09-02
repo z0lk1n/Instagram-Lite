@@ -13,27 +13,43 @@ public class Preferences {
         editor = sharedPref.edit();
     }
 
-//    public Set<String> getPhotoSet() {
-//        return sharedPref.getStringSet(Const.PREF_KEY_PHOTO_SET, null);
-//    }
-//
-//    public void setPhotoSet(Set<String> photoSet) {
-//        editor.putStringSet(Const.PREF_KEY_PHOTO_SET, photoSet).apply();
-//    }
-
-    public int getTheme() {
-        return sharedPref.getInt(Const.PREF_KEY_THEME, Const.PREF_DEFAULT_THEME);
+    public Theme getTheme() {
+        return parseTheme(sharedPref.getString(Const.KEY_PREF_THEME, Const.KEY_PREF_STANDARD_THEME));
     }
 
-    public void setTheme(int theme) {
-        editor.putInt(Const.PREF_KEY_THEME, theme).apply();
+    public void setTheme(Theme theme) {
+        editor.putString(Const.KEY_PREF_THEME, mapThemeToString(theme)).apply();
     }
 
     public String getPhoto() {
-        return sharedPref.getString(Const.PREF_KEY_PHOTO, null);
+        return sharedPref.getString(Const.KEY_PREF_PHOTO, null);
     }
 
     public void setPhoto(String path) {
-        editor.putString(Const.PREF_KEY_PHOTO, path).apply();
+        editor.putString(Const.KEY_PREF_PHOTO, path).apply();
+    }
+
+    private Theme parseTheme(String string) {
+        switch (string) {
+            case Const.KEY_PREF_LIGHT_THEME:
+                return Theme.LIGHT;
+            case Const.KEY_PREF_DARK_THEME:
+                return Theme.DARK;
+            case Const.KEY_PREF_STANDARD_THEME:
+            default:
+                return Theme.STANDARD;
+        }
+    }
+
+    private String mapThemeToString(Theme theme) {
+        switch (theme) {
+            case LIGHT:
+                return Const.KEY_PREF_LIGHT_THEME;
+            case DARK:
+                return Const.KEY_PREF_DARK_THEME;
+            case STANDARD:
+            default:
+                return Const.KEY_PREF_STANDARD_THEME;
+        }
     }
 }
