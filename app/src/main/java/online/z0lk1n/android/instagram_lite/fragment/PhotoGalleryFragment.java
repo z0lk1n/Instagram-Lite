@@ -30,6 +30,7 @@ import online.z0lk1n.android.instagram_lite.model.PhotoItem;
 import online.z0lk1n.android.instagram_lite.util.AutoFitGridLayoutManager;
 import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
 
+import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 public class PhotoGalleryFragment extends Fragment {
@@ -96,6 +97,8 @@ public class PhotoGalleryFragment extends Fragment {
             photoItemList.add(new PhotoItem(currentFilePath, false));
             adapter.notifyItemInserted(adapter.getItemCount() - 1);
             Snackbar.make(getView(), R.string.photo_uploaded, Snackbar.LENGTH_SHORT).show();
+        } else if(requestCode == CAMERA_REQUEST && resultCode == RESULT_CANCELED) {
+            new File(currentFilePath).delete();
         }
     }
 
