@@ -2,6 +2,7 @@ package online.z0lk1n.android.instagram_lite.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements
     private static final String TAG = "MainActivity";
     private DrawerLayout drawer;
     private Navigator navigator;
+    private PhotoTilesFragment photoTilesFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +31,14 @@ public class MainActivity extends AppCompatActivity implements
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.fragment_container, new PhotoTilesFragment(), PhotoTilesFragment.NAME)
+                    .add(R.id.fragment_container, photoTilesFragment, PhotoTilesFragment.NAME)
                     .commit();
         }
     }
 
     private void init() {
         setContentView(R.layout.activity_main);
+        photoTilesFragment = new PhotoTilesFragment();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         navigator = new Navigator();
@@ -50,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements
         toggle.syncState();
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(MainActivity.this);
+        FloatingActionButton fab = findViewById(R.id.fab_add_picture);
+        fab.setOnClickListener(v -> photoTilesFragment.capturePhoto());
     }
 
     @Override
@@ -90,5 +95,10 @@ public class MainActivity extends AppCompatActivity implements
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

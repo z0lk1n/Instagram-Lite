@@ -8,7 +8,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
@@ -38,12 +37,11 @@ public class PhotoTilesFragment extends Fragment {
     private static final String TAG = "PhotoTilesFragment";
 
     private final int CAMERA_REQUEST = 1;
-    private Uri photoURI;
     private File storageDir;
-    private Snackbar uploadedSnackbar;
     private RecyclerViewAdapter adapter;
     private int numberOfColumns;
     private List<PhotoItem> photoItemList;
+    private String currentFilePath;
 
     @Override
     public void onAttach(Context context) {
@@ -65,16 +63,13 @@ public class PhotoTilesFragment extends Fragment {
         photoItemList = VirtualDatabase.getInstance().photoItemList;
         getFilesList();
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        uploadedSnackbar = Snackbar.make(view, R.string.photo_uploaded, Snackbar.LENGTH_SHORT);
-        FloatingActionButton fab = view.findViewById(R.id.fab_add_picture);
-        fab.setOnClickListener(v -> capturePhoto());
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
         adapter = new RecyclerViewAdapter(photoItemList);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
 
-    private void capturePhoto() {
+    public void capturePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
             File photoFile = null;
@@ -84,7 +79,8 @@ public class PhotoTilesFragment extends Fragment {
                 e.printStackTrace();
             }
             if (photoFile != null) {
-                photoURI = FileProvider.getUriForFile(getActivity(),
+                currentFilePath = photoFile.getPath();
+                Uri photoURI = FileProvider.getUriForFile(getActivity(),
                         getResources().getString(R.string.package_name),
                         photoFile);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
@@ -97,10 +93,9 @@ public class PhotoTilesFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-            photoItemList.add(new PhotoItem(photoURI.getPath(), false));
-            //todo fix update photo
+            photoItemList.add(new PhotoItem(currentFilePath, false));
             adapter.notifyItemInserted(adapter.getItemCount() - 1);
-            uploadedSnackbar.show();
+            Snackbar.make(getView(), R.string.photo_uploaded, Snackbar.LENGTH_SHORT).show();
         }
     }
 
