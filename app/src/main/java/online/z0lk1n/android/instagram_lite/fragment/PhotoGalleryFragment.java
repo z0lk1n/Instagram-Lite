@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Locale;
 
 import online.z0lk1n.android.instagram_lite.R;
+import online.z0lk1n.android.instagram_lite.activity.MainActivity;
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
 import online.z0lk1n.android.instagram_lite.util.PhotoManager;
 import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
@@ -63,6 +64,7 @@ public class PhotoGalleryFragment extends Fragment {
     }
 
     private void init(View view) {
+        ((MainActivity) getActivity()).showFloatingActionButton();
         photoItemList = new ArrayList<>();
         getFilesList();
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);

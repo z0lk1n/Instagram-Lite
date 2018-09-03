@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
-
 import java.io.File;
 import java.util.List;
 
@@ -70,13 +68,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     private void bindView(RecyclerViewAdapter.ViewHolder viewHolder, int position) {
-        Picasso.get()
-                .load(getFile(position))
-                .resize(dimens, dimens)
-                .placeholder(R.drawable.ic_photo)
-                .error(R.drawable.ic_broken_image)
-                .into(viewHolder.imgViewPhoto);
-
+        PhotoManager.setPhoto(viewHolder.imgViewPhoto, getFile(position), dimens, dimens);
         if (photoItemList.get(position).isFavorites()) {
             viewHolder.imgFavorites.setImageResource(R.drawable.ic_star);
         } else {

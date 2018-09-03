@@ -13,6 +13,7 @@ import java.io.IOException;
 import online.z0lk1n.android.instagram_lite.R;
 
 public final class PhotoManager {
+    private static final String TAG = "PhotoManager";
 
     public static int calculateNumberOfColumns(Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();

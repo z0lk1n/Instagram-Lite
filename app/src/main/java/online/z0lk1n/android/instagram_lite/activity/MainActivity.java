@@ -20,6 +20,7 @@ public class MainActivity extends BaseActivity implements
     private DrawerLayout drawer;
     private Navigator navigator;
     private PhotoGalleryFragment photoGalleryFragment;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,7 @@ public class MainActivity extends BaseActivity implements
         toggle.syncState();
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(MainActivity.this);
-        FloatingActionButton fab = findViewById(R.id.fab_add_picture);
+        fab = findViewById(R.id.fab_add_picture);
         fab.setOnClickListener(v -> photoGalleryFragment.capturePhoto());
     }
 
@@ -93,4 +94,16 @@ public class MainActivity extends BaseActivity implements
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void showFloatingActionButton() {
+        fab.show();
+    };
+
+    public void hideFloatingActionButton() {
+        fab.hide();
+    };
 }
+
+//TODO 03.09.18 fix ExifInterface orientation
+//TODO 03.09.18 fix crash app
+//TODO 03.09.18 add MVP
