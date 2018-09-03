@@ -3,7 +3,7 @@ package online.z0lk1n.android.instagram_lite.model;
 public class PhotoItem {
     private static final String TAG = "PhotoItem";
     private final String photoPath;
-    private final boolean isFavorites;
+    private boolean isFavorites;
 
     public PhotoItem(String photoPath, boolean isFavorites) {
         this.photoPath = photoPath;
@@ -16,5 +16,9 @@ public class PhotoItem {
 
     public boolean isFavorites() {
         return isFavorites;
+    }
+
+    public void setFavorites(boolean favorites) {
+        isFavorites = favorites;
     }
 }

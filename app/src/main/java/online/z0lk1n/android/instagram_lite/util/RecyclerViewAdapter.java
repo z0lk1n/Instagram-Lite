@@ -21,9 +21,11 @@ import online.z0lk1n.android.instagram_lite.model.PhotoItem;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private static final String TAG = "RecyclerViewAdapter";
     private List<PhotoItem> photoItemList;
+    private int dimens;
 
-    public RecyclerViewAdapter(List<PhotoItem> photoItemList) {
+    public RecyclerViewAdapter(List<PhotoItem> photoItemList, int dimens) {
         this.photoItemList = photoItemList;
+        this.dimens = dimens;
     }
 
     @NonNull
@@ -63,15 +65,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 showDeletePhotoDialog(view, getAdapterPosition());
                 return true;
             });
-            imgFavorites.setOnClickListener(view -> addOrRemoveFavorites());
+            imgFavorites.setOnClickListener(view -> addOrRemoveFavorites(getAdapterPosition()));
         }
     }
 
     private void bindView(RecyclerViewAdapter.ViewHolder viewHolder, int position) {
         Picasso.get()
                 .load(getFile(position))
-                .error(R.drawable.ic_photo)
+                .resize(dimens, dimens)
+                .placeholder(R.drawable.ic_photo)
+                .error(R.drawable.ic_broken_image)
                 .into(viewHolder.imgViewPhoto);
+
+        if (photoItemList.get(position).isFavorites()) {
+            viewHolder.imgFavorites.setImageResource(R.drawable.ic_star);
+        } else {
+            viewHolder.imgFavorites.setImageResource(R.drawable.ic_star_border);
+        }
     }
 
     private File getFile(int position) {
@@ -90,7 +100,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         builder.show();
     }
 
-    private void addOrRemoveFavorites() {
-
+    private void addOrRemoveFavorites(int position) {
+        if (photoItemList.get(position).isFavorites()) {
+            photoItemList.get(position).setFavorites(false);
+        } else {
+            photoItemList.get(position).setFavorites(true);
+        }
+        notifyItemChanged(position);
     }
 }

@@ -27,7 +27,7 @@ import java.util.Locale;
 
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
-import online.z0lk1n.android.instagram_lite.util.AutoFitGridLayoutManager;
+import online.z0lk1n.android.instagram_lite.util.PhotoManager;
 import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
 
 import static android.app.Activity.RESULT_CANCELED;
@@ -43,11 +43,13 @@ public class PhotoGalleryFragment extends Fragment {
     private int numberOfColumns;
     private List<PhotoItem> photoItemList;
     private String currentFilePath;
+    private int dimens;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        numberOfColumns = AutoFitGridLayoutManager.calculateNumberOfColumns(context);
+        numberOfColumns = PhotoManager.calculateNumberOfColumns(context);
+        dimens = PhotoManager.calculateWidthOfPhoto(context, numberOfColumns);
         storageDir = context.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
     }
 
@@ -65,7 +67,7 @@ public class PhotoGalleryFragment extends Fragment {
         getFilesList();
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
-        adapter = new RecyclerViewAdapter(photoItemList);
+        adapter = new RecyclerViewAdapter(photoItemList, dimens);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
