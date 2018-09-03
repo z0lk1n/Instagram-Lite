@@ -21,7 +21,7 @@ public class PhotoFragment extends Fragment {
     private static final String TAG = "PhotoFragment";
     private int width;
     private int height;
-    
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
