@@ -29,7 +29,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         void onPhotoLongClick(View view, int position);
 
-        void onFavoritesClick(View view, int position);
+        void onFavoritesClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener itemClickListener) {
@@ -78,7 +78,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             });
             imgFavorites.setOnClickListener(view -> {
                 if (itemClickListener != null) {
-                    itemClickListener.onFavoritesClick(itemView, getAdapterPosition());
+                    itemClickListener.onFavoritesClick(getAdapterPosition());
                 }
             });
         }

@@ -32,6 +32,8 @@ import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.activity.MainActivity;
 import online.z0lk1n.android.instagram_lite.activity.Navigator;
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
+import online.z0lk1n.android.instagram_lite.presenter.PhotoGalleryPresenter;
+import online.z0lk1n.android.instagram_lite.presenter.PhotoGalleryPresenterImpl;
 import online.z0lk1n.android.instagram_lite.util.PhotoManager;
 import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
 
@@ -39,10 +41,11 @@ import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 public class PhotoGalleryFragment extends Fragment
-        implements RecyclerViewAdapter.OnItemClickListener {
+        implements RecyclerViewAdapter.OnItemClickListener, PhotoGalleryPresenter.PhotoGalleryView {
     public static final String NAME = "cb2d00bb-ca6b-45e6-a501-80f70efa65b9";
     private static final String TAG = "PhotoGalleryFragment";
 
+    private PhotoGalleryPresenterImpl presenter;
     private final int CAMERA_REQUEST = 1;
     private File storageDir;
     private RecyclerViewAdapter adapter;
@@ -70,7 +73,7 @@ public class PhotoGalleryFragment extends Fragment
 
     private void init(View view) {
         ((MainActivity) getActivity()).showFloatingActionButton();
-
+        presenter = new PhotoGalleryPresenterImpl(this);
         photoItemList = new ArrayList<>();
         getFilesList();
         adapter = new RecyclerViewAdapter(photoItemList, dimens);
@@ -132,22 +135,21 @@ public class PhotoGalleryFragment extends Fragment
 
     @Override
     public void onPhotoClick(View view, int position) {
-        new Navigator().showPhotoFragment(
-                (AppCompatActivity) view.getContext(),
-                photoItemList.get(position).getPhotoPath());
+        presenter.onPhotoClick(view, position);
     }
 
     @Override
     public void onPhotoLongClick(View view, int position) {
-        showDeletePhotoDialog(view, position);
+        presenter.onPhotoLongClick(view, position);
     }
 
     @Override
-    public void onFavoritesClick(View view, int position) {
-        addOrRemoveFavorites(position);
+    public void onFavoritesClick(int position) {
+        presenter.onFavoritesClick(position);
     }
 
-    private void showDeletePhotoDialog(View view, final int position) {
+    @Override
+    public void showDeletePhotoDialog(View view, final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext())
                 .setTitle("Delete Photo?")
                 .setPositiveButton("OK", (dialog, which) -> {
@@ -159,13 +161,21 @@ public class PhotoGalleryFragment extends Fragment
         builder.show();
     }
 
-    private void addOrRemoveFavorites(int position) {
+    @Override
+    public void addOrRemoveFavorites(int position) {
         if (photoItemList.get(position).isFavorites()) {
             photoItemList.get(position).setFavorites(false);
         } else {
             photoItemList.get(position).setFavorites(true);
         }
         adapter.notifyItemChanged(position);
+    }
+
+    @Override
+    public void showFullPhoto(View view, int position) {
+        new Navigator().showPhotoFragment(
+                (AppCompatActivity) view.getContext(),
+                photoItemList.get(position).getPhotoPath());
     }
 
     @Override
