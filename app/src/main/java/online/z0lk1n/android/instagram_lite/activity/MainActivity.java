@@ -19,7 +19,6 @@ public class MainActivity extends BaseActivity implements
     private static final String TAG = "MainActivity";
     private DrawerLayout drawer;
     private Navigator navigator;
-    private PhotoGalleryFragment photoGalleryFragment;
     private FloatingActionButton fab;
 
     @Override
@@ -29,14 +28,13 @@ public class MainActivity extends BaseActivity implements
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.fragment_container, photoGalleryFragment, PhotoGalleryFragment.NAME)
+                    .add(R.id.fragment_container, new PhotoGalleryFragment(), PhotoGalleryFragment.NAME)
                     .commit();
         }
     }
 
     private void init() {
         setContentView(R.layout.activity_main);
-        photoGalleryFragment = new PhotoGalleryFragment();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         navigator = new Navigator();
@@ -52,7 +50,11 @@ public class MainActivity extends BaseActivity implements
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(MainActivity.this);
         fab = findViewById(R.id.fab_add_picture);
-        fab.setOnClickListener(v -> photoGalleryFragment.capturePhoto());
+        fab.setOnClickListener(v -> {
+            PhotoGalleryFragment photoGalleryFragment = (PhotoGalleryFragment) getSupportFragmentManager()
+                    .findFragmentByTag(PhotoGalleryFragment.NAME);
+            photoGalleryFragment.capturePhoto();
+        });
     }
 
     @Override
@@ -104,5 +106,4 @@ public class MainActivity extends BaseActivity implements
     };
 }
 
-//TODO 03.09.18 fix crash app
 //TODO 03.09.18 add MVP
