@@ -104,6 +104,6 @@ public class MainActivity extends BaseActivity implements
     };
 }
 
-//TODO 03.09.18 fix ExifInterface orientation
+//TODO 03.09.18 change adapter
 //TODO 03.09.18 fix crash app
 //TODO 03.09.18 add MVP

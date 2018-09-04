@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.media.ExifInterface;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,17 +43,17 @@ public class PhotoFragment extends Fragment {
     private void init(View view) {
         ((MainActivity) getActivity()).hideFloatingActionButton();
         File file = getFile();
-//        switch (PhotoManager.getOrientationPhoto(file.getPath())) {
-//            case ExifInterface.ORIENTATION_NORMAL:
-//                setPhoto(view, file, width, 0);
-//                break;
-//            case ExifInterface.ORIENTATION_ROTATE_90:
-//                setPhoto(view, file, 0, height);
-//                break;
-//            default:
-//                break;
-//        }
-        setPhoto(view, file, width, width);
+        switch (PhotoManager.getOrientationPhoto(file.getPath())) {
+            case ExifInterface.ORIENTATION_NORMAL:
+                setPhoto(view, file, width, 0);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                setPhoto(view, file, 0, height);
+                break;
+            default:
+                setPhoto(view, file, width, width);
+                break;
+        }
     }
 
     private void setPhoto(View view, File file, int w, int h) {
@@ -62,5 +63,4 @@ public class PhotoFragment extends Fragment {
     private File getFile() {
         return new File(new Preferences(getActivity()).getPhoto());
     }
-
 }
