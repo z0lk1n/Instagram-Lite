@@ -11,6 +11,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,6 +30,7 @@ import java.util.Locale;
 
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.activity.MainActivity;
+import online.z0lk1n.android.instagram_lite.activity.Navigator;
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
 import online.z0lk1n.android.instagram_lite.util.PhotoManager;
 import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
@@ -34,7 +38,8 @@ import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class PhotoGalleryFragment extends Fragment {
+public class PhotoGalleryFragment extends Fragment
+        implements RecyclerViewAdapter.OnItemClickListener {
     public static final String NAME = "cb2d00bb-ca6b-45e6-a501-80f70efa65b9";
     private static final String TAG = "PhotoGalleryFragment";
 
@@ -65,11 +70,16 @@ public class PhotoGalleryFragment extends Fragment {
 
     private void init(View view) {
         ((MainActivity) getActivity()).showFloatingActionButton();
+
         photoItemList = new ArrayList<>();
         getFilesList();
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
         adapter = new RecyclerViewAdapter(photoItemList, dimens);
+        adapter.setOnItemClickListener(this);
+
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
+
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
@@ -101,7 +111,7 @@ public class PhotoGalleryFragment extends Fragment {
             photoItemList.add(new PhotoItem(currentFilePath, false));
             adapter.notifyItemInserted(adapter.getItemCount() - 1);
             Snackbar.make(getView(), R.string.photo_uploaded, Snackbar.LENGTH_SHORT).show();
-        } else if(requestCode == CAMERA_REQUEST && resultCode == RESULT_CANCELED) {
+        } else if (requestCode == CAMERA_REQUEST && resultCode == RESULT_CANCELED) {
             new File(currentFilePath).delete();
         }
     }
@@ -118,5 +128,49 @@ public class PhotoGalleryFragment extends Fragment {
                 photoItemList.add(new PhotoItem(file.getPath(), false));
             }
         }
+    }
+
+    @Override
+    public void onPhotoClick(View view, int position) {
+        new Navigator().showPhotoFragment(
+                (AppCompatActivity) view.getContext(),
+                photoItemList.get(position).getPhotoPath());
+    }
+
+    @Override
+    public void onPhotoLongClick(View view, int position) {
+        showDeletePhotoDialog(view, position);
+    }
+
+    @Override
+    public void onFavoritesClick(View view, int position) {
+        addOrRemoveFavorites(position);
+    }
+
+    private void showDeletePhotoDialog(View view, final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext())
+                .setTitle("Delete Photo?")
+                .setPositiveButton("OK", (dialog, which) -> {
+                    new File(photoItemList.get(position).getPhotoPath()).delete();
+                    photoItemList.remove(position);
+                    adapter.notifyItemRemoved(position);
+                })
+                .setNegativeButton("CANCEL", (dialog, which) -> dialog.dismiss());
+        builder.show();
+    }
+
+    private void addOrRemoveFavorites(int position) {
+        if (photoItemList.get(position).isFavorites()) {
+            photoItemList.get(position).setFavorites(false);
+        } else {
+            photoItemList.get(position).setFavorites(true);
+        }
+        adapter.notifyItemChanged(position);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        adapter.setOnItemClickListener(null);
     }
 }
