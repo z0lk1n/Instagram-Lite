@@ -56,6 +56,15 @@ public final class PhotoGalleryFragment extends Fragment
     private int dimens;
     private RecyclerView recyclerView;
 
+    public static PhotoGalleryFragment newInstance(Bundle bundle) {
+        PhotoGalleryFragment currentFragment = new PhotoGalleryFragment();
+        Bundle args = new Bundle();
+        args.putBundle("gettedArgs", bundle);
+        currentFragment.setArguments(args);
+        return currentFragment;
+    }
+
+    //TODO 05.09.18 rework this MVP
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -209,6 +218,7 @@ public final class PhotoGalleryFragment extends Fragment
     }
 
     private void addPhoto() {
+        //TODO 05.09.18 fix crash app at change orientation in camera
         photoItemList.add(new PhotoItem(currentFilePath, false));
         adapter.notifyItemInserted(photoItemList.size() - 1);
         Snackbar.make(recyclerView, R.string.photo_uploaded, Snackbar.LENGTH_SHORT).show();

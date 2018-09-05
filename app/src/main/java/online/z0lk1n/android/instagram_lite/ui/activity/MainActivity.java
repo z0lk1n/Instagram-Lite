@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -13,11 +15,14 @@ import android.view.MenuItem;
 
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.ui.fragment.PhotoGalleryFragment;
+import online.z0lk1n.android.instagram_lite.util.CustomFragmentPagerAdapter;
 import online.z0lk1n.android.instagram_lite.util.Navigator;
+import online.z0lk1n.android.instagram_lite.util.TabFragmentFactory;
 
 public class MainActivity extends BaseActivity implements
         NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "MainActivity";
+
     private DrawerLayout drawer;
     private Navigator navigator;
     private FloatingActionButton fab;
@@ -26,18 +31,33 @@ public class MainActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-        if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.fragment_container, new PhotoGalleryFragment(), PhotoGalleryFragment.NAME)
-                    .commit();
-        }
+//        if (savedInstanceState == null) {
+//            getSupportFragmentManager()
+//                    .beginTransaction()
+//                    .add(R.id.fragment_container, new PhotoGalleryFragment(), PhotoGalleryFragment.NAME)
+//                    .commit();
+//        }
     }
 
     private void init() {
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        TabFragmentFactory tabFragmentFactory = new TabFragmentFactory();
+        CustomFragmentPagerAdapter customFragmentPagerAdapter
+                = new CustomFragmentPagerAdapter(getSupportFragmentManager(), tabFragmentFactory);
+
+        ViewPager viewPager = findViewById(R.id.view_pager);
+        viewPager.setAdapter(customFragmentPagerAdapter);
+
+        TabLayout tabLayout = findViewById(R.id.table_layout);
+        tabLayout.setupWithViewPager(viewPager);
+
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+
         navigator = new Navigator();
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -48,8 +68,10 @@ public class MainActivity extends BaseActivity implements
                 R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(MainActivity.this);
+
         fab = findViewById(R.id.fab_add_picture);
         fab.setOnClickListener(v -> {
             PhotoGalleryFragment photoGalleryFragment = (PhotoGalleryFragment) getSupportFragmentManager()
@@ -108,5 +130,3 @@ public class MainActivity extends BaseActivity implements
         fab.hide();
     }
 }
-
-//TODO 03.09.18 add MVP

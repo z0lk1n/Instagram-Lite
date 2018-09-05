@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
-public class FabHideOnScroll extends FloatingActionButton.Behavior {
+public final class FabHideOnScroll extends FloatingActionButton.Behavior {
     private static final String TAG = "FabHideOnScroll";
 
     public FabHideOnScroll(Context context, AttributeSet attrs) {

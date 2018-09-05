@@ -10,7 +10,7 @@ import online.z0lk1n.android.instagram_lite.ui.fragment.PhotoFragment;
 import online.z0lk1n.android.instagram_lite.ui.fragment.PhotoGalleryFragment;
 import online.z0lk1n.android.instagram_lite.ui.fragment.SettingsFragment;
 
-public class Navigator {
+public final class Navigator {
     private static final String TAG = "Navigator";
 
     public void showPhotoGalleryFragment(AppCompatActivity activity) {
@@ -33,7 +33,7 @@ public class Navigator {
         new Preferences(activity).setPhoto(path);
         activity.getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, new PhotoFragment(), PhotoFragment.NAME)
+                .replace(R.id.container_main_tab, new PhotoFragment(), PhotoFragment.NAME)
                 .addToBackStack(null)
                 .commit();
     }
