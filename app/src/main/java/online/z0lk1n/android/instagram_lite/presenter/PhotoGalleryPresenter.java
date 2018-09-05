@@ -1,5 +1,6 @@
 package online.z0lk1n.android.instagram_lite.presenter;
 
+import android.support.annotation.StringRes;
 import android.view.View;
 
 public interface PhotoGalleryPresenter {
@@ -9,6 +10,8 @@ public interface PhotoGalleryPresenter {
         void addOrRemoveFavorites(int position);
 
         void showFullPhoto(View view, final int position);
+
+        void showNotifyingMessage(@StringRes int resourceId);
     }
 
     void onPhotoClick(View view, int position);

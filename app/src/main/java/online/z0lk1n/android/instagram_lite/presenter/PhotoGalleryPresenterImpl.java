@@ -3,7 +3,7 @@ package online.z0lk1n.android.instagram_lite.presenter;
 
 import android.view.View;
 
-public class PhotoGalleryPresenterImpl implements PhotoGalleryPresenter {
+public final class PhotoGalleryPresenterImpl implements PhotoGalleryPresenter {
     private static final String TAG = "PhotoGalleryPresenterImpl";
     private final PhotoGalleryView photoGalleryView;
 

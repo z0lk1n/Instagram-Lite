@@ -54,7 +54,9 @@ public class MainActivity extends BaseActivity implements
         fab.setOnClickListener(v -> {
             PhotoGalleryFragment photoGalleryFragment = (PhotoGalleryFragment) getSupportFragmentManager()
                     .findFragmentByTag(PhotoGalleryFragment.NAME);
-            photoGalleryFragment.capturePhoto();
+            if(photoGalleryFragment != null) {
+                photoGalleryFragment.capturePhoto();
+            }
         });
     }
 
@@ -102,13 +104,9 @@ public class MainActivity extends BaseActivity implements
         fab.show();
     }
 
-    ;
-
     public void hideFloatingActionButton() {
         fab.hide();
     }
-
-    ;
 }
 
 //TODO 03.09.18 add MVP
