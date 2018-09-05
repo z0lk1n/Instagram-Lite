@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.activity;
+package online.z0lk1n.android.instagram_lite.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.support.v7.app.AppCompatActivity;

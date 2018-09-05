@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.activity;
+package online.z0lk1n.android.instagram_lite.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,7 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import online.z0lk1n.android.instagram_lite.R;
-import online.z0lk1n.android.instagram_lite.fragment.PhotoGalleryFragment;
+import online.z0lk1n.android.instagram_lite.ui.fragment.PhotoGalleryFragment;
+import online.z0lk1n.android.instagram_lite.util.Navigator;
 
 public class MainActivity extends BaseActivity implements
         NavigationView.OnNavigationItemSelectedListener {
@@ -99,11 +100,15 @@ public class MainActivity extends BaseActivity implements
 
     public void showFloatingActionButton() {
         fab.show();
-    };
+    }
+
+    ;
 
     public void hideFloatingActionButton() {
         fab.hide();
-    };
+    }
+
+    ;
 }
 
 //TODO 03.09.18 add MVP
