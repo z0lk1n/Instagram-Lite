@@ -9,7 +9,10 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
-public class FabHideOnScroll extends FloatingActionButton.Behavior {
+import org.jetbrains.annotations.Contract;
+
+public final class FabHideOnScroll extends FloatingActionButton.Behavior {
+
     private static final String TAG = "FabHideOnScroll";
 
     public FabHideOnScroll(Context context, AttributeSet attrs) {
@@ -44,6 +47,7 @@ public class FabHideOnScroll extends FloatingActionButton.Behavior {
         }
     }
 
+    @Contract(pure = true)
     @Override
     public boolean onStartNestedScroll(@NonNull CoordinatorLayout coordinatorLayout,
                                        @NonNull FloatingActionButton child,

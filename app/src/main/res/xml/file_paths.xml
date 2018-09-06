@@ -2,5 +2,5 @@
 <paths>
     <external-path
         name="photo"
-        path="Android/data/online.z0lk1n.android.instagram_lite/files/Pictures" />
+        path="." />
 </paths>

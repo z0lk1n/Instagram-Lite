@@ -1,43 +1,57 @@
-package online.z0lk1n.android.instagram_lite.activity;
+package online.z0lk1n.android.instagram_lite.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import online.z0lk1n.android.instagram_lite.R;
-import online.z0lk1n.android.instagram_lite.fragment.PhotoTilesFragment;
-import online.z0lk1n.android.instagram_lite.util.Preferences;
+import online.z0lk1n.android.instagram_lite.util.CustomFragmentPagerAdapter;
+import online.z0lk1n.android.instagram_lite.util.Navigator;
+import online.z0lk1n.android.instagram_lite.util.TabFragmentFactory;
 
-public class MainActivity extends AppCompatActivity implements
+public class MainActivity extends BaseActivity implements
         NavigationView.OnNavigationItemSelectedListener {
+
     private static final String TAG = "MainActivity";
+
     private DrawerLayout drawer;
     private Navigator navigator;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(new Preferences(MainActivity.this).getTheme());
         super.onCreate(savedInstanceState);
         init();
-        if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.fragment_container, new PhotoTilesFragment(), PhotoTilesFragment.NAME)
-                    .commit();
-        }
     }
 
     private void init() {
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        TabFragmentFactory tabFragmentFactory = new TabFragmentFactory();
+        CustomFragmentPagerAdapter customFragmentPagerAdapter
+                = new CustomFragmentPagerAdapter(getSupportFragmentManager(), tabFragmentFactory);
+
+        ViewPager viewPager = findViewById(R.id.view_pager);
+        viewPager.setAdapter(customFragmentPagerAdapter);
+
+        TabLayout tabLayout = findViewById(R.id.table_layout);
+        tabLayout.setupWithViewPager(viewPager);
+
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+
         navigator = new Navigator();
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -48,8 +62,11 @@ public class MainActivity extends AppCompatActivity implements
                 R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(MainActivity.this);
+
+        fab = findViewById(R.id.fab_add_picture);
     }
 
     @Override
@@ -80,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.home:
-                navigator.showPhotoTilesFragment(this);
+//                navigator.showCommonFragment(this);
                 break;
             case R.id.settings:
                 navigator.openSettingsActivity(this);
@@ -90,5 +107,13 @@ public class MainActivity extends AppCompatActivity implements
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void showFloatingActionButton() {
+        fab.show();
+    }
+
+    public void hideFloatingActionButton() {
+        fab.hide();
     }
 }

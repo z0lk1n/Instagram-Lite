@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_database"
+        android:icon="@drawable/ic_storage"
+        android:title="@string/database_title" />
+    <item
+        android:id="@+id/action_network"
+        android:icon="@drawable/ic_cloud"
+        android:title="@string/network_title" />
+    <item
+        android:id="@+id/action_common"
+        android:icon="@drawable/ic_wallpaper"
+        android:title="@string/common_title" />
+</menu>

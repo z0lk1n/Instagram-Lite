@@ -2,18 +2,20 @@
 <android.support.design.widget.AppBarLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/app_bar_layout"
     style="?attr/appBarLayoutStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="@dimen/appbar_padding_top"
     android:fitsSystemWindows="true"
     android:theme="@style/AppTheme.AppBarOverlay">
 
-    <android.support.design.widget.CollapsingToolbarLayout
-        android:id="@+id/toolbar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_scrollFlags="scroll|enterAlways"
-        app:titleEnabled="false">
+    <!--<android.support.design.widget.CollapsingToolbarLayout-->
+        <!--android:id="@+id/collapsing_toolbar_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:layout_scrollFlags="scroll|enterAlways"-->
+        <!--app:titleEnabled="false">-->
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -21,5 +23,24 @@
             android:layout_height="?attr/actionBarSize"
             app:layout_collapseMode="pin"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
-    </android.support.design.widget.CollapsingToolbarLayout>
+    <!--</android.support.design.widget.CollapsingToolbarLayout>-->
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/table_layout"
+        style="@style/Widget.MaterialComponents.TabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tab_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/main_tab" />
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tab_favorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/favorites_tab" />
+    </android.support.design.widget.TabLayout>
 </android.support.design.widget.AppBarLayout>
