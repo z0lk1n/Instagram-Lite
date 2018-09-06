@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Set;
+
 public class Preferences {
 
     private static final String TAG = "Preferences";
@@ -18,6 +20,14 @@ public class Preferences {
     public Preferences(@NotNull Context context) {
         sharedPref = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
         editor = sharedPref.edit();
+    }
+
+    public Set<String> getFavorites()   {
+        return sharedPref.getStringSet(Const.KEY_PREF_FAVORITES_LIST, null);
+    }
+
+    public void setFavorites(Set<String> favoritesSet) {
+        editor.putStringSet(Const.KEY_PREF_FAVORITES_LIST, favoritesSet).apply();
     }
 
     public Theme getTheme() {
