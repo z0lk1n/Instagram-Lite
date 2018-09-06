@@ -20,6 +20,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -30,8 +32,8 @@ import java.util.Locale;
 
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
-import online.z0lk1n.android.instagram_lite.presenter.PhotoGalleryPresenter;
-import online.z0lk1n.android.instagram_lite.presenter.PhotoGalleryPresenterImpl;
+import online.z0lk1n.android.instagram_lite.presenter.CommonPresenter;
+import online.z0lk1n.android.instagram_lite.presenter.CommonPresenterImpl;
 import online.z0lk1n.android.instagram_lite.ui.activity.MainActivity;
 import online.z0lk1n.android.instagram_lite.util.Navigator;
 import online.z0lk1n.android.instagram_lite.util.PhotoManager;
@@ -40,24 +42,26 @@ import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public final class PhotoGalleryFragment extends Fragment
-        implements RecyclerViewAdapter.OnItemClickListener, PhotoGalleryPresenter.PhotoGalleryView {
+public final class CommonFragment extends Fragment
+        implements RecyclerViewAdapter.OnItemClickListener, CommonPresenter.CommonView {
+
     public static final String NAME = "cb2d00bb-ca6b-45e6-a501-80f70efa65b9";
-    private static final String TAG = "PhotoGalleryFragment";
+    private static final String TAG = "CommonFragment";
 
     private final int PHOTO_CAMERA_REQUEST = 1;
     private final int OUT_OF_ARRAY_POSITION = -1;
-    private PhotoGalleryPresenterImpl presenter;
-    private File storageDir;
-    private RecyclerViewAdapter adapter;
-    private int numberOfColumns;
-    private List<PhotoItem> photoItemList;
-    private String currentFilePath;
-    private int dimens;
-    private RecyclerView recyclerView;
 
-    public static PhotoGalleryFragment newInstance(Bundle bundle) {
-        PhotoGalleryFragment currentFragment = new PhotoGalleryFragment();
+    private CommonPresenterImpl presenter;
+    private RecyclerViewAdapter adapter;
+    private RecyclerView recyclerView;
+    private List<PhotoItem> photoItemList;
+    private File storageDir;
+    private String currentFilePath;
+    private int numberOfColumns;
+    private int dimens;
+
+    public static CommonFragment newInstance(Bundle bundle) {
+        CommonFragment currentFragment = new CommonFragment();
         Bundle args = new Bundle();
         args.putBundle("gettedArgs", bundle);
         currentFragment.setArguments(args);
@@ -75,7 +79,7 @@ public final class PhotoGalleryFragment extends Fragment
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_photo_gallery, container, false);
         init(view);
@@ -86,7 +90,7 @@ public final class PhotoGalleryFragment extends Fragment
         if (getActivity() != null) {
             ((MainActivity) getActivity()).showFloatingActionButton();
         }
-        presenter = new PhotoGalleryPresenterImpl(this);
+        presenter = new CommonPresenterImpl(this);
         photoItemList = new ArrayList<>();
         getFilesList();
         adapter = new RecyclerViewAdapter(photoItemList, dimens);
@@ -133,7 +137,7 @@ public final class PhotoGalleryFragment extends Fragment
     }
 
     @Override
-    public void showDeletePhotoDialog(View view, final int position) {
+    public void showDeletePhotoDialog(@NotNull View view, final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext())
                 .setTitle(R.string.ask_delete_photo)
                 .setPositiveButton(R.string.ok_button, (dialog, which) -> deletePhoto(position))
@@ -152,7 +156,7 @@ public final class PhotoGalleryFragment extends Fragment
     }
 
     @Override
-    public void showFullPhoto(View view, int position) {
+    public void showFullPhoto(@NotNull View view, int position) {
         new Navigator().showPhotoFragment(
                 (AppCompatActivity) view.getContext(),
                 photoItemList.get(position).getPhotoPath());
@@ -191,6 +195,7 @@ public final class PhotoGalleryFragment extends Fragment
         }
     }
 
+    @NotNull
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat(getString(R.string.date_format), Locale.US).format(new Date());
         String imageFileName = getString(R.string.file_name_prefix) + timeStamp;

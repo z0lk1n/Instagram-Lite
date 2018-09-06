@@ -23,7 +23,6 @@
     <string name="date_format">yyyyMMdd_HHmmss</string>
     <string name="main_tab">Main</string>
     <string name="favorites_tab">Favorites</string>
-    <string name="main_tab_fragment">MainTabFragment</string>
     <string name="common_title">Common</string>
     <string name="database_title">Database</string>
     <string name="network_title">Network</string>

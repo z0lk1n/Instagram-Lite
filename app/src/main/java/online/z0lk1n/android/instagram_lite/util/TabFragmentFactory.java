@@ -2,6 +2,8 @@ package online.z0lk1n.android.instagram_lite.util;
 
 import android.support.v4.app.Fragment;
 
+import org.jetbrains.annotations.Contract;
+
 import online.z0lk1n.android.instagram_lite.ui.fragment.FavoritesTabFragment;
 import online.z0lk1n.android.instagram_lite.ui.fragment.MainTabFragment;
 
@@ -21,10 +23,12 @@ public final class TabFragmentFactory {
         }
     }
 
+    @Contract(pure = true)
     public int getFragmentsCount() {
         return 2;
     }
 
+    @Contract(pure = true)
     public CharSequence getFragmentTitle(int position) {
         return TITLES[position];
     }

@@ -3,8 +3,9 @@ package online.z0lk1n.android.instagram_lite.presenter;
 import android.support.annotation.StringRes;
 import android.view.View;
 
-public interface PhotoGalleryPresenter {
-    interface PhotoGalleryView {
+public interface CommonPresenter {
+
+    interface CommonView {
         void showDeletePhotoDialog(View view, final int position);
 
         void addOrRemoveFavorites(int position);

@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import org.jetbrains.annotations.Contract;
+
 public final class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private static final String TAG = "CustomFragmentPagerAdapter";
@@ -21,11 +23,13 @@ public final class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
         return fragmentFactory.createFragment(i);
     }
 
+    @Contract(pure = true)
     @Override
     public int getCount() {
         return fragmentFactory.getFragmentsCount();
     }
 
+    @Contract(pure = true)
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {

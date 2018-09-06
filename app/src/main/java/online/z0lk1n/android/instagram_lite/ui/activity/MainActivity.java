@@ -14,13 +14,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import online.z0lk1n.android.instagram_lite.R;
-import online.z0lk1n.android.instagram_lite.ui.fragment.PhotoGalleryFragment;
+import online.z0lk1n.android.instagram_lite.ui.fragment.CommonFragment;
 import online.z0lk1n.android.instagram_lite.util.CustomFragmentPagerAdapter;
 import online.z0lk1n.android.instagram_lite.util.Navigator;
 import online.z0lk1n.android.instagram_lite.util.TabFragmentFactory;
 
 public class MainActivity extends BaseActivity implements
         NavigationView.OnNavigationItemSelectedListener {
+
     private static final String TAG = "MainActivity";
 
     private DrawerLayout drawer;
@@ -34,7 +35,7 @@ public class MainActivity extends BaseActivity implements
 //        if (savedInstanceState == null) {
 //            getSupportFragmentManager()
 //                    .beginTransaction()
-//                    .add(R.id.fragment_container, new PhotoGalleryFragment(), PhotoGalleryFragment.NAME)
+//                    .add(R.id.fragment_container, new CommonFragment(), CommonFragment.NAME)
 //                    .commit();
 //        }
     }
@@ -74,10 +75,10 @@ public class MainActivity extends BaseActivity implements
 
         fab = findViewById(R.id.fab_add_picture);
         fab.setOnClickListener(v -> {
-            PhotoGalleryFragment photoGalleryFragment = (PhotoGalleryFragment) getSupportFragmentManager()
-                    .findFragmentByTag(PhotoGalleryFragment.NAME);
-            if(photoGalleryFragment != null) {
-                photoGalleryFragment.capturePhoto();
+            CommonFragment commonFragment = (CommonFragment) getSupportFragmentManager()
+                    .findFragmentByTag(CommonFragment.NAME);
+            if (commonFragment != null) {
+                commonFragment.capturePhoto();
             }
         });
     }
@@ -110,7 +111,7 @@ public class MainActivity extends BaseActivity implements
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.home:
-                navigator.showPhotoGalleryFragment(this);
+//                navigator.showCommonFragment(this);
                 break;
             case R.id.settings:
                 navigator.openSettingsActivity(this);

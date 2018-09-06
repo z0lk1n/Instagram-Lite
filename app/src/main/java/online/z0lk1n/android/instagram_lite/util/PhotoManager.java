@@ -7,26 +7,29 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.IOException;
 
 import online.z0lk1n.android.instagram_lite.R;
 
 public final class PhotoManager {
+
     private static final String TAG = "PhotoManager";
 
-    public static int calculateNumberOfColumns(Context context) {
+    public static int calculateNumberOfColumns(@NotNull Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         return (int) (dpWidth / 180);
     }
 
-    public static int calculateWidthOfPhoto(Context context, int columns) {
+    public static int calculateWidthOfPhoto(@NotNull Context context, int columns) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return displayMetrics.widthPixels / columns;
     }
 
-    public static int calculateHeightOfPhoto(Context context) {
+    public static int calculateHeightOfPhoto(@NotNull Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return displayMetrics.heightPixels;
     }

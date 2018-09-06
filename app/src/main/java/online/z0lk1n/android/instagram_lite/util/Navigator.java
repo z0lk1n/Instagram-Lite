@@ -1,32 +1,78 @@
 package online.z0lk1n.android.instagram_lite.util;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
+import org.jetbrains.annotations.NotNull;
+
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.ui.activity.SettingsActivity;
+import online.z0lk1n.android.instagram_lite.ui.fragment.CommonFragment;
+import online.z0lk1n.android.instagram_lite.ui.fragment.DatabaseFragment;
+import online.z0lk1n.android.instagram_lite.ui.fragment.NetworkFragment;
 import online.z0lk1n.android.instagram_lite.ui.fragment.PhotoFragment;
-import online.z0lk1n.android.instagram_lite.ui.fragment.PhotoGalleryFragment;
 import online.z0lk1n.android.instagram_lite.ui.fragment.SettingsFragment;
 
 public final class Navigator {
+
     private static final String TAG = "Navigator";
 
-    public void showPhotoGalleryFragment(AppCompatActivity activity) {
-        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+    public void openSettingsActivity(@NotNull AppCompatActivity activity) {
+        activity.startActivity(new Intent(activity, SettingsActivity.class));
+    }
 
-        PhotoGalleryFragment photoGalleryFragment = (PhotoGalleryFragment) fragmentManager
-                .findFragmentByTag(PhotoGalleryFragment.NAME);
+    public void showSettingsFragment(@NotNull AppCompatActivity activity) {
+        activity.getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.settings_container, new SettingsFragment(), SettingsActivity.NAME)
+                .commit();
+    }
 
-        if (photoGalleryFragment != null) {
-            fragmentManager
-                    .beginTransaction()
-                    .show(photoGalleryFragment)
-                    .commit();
+    public void showCommonFragment(@NotNull Fragment fragment, int start) {
+        FragmentManager fragmentManager = fragment.getChildFragmentManager();
+        if (fragmentManager.findFragmentByTag(CommonFragment.NAME) == null) {
+            switch (start) {
+                case Const.FIRST_START_MAIN_TAB:
+                    fragmentManager
+                            .beginTransaction()
+                            .add(R.id.container_main_tab, CommonFragment.newInstance(null), CommonFragment.NAME)
+                            .commit();
+                    break;
+                case Const.NEXT_START_MAIN_TAB:
+                    fragmentManager
+                            .beginTransaction()
+                            .replace(R.id.container_main_tab, CommonFragment.newInstance(null), CommonFragment.NAME)
+                            .commit();
+                    break;
+                default:
+                    break;
+            }
         }
+//        CommonFragment commonFragment = (CommonFragment) fragmentManager
+//                .findFragmentByTag(CommonFragment.NAME);
+//        if (commonFragment != null) {
+//            fragmentManager
+//                    .beginTransaction()
+//                    .show(commonFragment)
+//                    .commit();
+//        }
+//        fragmentManager.popBackStack();
+    }
 
-        fragmentManager.popBackStack();
+    public void showNetworkFragment(@NotNull Fragment fragment) {
+        fragment.getChildFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container_main_tab, NetworkFragment.newInstance(null), NetworkFragment.NAME)
+                .commit();
+    }
+
+    public void showDatabaseFragment(@NotNull Fragment fragment) {
+        fragment.getChildFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container_main_tab, DatabaseFragment.newInstance(null), DatabaseFragment.NAME)
+                .commit();
     }
 
     public void showPhotoFragment(AppCompatActivity activity, String path) {
@@ -35,17 +81,6 @@ public final class Navigator {
                 .beginTransaction()
                 .replace(R.id.container_main_tab, new PhotoFragment(), PhotoFragment.NAME)
                 .addToBackStack(null)
-                .commit();
-    }
-
-    public void openSettingsActivity(AppCompatActivity activity) {
-        activity.startActivity(new Intent(activity, SettingsActivity.class));
-    }
-
-    public void showSettingsFragment(AppCompatActivity activity) {
-        activity.getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.settings_container, new SettingsFragment(), SettingsActivity.NAME)
                 .commit();
     }
 }

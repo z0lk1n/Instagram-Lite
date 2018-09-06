@@ -1,14 +1,21 @@
 package online.z0lk1n.android.instagram_lite.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 public class Preferences {
+
     private static final String TAG = "Preferences";
+
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
 
-    public Preferences(Context context) {
+    @SuppressLint("CommitPrefEdits")
+    public Preferences(@NotNull Context context) {
         sharedPref = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
         editor = sharedPref.edit();
     }
@@ -29,7 +36,8 @@ public class Preferences {
         editor.putString(Const.KEY_PREF_PHOTO, path).apply();
     }
 
-    private Theme parseTheme(String string) {
+    @Contract(pure = true)
+    private Theme parseTheme(@NotNull String string) {
         switch (string) {
             case Const.KEY_PREF_LIGHT_THEME:
                 return Theme.LIGHT;
@@ -41,7 +49,8 @@ public class Preferences {
         }
     }
 
-    private String mapThemeToString(Theme theme) {
+    @Contract(pure = true)
+    private String mapThemeToString(@NotNull Theme theme) {
         switch (theme) {
             case LIGHT:
                 return Const.KEY_PREF_LIGHT_THEME;
