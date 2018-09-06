@@ -34,13 +34,13 @@ public final class Navigator {
         FragmentManager fragmentManager = fragment.getChildFragmentManager();
         if (fragmentManager.findFragmentByTag(CommonFragment.NAME) == null) {
             switch (start) {
-                case Const.FIRST_START_MAIN_TAB:
+                case Const.FIRST_START_FRAGMENT:
                     fragmentManager
                             .beginTransaction()
                             .add(R.id.container_main_tab, CommonFragment.newInstance(null), CommonFragment.NAME)
                             .commit();
                     break;
-                case Const.NEXT_START_MAIN_TAB:
+                case Const.NEXT_START_FRAGMENT:
                     fragmentManager
                             .beginTransaction()
                             .replace(R.id.container_main_tab, CommonFragment.newInstance(null), CommonFragment.NAME)
@@ -50,29 +50,50 @@ public final class Navigator {
                     break;
             }
         }
-//        CommonFragment commonFragment = (CommonFragment) fragmentManager
-//                .findFragmentByTag(CommonFragment.NAME);
-//        if (commonFragment != null) {
-//            fragmentManager
-//                    .beginTransaction()
-//                    .show(commonFragment)
-//                    .commit();
-//        }
-//        fragmentManager.popBackStack();
     }
 
-    public void showNetworkFragment(@NotNull Fragment fragment) {
-        fragment.getChildFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container_main_tab, NetworkFragment.newInstance(null), NetworkFragment.NAME)
-                .commit();
+    public void showNetworkFragment(@NotNull Fragment fragment, int start) {
+        FragmentManager fragmentManager = fragment.getChildFragmentManager();
+        if (fragmentManager.findFragmentByTag(NetworkFragment.NAME) == null) {
+            switch (start) {
+                case Const.FIRST_START_FRAGMENT:
+                    fragmentManager
+                            .beginTransaction()
+                            .add(R.id.container_main_tab, NetworkFragment.newInstance(null), NetworkFragment.NAME)
+                            .commit();
+                    break;
+                case Const.NEXT_START_FRAGMENT:
+                    fragmentManager
+                            .beginTransaction()
+                            .replace(R.id.container_main_tab, NetworkFragment.newInstance(null), NetworkFragment.NAME)
+                            .commit();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
-    public void showDatabaseFragment(@NotNull Fragment fragment) {
-        fragment.getChildFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container_main_tab, DatabaseFragment.newInstance(null), DatabaseFragment.NAME)
-                .commit();
+    public void showDatabaseFragment(@NotNull Fragment fragment, int start) {
+        FragmentManager fragmentManager = fragment.getChildFragmentManager();
+        if (fragmentManager.findFragmentByTag(DatabaseFragment.NAME) == null) {
+            switch (start) {
+                case Const.FIRST_START_FRAGMENT:
+                    fragmentManager
+                            .beginTransaction()
+                            .add(R.id.container_main_tab, DatabaseFragment.newInstance(null), DatabaseFragment.NAME)
+                            .commit();
+                    break;
+                case Const.NEXT_START_FRAGMENT:
+                    fragmentManager
+                            .beginTransaction()
+                            .replace(R.id.container_main_tab, DatabaseFragment.newInstance(null), DatabaseFragment.NAME)
+                            .commit();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     public void showPhotoFragment(AppCompatActivity activity, String path) {

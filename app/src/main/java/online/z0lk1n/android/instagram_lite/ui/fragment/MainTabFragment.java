@@ -32,26 +32,40 @@ public class MainTabFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_tab, container, false);
-
         navigator = new Navigator();
-        navigator.showCommonFragment(this, Const.FIRST_START_MAIN_TAB);
-
         BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottom_navigation_view);
+        showFragment(bottomNavigationView.getSelectedItemId());
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 item -> {
                     switch (item.getItemId()) {
                         case R.id.action_common:
-                            navigator.showCommonFragment(this, Const.NEXT_START_MAIN_TAB);
+                            navigator.showCommonFragment(this, Const.NEXT_START_FRAGMENT);
                             return true;
                         case R.id.action_network:
-                            navigator.showNetworkFragment(this);
+                            navigator.showNetworkFragment(this, Const.NEXT_START_FRAGMENT);
                             return true;
                         case R.id.action_database:
-                            navigator.showDatabaseFragment(this);
+                            navigator.showDatabaseFragment(this, Const.NEXT_START_FRAGMENT);
                             return true;
                     }
                     return false;
                 });
         return view;
+    }
+
+    private void showFragment(int itemId) {
+        switch (itemId) {
+            case R.id.action_common:
+                navigator.showCommonFragment(this, Const.FIRST_START_FRAGMENT);
+                break;
+            case R.id.action_network:
+                navigator.showNetworkFragment(this, Const.FIRST_START_FRAGMENT);
+                break;
+            case R.id.action_database:
+                navigator.showDatabaseFragment(this, Const.FIRST_START_FRAGMENT);
+                break;
+            default:
+                break;
+        }
     }
 }

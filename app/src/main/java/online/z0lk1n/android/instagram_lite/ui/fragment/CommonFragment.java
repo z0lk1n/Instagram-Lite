@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
@@ -81,7 +82,7 @@ public final class CommonFragment extends Fragment
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_photo_gallery, container, false);
+        View view = inflater.inflate(R.layout.fragment_common, container, false);
         init(view);
         return view;
     }
@@ -102,6 +103,15 @@ public final class CommonFragment extends Fragment
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(getActivity() != null) {
+            FloatingActionButton fab = getActivity().findViewById(R.id.fab_add_picture);
+            fab.setOnClickListener(v -> capturePhoto());
+        }
     }
 
     @Override
