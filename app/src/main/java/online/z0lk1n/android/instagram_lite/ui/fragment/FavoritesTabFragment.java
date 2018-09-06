@@ -12,9 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import online.z0lk1n.android.instagram_lite.R;
+import online.z0lk1n.android.instagram_lite.model.PhotoItem;
 import online.z0lk1n.android.instagram_lite.ui.activity.MainActivity;
 import online.z0lk1n.android.instagram_lite.util.PhotoManager;
 import online.z0lk1n.android.instagram_lite.util.Preferences;
@@ -58,14 +60,17 @@ public class FavoritesTabFragment extends Fragment
 
         Preferences preferences = new Preferences(getActivity());
 
-        Set<String> favoritesSet = preferences.getFavorites();
+        List<PhotoItem> photoItemList = new ArrayList<>();
+        for (String s : preferences.getFavorites()) {
+            photoItemList.add(new PhotoItem(s, true));
+        }
 
-//        adapter = new RecyclerViewAdapter(favoritesSet, dimens);
+        adapter = new RecyclerViewAdapter(photoItemList, dimens);
         adapter.setOnItemClickListener(this);
 
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_favorites);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);

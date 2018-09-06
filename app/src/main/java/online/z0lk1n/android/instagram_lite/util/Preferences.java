@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Preferences {
@@ -23,7 +24,7 @@ public class Preferences {
     }
 
     public Set<String> getFavorites()   {
-        return sharedPref.getStringSet(Const.KEY_PREF_FAVORITES_LIST, null);
+        return sharedPref.getStringSet(Const.KEY_PREF_FAVORITES_LIST, new HashSet<>());
     }
 
     public void setFavorites(Set<String> favoritesSet) {

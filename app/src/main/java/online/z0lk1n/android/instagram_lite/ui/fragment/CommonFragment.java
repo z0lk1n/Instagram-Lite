@@ -38,6 +38,7 @@ import online.z0lk1n.android.instagram_lite.presenter.CommonPresenterImpl;
 import online.z0lk1n.android.instagram_lite.ui.activity.MainActivity;
 import online.z0lk1n.android.instagram_lite.util.Navigator;
 import online.z0lk1n.android.instagram_lite.util.PhotoManager;
+import online.z0lk1n.android.instagram_lite.util.Preferences;
 import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
 
 import static android.app.Activity.RESULT_CANCELED;
@@ -58,6 +59,7 @@ public final class CommonFragment extends Fragment
     private List<PhotoItem> photoItemList;
     private File storageDir;
     private String currentFilePath;
+    private Preferences preferences;
     private int numberOfColumns;
     private int dimens;
 
@@ -73,6 +75,7 @@ public final class CommonFragment extends Fragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        preferences = new Preferences(context);
         numberOfColumns = PhotoManager.calculateNumberOfColumns(context);
         dimens = PhotoManager.calculateWidthOfPhoto(context, numberOfColumns);
         storageDir = context.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
@@ -99,7 +102,7 @@ public final class CommonFragment extends Fragment
 
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
 
-        recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView = view.findViewById(R.id.recycler_view_common);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -159,8 +162,10 @@ public final class CommonFragment extends Fragment
     public void addOrRemoveFavorites(int position) {
         if (photoItemList.get(position).isFavorites()) {
             photoItemList.get(position).setFavorites(false);
+            preferences.getFavorites().remove(photoItemList.get(position).getPhotoPath());
         } else {
             photoItemList.get(position).setFavorites(true);
+            preferences.getFavorites().add(photoItemList.get(position).getPhotoPath());
         }
         adapter.notifyItemChanged(position);
     }
