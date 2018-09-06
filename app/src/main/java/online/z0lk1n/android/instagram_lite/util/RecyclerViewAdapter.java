@@ -19,11 +19,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private List<PhotoItem> photoItemList;
     private OnItemClickListener itemClickListener;
+    private Preferences preferences;
     private int dimens;
 
-    public RecyclerViewAdapter(List<PhotoItem> photoItemList, int dimens) {
+    public RecyclerViewAdapter(List<PhotoItem> photoItemList, int dimens, Preferences preferences) {
         this.photoItemList = photoItemList;
         this.dimens = dimens;
+        this.preferences = preferences;
     }
 
     public interface OnItemClickListener {
@@ -87,7 +89,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         private void bindView(int position) {
             PhotoManager.setPhoto(imgViewPhoto, getFile(position), dimens, dimens);
-            if (photoItemList.get(position).isFavorites()) {
+            if (preferences.getFavorites().contains(photoItemList.get(position).getPhotoPath())) {
                 imgFavorites.setImageResource(R.drawable.ic_star);
             } else {
                 imgFavorites.setImageResource(R.drawable.ic_star_border);

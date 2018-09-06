@@ -4,7 +4,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,12 +15,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
 import online.z0lk1n.android.instagram_lite.ui.activity.MainActivity;
+import online.z0lk1n.android.instagram_lite.util.Navigator;
 import online.z0lk1n.android.instagram_lite.util.PhotoManager;
 import online.z0lk1n.android.instagram_lite.util.Preferences;
 import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
@@ -28,7 +36,10 @@ public class FavoritesTabFragment extends Fragment
     public static final String NAME = "187f27ee-e044-4772-a683-858eaa67a0f4";
     private static final String TAG = "FavoritesTabFragment";
 
+    private Preferences preferences;
+    private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
+    private List<PhotoItem> photoItemList;
     private int numberOfColumns;
     private int dimens;
 
@@ -43,6 +54,7 @@ public class FavoritesTabFragment extends Fragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        preferences = new Preferences(context);
         numberOfColumns = PhotoManager.calculateNumberOfColumns(context);
         dimens = PhotoManager.calculateWidthOfPhoto(context, numberOfColumns);
     }
@@ -58,19 +70,17 @@ public class FavoritesTabFragment extends Fragment
     private void init(View view) {
         ((MainActivity) getActivity()).hideFloatingActionButton();
 
-        Preferences preferences = new Preferences(getActivity());
-
-        List<PhotoItem> photoItemList = new ArrayList<>();
+        photoItemList = new ArrayList<>();
         for (String s : preferences.getFavorites()) {
             photoItemList.add(new PhotoItem(s, true));
         }
 
-        adapter = new RecyclerViewAdapter(photoItemList, dimens);
+        adapter = new RecyclerViewAdapter(photoItemList, dimens, preferences);
         adapter.setOnItemClickListener(this);
 
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_favorites);
+        recyclerView = view.findViewById(R.id.recycler_view_favorites);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -84,16 +94,42 @@ public class FavoritesTabFragment extends Fragment
 
     @Override
     public void onPhotoClick(View view, int position) {
-
+        new Navigator().showPhotoFragment(
+                (AppCompatActivity) view.getContext(),
+                photoItemList.get(position).getPhotoPath());
     }
 
     @Override
     public void onPhotoLongClick(View view, int position) {
-
+        showDeletePhotoDialog(view, position);
     }
 
     @Override
     public void onFavoritesClick(int position) {
+        Set<String> favorites = preferences.getFavorites();
+        favorites.remove(photoItemList.get(position).getPhotoPath());
+        preferences.setFavorites(favorites);
+        photoItemList.remove(position);
+        adapter.notifyItemRemoved(position);
+    }
 
+    public void showDeletePhotoDialog(@NotNull View view, final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext())
+                .setTitle(R.string.ask_delete_photo)
+                .setPositiveButton(R.string.ok_button, (dialog, which) -> deletePhoto(position))
+                .setNegativeButton(R.string.cancel_button, (dialog, which) -> dialog.dismiss());
+        builder.show();
+    }
+
+    private void deletePhoto(int position) {
+        if (new File(photoItemList.get(position).getPhotoPath()).delete()) {
+            Set<String> favorites = preferences.getFavorites();
+            favorites.remove(photoItemList.get(position).getPhotoPath());
+            preferences.setFavorites(favorites);
+
+            photoItemList.remove(position);
+            adapter.notifyItemRemoved(position);
+            Snackbar.make(recyclerView, R.string.photo_deleted, Snackbar.LENGTH_SHORT).show();
+        }
     }
 }

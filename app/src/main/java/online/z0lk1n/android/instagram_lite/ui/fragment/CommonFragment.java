@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
@@ -97,7 +98,7 @@ public final class CommonFragment extends Fragment
         presenter = new CommonPresenterImpl(this);
         photoItemList = new ArrayList<>();
         getFilesList();
-        adapter = new RecyclerViewAdapter(photoItemList, dimens);
+        adapter = new RecyclerViewAdapter(photoItemList, dimens, preferences);
         adapter.setOnItemClickListener(this);
 
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
@@ -160,13 +161,15 @@ public final class CommonFragment extends Fragment
 
     @Override
     public void addOrRemoveFavorites(int position) {
+        Set<String> favorites = preferences.getFavorites();
         if (photoItemList.get(position).isFavorites()) {
             photoItemList.get(position).setFavorites(false);
-            preferences.getFavorites().remove(photoItemList.get(position).getPhotoPath());
+            favorites.remove(photoItemList.get(position).getPhotoPath());
         } else {
             photoItemList.get(position).setFavorites(true);
-            preferences.getFavorites().add(photoItemList.get(position).getPhotoPath());
+            favorites.add(photoItemList.get(position).getPhotoPath());
         }
+        preferences.setFavorites(favorites);
         adapter.notifyItemChanged(position);
     }
 
