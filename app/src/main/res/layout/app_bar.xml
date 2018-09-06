@@ -7,23 +7,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="@dimen/appbar_padding_top"
-    android:fitsSystemWindows="true"
     android:theme="@style/AppTheme.AppBarOverlay">
 
-    <!--<android.support.design.widget.CollapsingToolbarLayout-->
-        <!--android:id="@+id/collapsing_toolbar_layout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--app:layout_scrollFlags="scroll|enterAlways"-->
-        <!--app:titleEnabled="false">-->
+    <android.support.design.widget.CollapsingToolbarLayout
+        android:id="@+id/collapsing_toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:minHeight="100dp"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed"
+        app:titleEnabled="false">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_collapseMode="pin"
+            app:layout_scrollFlags="scroll"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
-    <!--</android.support.design.widget.CollapsingToolbarLayout>-->
+    </android.support.design.widget.CollapsingToolbarLayout>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/table_layout"

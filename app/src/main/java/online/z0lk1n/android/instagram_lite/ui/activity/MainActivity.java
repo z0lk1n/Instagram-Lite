@@ -26,6 +26,7 @@ public class MainActivity extends BaseActivity implements
     private DrawerLayout drawer;
     private Navigator navigator;
     private FloatingActionButton fab;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class MainActivity extends BaseActivity implements
         CustomFragmentPagerAdapter customFragmentPagerAdapter
                 = new CustomFragmentPagerAdapter(getSupportFragmentManager(), tabFragmentFactory);
 
-        ViewPager viewPager = findViewById(R.id.view_pager);
+        viewPager = findViewById(R.id.container_view_pager);
         viewPager.setAdapter(customFragmentPagerAdapter);
 
         TabLayout tabLayout = findViewById(R.id.table_layout);
