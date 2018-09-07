@@ -83,6 +83,7 @@ public class FavoritesTabFragment extends Fragment
         recyclerView = view.findViewById(R.id.recycler_view_favorites);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
     }
 

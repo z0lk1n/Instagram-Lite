@@ -1,7 +1,9 @@
 package online.z0lk1n.android.instagram_lite.model;
 
 public class PhotoItem {
+
     private static final String TAG = "PhotoItem";
+
     private final String photoPath;
     private boolean isFavorites;
 

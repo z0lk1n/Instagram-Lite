@@ -106,6 +106,7 @@ public final class CommonFragment extends Fragment
         recyclerView = view.findViewById(R.id.recycler_view_common);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
     }
 
