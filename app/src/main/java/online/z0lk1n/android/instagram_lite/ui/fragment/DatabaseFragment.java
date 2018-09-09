@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import online.z0lk1n.android.instagram_lite.R;
-import online.z0lk1n.android.instagram_lite.ui.activity.MainActivity;
 
 public final class DatabaseFragment extends Fragment {
 
@@ -28,11 +27,9 @@ public final class DatabaseFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_database, container, false);
-        init(view);
         return view;
     }
 
     private void init(View view) {
-        ((MainActivity) view.getContext()).hideFloatingActionButton();
     }
 }

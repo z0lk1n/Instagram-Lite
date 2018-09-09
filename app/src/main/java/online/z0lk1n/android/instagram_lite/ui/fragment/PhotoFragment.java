@@ -15,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 
 import online.z0lk1n.android.instagram_lite.R;
-import online.z0lk1n.android.instagram_lite.ui.activity.MainActivity;
 import online.z0lk1n.android.instagram_lite.util.PhotoManager;
 import online.z0lk1n.android.instagram_lite.util.Preferences;
 
@@ -45,7 +44,6 @@ public final class PhotoFragment extends Fragment {
     }
 
     private void init(View view) {
-        ((MainActivity) getActivity()).hideFloatingActionButton();
         File file = getFile();
         switch (PhotoManager.getOrientationPhoto(file.getPath())) {
             case ExifInterface.ORIENTATION_NORMAL:

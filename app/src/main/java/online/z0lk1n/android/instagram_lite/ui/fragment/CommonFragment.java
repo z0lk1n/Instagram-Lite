@@ -32,7 +32,6 @@ import online.z0lk1n.android.instagram_lite.model.PhotoItem;
 import online.z0lk1n.android.instagram_lite.presenter.AndroidResourceManager;
 import online.z0lk1n.android.instagram_lite.presenter.CommonPresenter;
 import online.z0lk1n.android.instagram_lite.presenter.CommonPresenterImpl;
-import online.z0lk1n.android.instagram_lite.ui.activity.MainActivity;
 import online.z0lk1n.android.instagram_lite.util.Const;
 import online.z0lk1n.android.instagram_lite.util.Navigator;
 import online.z0lk1n.android.instagram_lite.util.PhotoManager;
@@ -87,9 +86,6 @@ public final class CommonFragment extends Fragment
     }
 
     private void init(View view) {
-        MainActivity activity = (MainActivity) view.getContext();
-        activity.showFloatingActionButton();
-
         getFilesList();
         adapter = new RecyclerViewAdapter(photoItemList, dimens, preferences);
         adapter.setOnItemClickListener(this);
@@ -107,7 +103,7 @@ public final class CommonFragment extends Fragment
                 preferences,
                 new AndroidResourceManager(view.getContext()));
 
-        FloatingActionButton fab = activity.findViewById(R.id.fab_add_picture);
+        FloatingActionButton fab = view.findViewById(R.id.fab_add_picture);
         fab.setOnClickListener(v -> presenter.capturePhoto());
     }
 

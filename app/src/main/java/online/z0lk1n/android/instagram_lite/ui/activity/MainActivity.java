@@ -2,7 +2,6 @@ package online.z0lk1n.android.instagram_lite.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -25,8 +24,6 @@ public final class MainActivity extends BaseActivity implements
 
     private DrawerLayout drawer;
     private Navigator navigator;
-    private FloatingActionButton fab;
-    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +41,7 @@ public final class MainActivity extends BaseActivity implements
         CustomFragmentPagerAdapter customFragmentPagerAdapter
                 = new CustomFragmentPagerAdapter(getSupportFragmentManager(), tabFragmentFactory);
 
-        viewPager = findViewById(R.id.container_view_pager);
+        ViewPager viewPager = findViewById(R.id.container_view_pager);
         viewPager.setAdapter(customFragmentPagerAdapter);
 
         TabLayout tabLayout = findViewById(R.id.table_layout);
@@ -66,8 +63,6 @@ public final class MainActivity extends BaseActivity implements
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(MainActivity.this);
-
-        fab = findViewById(R.id.fab_add_picture);
     }
 
     @Override
@@ -81,7 +76,7 @@ public final class MainActivity extends BaseActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -108,13 +103,5 @@ public final class MainActivity extends BaseActivity implements
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public void showFloatingActionButton() {
-        fab.show();
-    }
-
-    public void hideFloatingActionButton() {
-        fab.hide();
     }
 }

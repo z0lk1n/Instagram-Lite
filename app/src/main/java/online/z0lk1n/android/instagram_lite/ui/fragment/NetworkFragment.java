@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import online.z0lk1n.android.instagram_lite.R;
-import online.z0lk1n.android.instagram_lite.ui.activity.MainActivity;
 
 public final class NetworkFragment extends Fragment {
 
@@ -33,6 +32,5 @@ public final class NetworkFragment extends Fragment {
     }
 
     private void init(View view) {
-        ((MainActivity) view.getContext()).hideFloatingActionButton();
     }
 }

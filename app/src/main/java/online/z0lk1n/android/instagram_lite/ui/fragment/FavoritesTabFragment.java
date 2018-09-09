@@ -22,7 +22,6 @@ import java.util.Set;
 
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
-import online.z0lk1n.android.instagram_lite.ui.activity.MainActivity;
 import online.z0lk1n.android.instagram_lite.util.Navigator;
 import online.z0lk1n.android.instagram_lite.util.PhotoManager;
 import online.z0lk1n.android.instagram_lite.util.Preferences;
@@ -66,8 +65,6 @@ public final class FavoritesTabFragment extends Fragment
     }
 
     private void init(View view) {
-        ((MainActivity) view.getContext()).hideFloatingActionButton();
-
         photoItemList = new ArrayList<>();
         for (String s : preferences.getFavorites()) {
             photoItemList.add(new PhotoItem(s, true));
