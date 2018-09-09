@@ -15,8 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -94,15 +92,15 @@ public final class FavoritesTabFragment extends Fragment
     }
 
     @Override
-    public void onPhotoClick(View view, int position) {
+    public void onPhotoClick(int position) {
         new Navigator().showPhotoFragment(
-                (AppCompatActivity) view.getContext(),
+                (AppCompatActivity) getContext(),
                 photoItemList.get(position).getPhotoPath());
     }
 
     @Override
-    public void onPhotoLongClick(View view, int position) {
-        showDeletePhotoDialog(view, position);
+    public void onPhotoLongClick(int position) {
+        showDeletePhotoDialog(position);
     }
 
     @Override
@@ -114,8 +112,8 @@ public final class FavoritesTabFragment extends Fragment
         adapter.notifyItemRemoved(position);
     }
 
-    public void showDeletePhotoDialog(@NotNull View view, final int position) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext())
+    public void showDeletePhotoDialog(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
                 .setTitle(R.string.ask_delete_photo)
                 .setPositiveButton(R.string.ok_button, (dialog, which) -> deletePhoto(position))
                 .setNegativeButton(R.string.cancel_button, (dialog, which) -> dialog.dismiss());

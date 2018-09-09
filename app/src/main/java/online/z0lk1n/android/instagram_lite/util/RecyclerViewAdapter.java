@@ -29,9 +29,9 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     public interface OnItemClickListener {
-        void onPhotoClick(View view, int position);
+        void onPhotoClick(int position);
 
-        void onPhotoLongClick(View view, int position);
+        void onPhotoLongClick(int position);
 
         void onFavoritesClick(int position);
     }
@@ -70,12 +70,12 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
             imgViewPhoto.setOnClickListener(view -> {
                 if (itemClickListener != null) {
-                    itemClickListener.onPhotoClick(itemView, getAdapterPosition());
+                    itemClickListener.onPhotoClick(getAdapterPosition());
                 }
             });
             imgViewPhoto.setOnLongClickListener(view -> {
                 if (itemClickListener != null) {
-                    itemClickListener.onPhotoLongClick(itemView, getAdapterPosition());
+                    itemClickListener.onPhotoLongClick(getAdapterPosition());
                     return true;
                 }
                 return false;
