@@ -18,7 +18,7 @@ import online.z0lk1n.android.instagram_lite.util.CustomFragmentPagerAdapter;
 import online.z0lk1n.android.instagram_lite.util.Navigator;
 import online.z0lk1n.android.instagram_lite.util.TabFragmentFactory;
 
-public class MainActivity extends BaseActivity implements
+public final class MainActivity extends BaseActivity implements
         NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "MainActivity";

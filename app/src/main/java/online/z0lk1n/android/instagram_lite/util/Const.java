@@ -10,8 +10,6 @@ public final class Const {
     public static final String KEY_PREF_STANDARD_THEME = "0565f9f8-3eb5-4702-a34f-58a1a2628237";
     public static final String KEY_PREF_LIGHT_THEME = "7073d1a2-b8f5-4087-afd2-07cf6fd7983b";
     public static final String KEY_PREF_DARK_THEME = "e15f52b6-70e8-4c89-9f61-c109fbfa767d";
-    public static final int FIRST_START_FRAGMENT = 0;
-    public static final int NEXT_START_FRAGMENT = 1;
 
     private Const() {
     }

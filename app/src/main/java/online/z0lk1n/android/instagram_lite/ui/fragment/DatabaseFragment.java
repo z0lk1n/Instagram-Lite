@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.ui.activity.MainActivity;
 
-public class DatabaseFragment extends Fragment {
+public final class DatabaseFragment extends Fragment {
 
     public static final String NAME = "ba536e1d-3a9d-4db9-9b8c-9e7539d9a20b";
     private static final String TAG = "DatabaseFragment";
@@ -33,6 +33,6 @@ public class DatabaseFragment extends Fragment {
     }
 
     private void init(View view) {
-        ((MainActivity) getActivity()).hideFloatingActionButton();
+        ((MainActivity) view.getContext()).hideFloatingActionButton();
     }
 }

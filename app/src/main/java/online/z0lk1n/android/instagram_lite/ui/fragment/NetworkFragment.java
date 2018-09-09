@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.ui.activity.MainActivity;
 
-public class NetworkFragment extends Fragment {
+public final class NetworkFragment extends Fragment {
 
     public static final String NAME = "676e7daa-88da-437c-b675-4075f66de676";
     private static final String TAG = "NetworkFragment";
@@ -33,6 +33,6 @@ public class NetworkFragment extends Fragment {
     }
 
     private void init(View view) {
-        ((MainActivity) getActivity()).hideFloatingActionButton();
+        ((MainActivity) view.getContext()).hideFloatingActionButton();
     }
 }

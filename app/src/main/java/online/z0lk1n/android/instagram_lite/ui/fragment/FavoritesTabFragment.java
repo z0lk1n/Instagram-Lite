@@ -30,7 +30,7 @@ import online.z0lk1n.android.instagram_lite.util.PhotoManager;
 import online.z0lk1n.android.instagram_lite.util.Preferences;
 import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
 
-public class FavoritesTabFragment extends Fragment
+public final class FavoritesTabFragment extends Fragment
         implements RecyclerViewAdapter.OnItemClickListener {
 
     public static final String NAME = "187f27ee-e044-4772-a683-858eaa67a0f4";
@@ -68,7 +68,7 @@ public class FavoritesTabFragment extends Fragment
     }
 
     private void init(View view) {
-        ((MainActivity) getActivity()).hideFloatingActionButton();
+        ((MainActivity) view.getContext()).hideFloatingActionButton();
 
         photoItemList = new ArrayList<>();
         for (String s : preferences.getFavorites()) {

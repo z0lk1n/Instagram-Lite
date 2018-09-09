@@ -10,10 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import online.z0lk1n.android.instagram_lite.R;
-import online.z0lk1n.android.instagram_lite.util.Const;
 import online.z0lk1n.android.instagram_lite.util.Navigator;
 
-public class MainTabFragment extends Fragment {
+public final class MainTabFragment extends Fragment {
 
     public static final String NAME = "6a4545d5-b082-40b6-afc7-87e365395a57";
     private static final String TAG = "MainTabFragment";
@@ -35,37 +34,23 @@ public class MainTabFragment extends Fragment {
         navigator = new Navigator();
         BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottom_navigation_view);
         showFragment(bottomNavigationView.getSelectedItemId());
-        bottomNavigationView.setOnNavigationItemSelectedListener(
-                item -> {
-                    switch (item.getItemId()) {
-                        case R.id.action_common:
-                            navigator.showCommonFragment(this, Const.NEXT_START_FRAGMENT);
-                            return true;
-                        case R.id.action_network:
-                            navigator.showNetworkFragment(this, Const.NEXT_START_FRAGMENT);
-                            return true;
-                        case R.id.action_database:
-                            navigator.showDatabaseFragment(this, Const.NEXT_START_FRAGMENT);
-                            return true;
-                    }
-                    return false;
-                });
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> showFragment(item.getItemId()));
         return view;
     }
 
-    private void showFragment(int itemId) {
+    private boolean showFragment(int itemId) {
         switch (itemId) {
             case R.id.action_common:
-                navigator.showCommonFragment(this, Const.FIRST_START_FRAGMENT);
-                break;
+                navigator.showCommonFragment(this);
+                return true;
             case R.id.action_network:
-                navigator.showNetworkFragment(this, Const.FIRST_START_FRAGMENT);
-                break;
+                navigator.showNetworkFragment(this);
+                return true;
             case R.id.action_database:
-                navigator.showDatabaseFragment(this, Const.FIRST_START_FRAGMENT);
-                break;
+                navigator.showDatabaseFragment(this);
+                return true;
             default:
-                break;
+                return false;
         }
     }
 }

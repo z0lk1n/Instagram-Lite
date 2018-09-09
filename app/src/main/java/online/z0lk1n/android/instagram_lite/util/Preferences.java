@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Preferences {
+public final class Preferences {
 
     private static final String TAG = "Preferences";
 

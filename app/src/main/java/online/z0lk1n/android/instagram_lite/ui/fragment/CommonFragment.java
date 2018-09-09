@@ -61,6 +61,7 @@ public final class CommonFragment extends Fragment
     private File storageDir;
     private String currentFilePath;
     private Preferences preferences;
+    GridLayoutManager layoutManager;
     private int numberOfColumns;
     private int dimens;
 
@@ -72,19 +73,21 @@ public final class CommonFragment extends Fragment
         return currentFragment;
     }
 
-    //TODO 05.09.18 rework this MVP
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        photoItemList = new ArrayList<>();
         preferences = new Preferences(context);
         numberOfColumns = PhotoManager.calculateNumberOfColumns(context);
         dimens = PhotoManager.calculateWidthOfPhoto(context, numberOfColumns);
         storageDir = context.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        layoutManager = new GridLayoutManager(context, numberOfColumns);
     }
 
     @NonNull
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_common, container, false);
         init(view);
@@ -92,31 +95,23 @@ public final class CommonFragment extends Fragment
     }
 
     private void init(View view) {
-        if (getActivity() != null) {
-            ((MainActivity) getActivity()).showFloatingActionButton();
-        }
-        presenter = new CommonPresenterImpl(this);
-        photoItemList = new ArrayList<>();
+        MainActivity activity = (MainActivity) view.getContext();
+        activity.showFloatingActionButton();
+
         getFilesList();
         adapter = new RecyclerViewAdapter(photoItemList, dimens, preferences);
         adapter.setOnItemClickListener(this);
-
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
 
         recyclerView = view.findViewById(R.id.recycler_view_common);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
-    }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if(getActivity() != null) {
-            FloatingActionButton fab = getActivity().findViewById(R.id.fab_add_picture);
-            fab.setOnClickListener(v -> capturePhoto());
-        }
+        presenter = new CommonPresenterImpl(this, photoItemList);
+
+        FloatingActionButton fab = activity.findViewById(R.id.fab_add_picture);
+        fab.setOnClickListener(v -> capturePhoto());
     }
 
     @Override
@@ -246,5 +241,9 @@ public final class CommonFragment extends Fragment
         photoItemList.add(new PhotoItem(currentFilePath, false));
         adapter.notifyItemInserted(photoItemList.size() - 1);
         Snackbar.make(recyclerView, R.string.photo_uploaded, Snackbar.LENGTH_SHORT).show();
+    }
+
+    public RecyclerViewAdapter getAdapter() {
+        return adapter;
     }
 }
