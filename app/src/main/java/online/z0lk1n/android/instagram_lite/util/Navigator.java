@@ -1,5 +1,6 @@
 package online.z0lk1n.android.instagram_lite.util;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,11 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import org.jetbrains.annotations.NotNull;
 
 import online.z0lk1n.android.instagram_lite.R;
+import online.z0lk1n.android.instagram_lite.ui.activity.FullscreenPhotoActivity;
 import online.z0lk1n.android.instagram_lite.ui.activity.SettingsActivity;
 import online.z0lk1n.android.instagram_lite.ui.fragment.CommonFragment;
 import online.z0lk1n.android.instagram_lite.ui.fragment.DatabaseFragment;
 import online.z0lk1n.android.instagram_lite.ui.fragment.NetworkFragment;
-import online.z0lk1n.android.instagram_lite.ui.fragment.PhotoFragment;
 import online.z0lk1n.android.instagram_lite.ui.fragment.SettingsFragment;
 
 public final class Navigator {
@@ -60,12 +61,9 @@ public final class Navigator {
         }
     }
 
-    public void showPhotoFragment(AppCompatActivity activity, String path) {
-        new Preferences(activity).setPhoto(path);
-        activity.getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container_main_tab, new PhotoFragment(), PhotoFragment.NAME)
-                .addToBackStack(null)
-                .commit();
+    public void openFullscreenPhotoActivity(@NotNull Context context, String path) {
+        Intent intent = new Intent(context, FullscreenPhotoActivity.class);
+        intent.putExtra(Const.KEY_FULLSCREEN_PHOTO, path);
+        context.startActivity(intent);
     }
 }

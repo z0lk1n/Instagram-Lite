@@ -39,14 +39,6 @@ public final class Preferences {
         editor.putString(Const.KEY_PREF_THEME, mapThemeToString(theme)).apply();
     }
 
-    public String getPhoto() {
-        return sharedPref.getString(Const.KEY_PREF_PHOTO, null);
-    }
-
-    public void setPhoto(String path) {
-        editor.putString(Const.KEY_PREF_PHOTO, path).apply();
-    }
-
     @Contract(pure = true)
     private Theme parseTheme(@NotNull String string) {
         switch (string) {

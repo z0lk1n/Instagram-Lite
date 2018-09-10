@@ -4,7 +4,7 @@ import android.content.Context;
 
 import online.z0lk1n.android.instagram_lite.R;
 
-public class AndroidResourceManager implements ResourceManager {
+public final class AndroidResourceManager implements ResourceManager {
     private Context context;
 
     public AndroidResourceManager(Context context) {

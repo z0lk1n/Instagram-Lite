@@ -18,6 +18,7 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
 
     //AppBar
+
     <style name="standard_AppBarLayoutStyle" parent="@style/Widget.Design.AppBarLayout">
         <item name="backgroundTint">@color/colorPrimary</item>
     </style>
@@ -31,6 +32,7 @@
     </style>
 
     //FAB
+
     <style name="fabStyle" parent="@style/Widget.AppCompat.Button">
         <item name="backgroundTint">@color/colorAccent</item>
     </style>
@@ -41,5 +43,17 @@
 
     <style name="fabStyle.Dark">
         <item name="backgroundTint">@color/colorDarkThemeAccent</item>
+    </style>
+
+    <style name="FullscreenTheme" parent="ThemeStandard">
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+    </style>
+
+    <style name="FullscreenActionBarStyle" parent="android:Widget.Holo.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
     </style>
 </resources>

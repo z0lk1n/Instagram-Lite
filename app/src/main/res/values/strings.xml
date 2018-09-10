@@ -18,7 +18,7 @@
     <string name="ask_delete_photo">Delete Photo?</string>
     <string name="ok_button">OK</string>
     <string name="cancel_button" tools:ignore="ButtonCase">CANCEL</string>
-    <string name="file_name_suffix">_.jpg</string>
+    <string name="file_name_suffix">.jpg</string>
     <string name="file_name_prefix">IMG_</string>
     <string name="date_format">yyyyMMdd_HHmmss</string>
     <string name="main_tab">Main</string>
@@ -26,4 +26,6 @@
     <string name="common_title">Common</string>
     <string name="database_title">Database</string>
     <string name="network_title">Network</string>
+
+    <string name="title_activity_fullscreen_photo">FullscreenPhotoActivity</string>
 </resources>

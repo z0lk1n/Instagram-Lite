@@ -90,7 +90,7 @@ public final class FavoritesTabFragment extends Fragment
 
     @Override
     public void onPhotoClick(int position) {
-        new Navigator().showPhotoFragment(
+        new Navigator().openFullscreenPhotoActivity(
                 (AppCompatActivity) getContext(),
                 photoItemList.get(position).getPhotoPath());
     }

@@ -13,7 +13,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -150,8 +149,8 @@ public final class CommonFragment extends Fragment
 
     @Override
     public void showFullPhoto(int position) {
-        new Navigator().showPhotoFragment(
-                (AppCompatActivity) getContext(),
+        new Navigator().openFullscreenPhotoActivity(
+                getContext(),
                 photoItemList.get(position).getPhotoPath());
     }
 
