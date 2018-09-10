@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ToggleButton;
 
 import java.io.File;
 import java.util.List;
@@ -33,7 +34,7 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         void onPhotoLongClick(int position);
 
-        void onFavoritesClick(int position);
+        void onFavoritesClick(boolean isChecked, int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener itemClickListener) {
@@ -61,12 +62,12 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgViewPhoto;
-        ImageView imgFavorites;
+        ToggleButton toggleFavorites;
 
         ViewHolder(@NonNull final View itemView) {
             super(itemView);
             imgViewPhoto = itemView.findViewById(R.id.imgView_picture);
-            imgFavorites = itemView.findViewById(R.id.imgView_favorites);
+            toggleFavorites = itemView.findViewById(R.id.toggle_favorites);
 
             imgViewPhoto.setOnClickListener(view -> {
                 if (itemClickListener != null) {
@@ -80,9 +81,10 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 }
                 return false;
             });
-            imgFavorites.setOnClickListener(view -> {
+
+            toggleFavorites.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (itemClickListener != null) {
-                    itemClickListener.onFavoritesClick(getAdapterPosition());
+                    itemClickListener.onFavoritesClick(isChecked, getAdapterPosition());
                 }
             });
         }
@@ -90,9 +92,7 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         private void bindView(int position) {
             PhotoManager.setPhoto(imgViewPhoto, getFile(position), dimens, dimens);
             if (preferences.getFavorites().contains(photoItemList.get(position).getPhotoPath())) {
-                imgFavorites.setImageResource(R.drawable.ic_star);
-            } else {
-                imgFavorites.setImageResource(R.drawable.ic_star_border);
+                toggleFavorites.setChecked(true);
             }
         }
 

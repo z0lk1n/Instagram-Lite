@@ -20,7 +20,7 @@ public interface CommonPresenter {
 
     void onPhotoLongClick(int position);
 
-    void onFavoritesClick(int position);
+    void onFavoritesClick(boolean isChecked, int position);
 
     void capturePhoto();
 

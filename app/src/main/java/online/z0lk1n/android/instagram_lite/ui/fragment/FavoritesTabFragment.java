@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -91,7 +90,7 @@ public final class FavoritesTabFragment extends Fragment
     @Override
     public void onPhotoClick(int position) {
         new Navigator().openFullscreenPhotoActivity(
-                (AppCompatActivity) getContext(),
+                getContext(),
                 photoItemList.get(position).getPhotoPath());
     }
 
@@ -101,12 +100,14 @@ public final class FavoritesTabFragment extends Fragment
     }
 
     @Override
-    public void onFavoritesClick(int position) {
-        Set<String> favorites = preferences.getFavorites();
-        favorites.remove(photoItemList.get(position).getPhotoPath());
-        preferences.setFavorites(favorites);
-        photoItemList.remove(position);
-        adapter.notifyItemRemoved(position);
+    public void onFavoritesClick(boolean isChecked, int position) {
+        if(!isChecked)   {
+            Set<String> favorites = preferences.getFavorites();
+            favorites.remove(photoItemList.get(position).getPhotoPath());
+            preferences.setFavorites(favorites);
+            photoItemList.remove(position);
+            adapter.notifyItemRemoved(position);
+        }
     }
 
     public void showDeletePhotoDialog(final int position) {

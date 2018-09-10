@@ -48,21 +48,19 @@ public final class CommonPresenterImpl implements CommonPresenter {
     }
 
     @Override
-    public void onFavoritesClick(int position) {
-        addOrRemoveFavorites(position);
+    public void onFavoritesClick(boolean isChecked, int position) {
+        addOrRemoveFavorites(isChecked, position);
     }
 
-    private void addOrRemoveFavorites(int position) {
+    private void addOrRemoveFavorites(boolean isChecked, int position) {
         Set<String> favorites = preferences.getFavorites();
-        if (photoItemList.get(position).isFavorites()) {
-            photoItemList.get(position).setFavorites(false);
-            favorites.remove(photoItemList.get(position).getPhotoPath());
-        } else {
-            photoItemList.get(position).setFavorites(true);
+        photoItemList.get(position).setFavorites(isChecked);
+        if (isChecked) {
             favorites.add(photoItemList.get(position).getPhotoPath());
+        } else {
+            favorites.remove(photoItemList.get(position).getPhotoPath());
         }
         preferences.setFavorites(favorites);
-        commonView.notifyItem(position, Const.NOTIFY_ITEM_CHANGE);
     }
 
     @Override

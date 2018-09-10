@@ -84,7 +84,7 @@ public final class CommonFragment extends Fragment
         return view;
     }
 
-    private void init(View view) {
+    private void init(@NotNull View view) {
         getFilesList();
         adapter = new RecyclerViewAdapter(photoItemList, dimens, preferences);
         adapter.setOnItemClickListener(this);
@@ -134,8 +134,8 @@ public final class CommonFragment extends Fragment
     }
 
     @Override
-    public void onFavoritesClick(int position) {
-        presenter.onFavoritesClick(position);
+    public void onFavoritesClick(boolean isChecked, int position) {
+        presenter.onFavoritesClick(isChecked, position);
     }
 
     @Override
@@ -177,9 +177,6 @@ public final class CommonFragment extends Fragment
     @Override
     public void notifyItem(int position, int action) {
         switch (action) {
-            case Const.NOTIFY_ITEM_CHANGE:
-                adapter.notifyItemChanged(position);
-                break;
             case Const.NOTIFY_ITEM_INSERT:
                 adapter.notifyItemInserted(position);
                 break;
