@@ -26,6 +26,4 @@
     <string name="common_title">Common</string>
     <string name="database_title">Database</string>
     <string name="network_title">Network</string>
-
-    <string name="title_activity_fullscreen_photo">FullscreenPhotoActivity</string>
 </resources>
