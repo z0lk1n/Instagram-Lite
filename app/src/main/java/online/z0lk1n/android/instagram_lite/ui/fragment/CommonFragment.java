@@ -46,7 +46,7 @@ public final class CommonFragment extends Fragment
     public static final String NAME = "cb2d00bb-ca6b-45e6-a501-80f70efa65b9";
     private static final String TAG = "CommonFragment";
 
-    private CommonPresenterImpl presenter;
+    private CommonPresenter presenter;
     private RecyclerViewAdapter adapter;
     private RecyclerView recyclerView;
     private List<PhotoItem> photoItemList;
