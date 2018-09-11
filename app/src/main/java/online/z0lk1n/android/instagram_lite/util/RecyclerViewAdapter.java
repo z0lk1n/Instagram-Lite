@@ -8,9 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ToggleButton;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
 
@@ -43,7 +47,7 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
     @NonNull
     @Override
-    public RecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public RecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater
                 .from(viewGroup.getContext())
                 .inflate(R.layout.item_view, viewGroup, false);
@@ -51,7 +55,7 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     @Override
-    public void onBindViewHolder(final @NonNull RecyclerViewAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(final @NonNull @NotNull RecyclerViewAdapter.ViewHolder viewHolder, int i) {
         viewHolder.bindView(i);
     }
 
@@ -61,13 +65,15 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.imgView_picture)
         ImageView imgViewPhoto;
+        @BindView(R.id.toggle_favorites)
         ToggleButton toggleFavorites;
 
         ViewHolder(@NonNull final View itemView) {
             super(itemView);
-            imgViewPhoto = itemView.findViewById(R.id.imgView_picture);
-            toggleFavorites = itemView.findViewById(R.id.toggle_favorites);
+            ButterKnife.bind(this, itemView);
 
             imgViewPhoto.setOnClickListener(view -> {
                 if (itemClickListener != null) {

@@ -9,6 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.jetbrains.annotations.NotNull;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.util.Navigator;
 
@@ -16,6 +20,9 @@ public final class MainTabFragment extends Fragment {
 
     public static final String NAME = "6a4545d5-b082-40b6-afc7-87e365395a57";
     private static final String TAG = "MainTabFragment";
+
+    @BindView(R.id.bottom_navigation_view)
+    BottomNavigationView bottomNavigationView;
 
     private Navigator navigator;
 
@@ -27,12 +34,11 @@ public final class MainTabFragment extends Fragment {
         return currentFragment;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_tab, container, false);
+        ButterKnife.bind(this, view);
         navigator = new Navigator();
-        BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottom_navigation_view);
         showFragment(bottomNavigationView.getSelectedItemId());
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> showFragment(item.getItemId()));
         return view;

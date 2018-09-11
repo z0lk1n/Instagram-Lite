@@ -11,6 +11,8 @@ import android.widget.ImageView;
 
 import java.io.File;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.util.Const;
 import online.z0lk1n.android.instagram_lite.util.PhotoManager;
@@ -20,10 +22,14 @@ public final class FullscreenPhotoActivity extends AppCompatActivity {
     public static final String NAME = "b9e6ee8c-3f43-457d-ad77-4d99891ef7bc";
     private static final String TAG = "FullscreenPhotoActivity";
 
+    @BindView(R.id.toolbar_fullscreen)
+    Toolbar toolbar;
+    @BindView(R.id.fullscreen_photo)
+    ImageView imageView;
+
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler hideHandler = new Handler();
     private final Runnable hideRunnable = this::hide;
-    private ImageView imageView;
     private boolean isVisible;
 
     private final Runnable hidePart2Runnable = () ->
@@ -45,8 +51,8 @@ public final class FullscreenPhotoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fullscreen_photo);
+        ButterKnife.bind(this);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_fullscreen);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -56,7 +62,6 @@ public final class FullscreenPhotoActivity extends AppCompatActivity {
         }
 
         isVisible = true;
-        imageView = findViewById(R.id.fullscreen_photo);
 
         int width = PhotoManager.calculateWidthOfPhoto(this, 1);
         int height = PhotoManager.calculateHeightOfPhoto(this);

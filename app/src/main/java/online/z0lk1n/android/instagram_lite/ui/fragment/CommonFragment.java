@@ -26,6 +26,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
 import online.z0lk1n.android.instagram_lite.presenter.AndroidResourceManager;
@@ -46,9 +48,13 @@ public final class CommonFragment extends Fragment
     public static final String NAME = "cb2d00bb-ca6b-45e6-a501-80f70efa65b9";
     private static final String TAG = "CommonFragment";
 
+    @BindView(R.id.recycler_view_common)
+    RecyclerView recyclerView;
+    @BindView(R.id.fab_add_picture)
+    FloatingActionButton fab;
+
     private CommonPresenter presenter;
     private RecyclerViewAdapter adapter;
-    private RecyclerView recyclerView;
     private List<PhotoItem> photoItemList;
     private File storageDir;
     private Preferences preferences;
@@ -85,11 +91,12 @@ public final class CommonFragment extends Fragment
     }
 
     private void init(@NotNull View view) {
+        ButterKnife.bind(this, view);
+
         getFilesList();
         adapter = new RecyclerViewAdapter(photoItemList, dimens, preferences);
         adapter.setOnItemClickListener(this);
 
-        recyclerView = view.findViewById(R.id.recycler_view_common);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
@@ -102,7 +109,6 @@ public final class CommonFragment extends Fragment
                 preferences,
                 new AndroidResourceManager(view.getContext()));
 
-        FloatingActionButton fab = view.findViewById(R.id.fab_add_picture);
         fab.setOnClickListener(v -> presenter.capturePhoto());
     }
 

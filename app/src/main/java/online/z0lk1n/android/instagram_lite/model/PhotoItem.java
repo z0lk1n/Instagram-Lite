@@ -1,5 +1,7 @@
 package online.z0lk1n.android.instagram_lite.model;
 
+import org.jetbrains.annotations.Contract;
+
 public final class PhotoItem {
 
     private static final String TAG = "PhotoItem";
@@ -12,10 +14,12 @@ public final class PhotoItem {
         this.isFavorites = isFavorites;
     }
 
+    @Contract(pure = true)
     public String getPhotoPath() {
         return photoPath;
     }
 
+    @Contract(pure = true)
     public boolean isFavorites() {
         return isFavorites;
     }
