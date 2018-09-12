@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
-import online.z0lk1n.android.instagram_lite.util.managers.Navigator;
+import online.z0lk1n.android.instagram_lite.util.Navigator;
 
 public final class MainTabFragment extends Fragment {
 

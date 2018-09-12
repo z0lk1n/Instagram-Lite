@@ -5,9 +5,11 @@ public interface ResourceManager {
 
     String getFileNamePrefix();
 
-    String getFIleNameSuffix();
+    String getFileNameSuffix();
 
     String getPhotoUploaded();
 
     String getPhotoDeleted();
+
+    String getFailCapturePhoto();
 }

@@ -25,10 +25,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
-import online.z0lk1n.android.instagram_lite.util.managers.Navigator;
-import online.z0lk1n.android.instagram_lite.util.managers.PhotoManager;
+import online.z0lk1n.android.instagram_lite.util.Navigator;
 import online.z0lk1n.android.instagram_lite.util.Preferences;
 import online.z0lk1n.android.instagram_lite.util.adapters.RecyclerViewAdapter;
+import online.z0lk1n.android.instagram_lite.util.managers.PhotoManager;
 
 public final class FavoritesTabFragment extends Fragment
         implements RecyclerViewAdapter.OnItemClickListener {

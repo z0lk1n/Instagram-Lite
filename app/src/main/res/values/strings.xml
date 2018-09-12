@@ -26,4 +26,5 @@
     <string name="common_title">Common</string>
     <string name="database_title">Database</string>
     <string name="network_title">Network</string>
+    <string name="fail_capture_photo">Fail capture photo!</string>
 </resources>

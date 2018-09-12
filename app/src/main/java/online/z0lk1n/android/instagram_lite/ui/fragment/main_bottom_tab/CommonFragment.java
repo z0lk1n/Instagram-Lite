@@ -2,7 +2,6 @@ package online.z0lk1n.android.instagram_lite.ui.fragment.main_bottom_tab;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -11,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -27,7 +25,6 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,10 +37,10 @@ import online.z0lk1n.android.instagram_lite.model.PhotoItem;
 import online.z0lk1n.android.instagram_lite.presentation.presenter.common.CommonPresenter;
 import online.z0lk1n.android.instagram_lite.presentation.view.common.CommonView;
 import online.z0lk1n.android.instagram_lite.util.Const;
+import online.z0lk1n.android.instagram_lite.util.Navigator;
 import online.z0lk1n.android.instagram_lite.util.Preferences;
 import online.z0lk1n.android.instagram_lite.util.adapters.RecyclerViewAdapter;
 import online.z0lk1n.android.instagram_lite.util.managers.AndroidResourceManager;
-import online.z0lk1n.android.instagram_lite.util.managers.Navigator;
 import online.z0lk1n.android.instagram_lite.util.managers.PhotoManager;
 
 import static android.app.Activity.RESULT_CANCELED;
@@ -63,11 +60,11 @@ public final class CommonFragment extends MvpAppCompatFragment
     @InjectPresenter
     CommonPresenter presenter;
 
+    @NotNull
     @ProvidePresenter
     public CommonPresenter provideCommonPresenter() {
         return new CommonPresenter(
                 photoItemList,
-                storageDir,
                 preferences,
                 new AndroidResourceManager(getContext()));
     }
@@ -78,6 +75,7 @@ public final class CommonFragment extends MvpAppCompatFragment
     private Preferences preferences;
     private GridLayoutManager layoutManager;
     private int dimens;
+    private String currentFilePath;
 
     public static CommonFragment newInstance(Bundle bundle) {
         CommonFragment currentFragment = new CommonFragment();
@@ -124,16 +122,28 @@ public final class CommonFragment extends MvpAppCompatFragment
     }
 
     @Override
-    public void startCamera(File file) {
+    public void startCamera(String fileName, String suffix) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (getActivity() != null) {
             if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                Uri photoUri = FileProvider.getUriForFile(
-                        getActivity(),
-                        getString(R.string.package_name),
-                        file);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                startActivityForResult(takePictureIntent, Const.PHOTO_CAMERA_REQUEST);
+                File photoFile = null;
+                try {
+                    photoFile = File.createTempFile(fileName, suffix, storageDir);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (photoFile != null) {
+                    currentFilePath = photoFile.getAbsolutePath();
+
+                    Uri photoUri = FileProvider.getUriForFile(
+                            getActivity(),
+                            getString(R.string.package_name),
+                            photoFile);
+
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                    startActivityForResult(takePictureIntent, Const.PHOTO_CAMERA_REQUEST);
+                }
             }
         }
     }
@@ -144,10 +154,10 @@ public final class CommonFragment extends MvpAppCompatFragment
         if (requestCode == Const.PHOTO_CAMERA_REQUEST) {
             switch (resultCode) {
                 case RESULT_OK:
-                    presenter.addPhoto();
+                    presenter.addPhoto(currentFilePath);
                     break;
                 case RESULT_CANCELED:
-                    presenter.deletePhoto(Const.OUT_OF_ARRAY_POSITION);
+                    presenter.failCapturePhoto(currentFilePath);
                     break;
                 default:
                     break;
@@ -180,10 +190,8 @@ public final class CommonFragment extends MvpAppCompatFragment
     }
 
     @Override
-    public void showFullPhoto(int position) {
-        new Navigator().openFullscreenPhotoActivity(
-                getContext(),
-                photoItemList.get(position).getPhotoPath());
+    public void showFullPhoto(String photoPath) {
+        new Navigator().openFullscreenPhotoActivity(getContext(), photoPath);
     }
 
     @Override

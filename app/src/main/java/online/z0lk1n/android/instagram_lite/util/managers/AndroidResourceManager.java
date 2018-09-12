@@ -26,7 +26,7 @@ public final class AndroidResourceManager implements ResourceManager {
 
     @NonNull
     @Override
-    public String getFIleNameSuffix() {
+    public String getFileNameSuffix() {
         return context.getResources().getString(R.string.file_name_suffix);
     }
 
@@ -40,5 +40,11 @@ public final class AndroidResourceManager implements ResourceManager {
     @Override
     public String getPhotoDeleted() {
         return context.getResources().getString(R.string.photo_deleted);
+    }
+
+    @NonNull
+    @Override
+    public String getFailCapturePhoto() {
+        return context.getResources().getString(R.string.fail_capture_photo);
     }
 }

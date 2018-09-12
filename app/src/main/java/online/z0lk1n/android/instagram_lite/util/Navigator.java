@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.util.managers;
+package online.z0lk1n.android.instagram_lite.util;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +15,6 @@ import online.z0lk1n.android.instagram_lite.ui.fragment.main_bottom_tab.CommonFr
 import online.z0lk1n.android.instagram_lite.ui.fragment.main_bottom_tab.DatabaseFragment;
 import online.z0lk1n.android.instagram_lite.ui.fragment.main_bottom_tab.NetworkFragment;
 import online.z0lk1n.android.instagram_lite.ui.fragment.settings.SettingsFragment;
-import online.z0lk1n.android.instagram_lite.util.Const;
 
 public final class Navigator {
 

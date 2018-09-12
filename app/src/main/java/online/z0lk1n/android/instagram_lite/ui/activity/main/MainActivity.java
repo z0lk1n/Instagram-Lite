@@ -16,9 +16,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.ui.activity.BaseActivity;
-import online.z0lk1n.android.instagram_lite.util.adapters.CustomFragmentPagerAdapter;
-import online.z0lk1n.android.instagram_lite.util.managers.Navigator;
+import online.z0lk1n.android.instagram_lite.util.Navigator;
 import online.z0lk1n.android.instagram_lite.util.TabFragmentFactory;
+import online.z0lk1n.android.instagram_lite.util.adapters.CustomFragmentPagerAdapter;
 
 public final class MainActivity extends BaseActivity implements
         NavigationView.OnNavigationItemSelectedListener {
