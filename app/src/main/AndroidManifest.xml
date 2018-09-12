@@ -31,7 +31,7 @@
             android:label="@string/settings" />
 
         <activity
-            android:name=".ui.activity.fullscreen.FullscreenPhotoActivity"
+            android:name=".ui.activity.fullscreen_photo.FullscreenPhotoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/ThemeFullscreen" />
 
@@ -43,7 +43,6 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-
         </provider>
 
     </application>

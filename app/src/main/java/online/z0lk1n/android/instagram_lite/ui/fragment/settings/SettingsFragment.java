@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.ui.fragment;
+package online.z0lk1n.android.instagram_lite.ui.fragment.settings;
 
 import android.content.Intent;
 import android.os.Bundle;

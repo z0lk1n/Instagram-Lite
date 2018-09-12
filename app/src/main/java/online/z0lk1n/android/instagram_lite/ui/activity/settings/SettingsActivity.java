@@ -9,7 +9,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.ui.activity.BaseActivity;
-import online.z0lk1n.android.instagram_lite.util.Navigator;
+import online.z0lk1n.android.instagram_lite.util.managers.Navigator;
 
 public final class SettingsActivity extends BaseActivity {
 

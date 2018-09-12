@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.util;
+package online.z0lk1n.android.instagram_lite.util.managers;
 
 import android.content.Context;
 import android.support.media.ExifInterface;

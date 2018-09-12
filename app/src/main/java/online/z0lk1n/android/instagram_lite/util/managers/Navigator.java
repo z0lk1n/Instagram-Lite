@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.util;
+package online.z0lk1n.android.instagram_lite.util.managers;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,12 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 import org.jetbrains.annotations.NotNull;
 
 import online.z0lk1n.android.instagram_lite.R;
-import online.z0lk1n.android.instagram_lite.ui.activity.fullscreen.FullscreenPhotoActivity;
+import online.z0lk1n.android.instagram_lite.ui.activity.fullscreen_photo.FullscreenPhotoActivity;
 import online.z0lk1n.android.instagram_lite.ui.activity.settings.SettingsActivity;
-import online.z0lk1n.android.instagram_lite.ui.fragment.CommonFragment;
-import online.z0lk1n.android.instagram_lite.ui.fragment.DatabaseFragment;
-import online.z0lk1n.android.instagram_lite.ui.fragment.NetworkFragment;
-import online.z0lk1n.android.instagram_lite.ui.fragment.SettingsFragment;
+import online.z0lk1n.android.instagram_lite.ui.fragment.main_bottom_tab.CommonFragment;
+import online.z0lk1n.android.instagram_lite.ui.fragment.main_bottom_tab.DatabaseFragment;
+import online.z0lk1n.android.instagram_lite.ui.fragment.main_bottom_tab.NetworkFragment;
+import online.z0lk1n.android.instagram_lite.ui.fragment.settings.SettingsFragment;
+import online.z0lk1n.android.instagram_lite.util.Const;
 
 public final class Navigator {
 

@@ -1,7 +1,8 @@
-package online.z0lk1n.android.instagram_lite.ui.fragment;
+package online.z0lk1n.android.instagram_lite.ui.fragment.main_bottom_tab;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,12 +21,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,17 +39,17 @@ import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
 import online.z0lk1n.android.instagram_lite.presentation.presenter.common.CommonPresenter;
 import online.z0lk1n.android.instagram_lite.presentation.view.common.CommonView;
-import online.z0lk1n.android.instagram_lite.util.AndroidResourceManager;
 import online.z0lk1n.android.instagram_lite.util.Const;
-import online.z0lk1n.android.instagram_lite.util.Navigator;
-import online.z0lk1n.android.instagram_lite.util.PhotoManager;
 import online.z0lk1n.android.instagram_lite.util.Preferences;
-import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
+import online.z0lk1n.android.instagram_lite.util.adapters.RecyclerViewAdapter;
+import online.z0lk1n.android.instagram_lite.util.managers.AndroidResourceManager;
+import online.z0lk1n.android.instagram_lite.util.managers.Navigator;
+import online.z0lk1n.android.instagram_lite.util.managers.PhotoManager;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public final class CommonFragment extends Fragment
+public final class CommonFragment extends MvpAppCompatFragment
         implements RecyclerViewAdapter.OnItemClickListener, CommonView {
 
     public static final String NAME = "cb2d00bb-ca6b-45e6-a501-80f70efa65b9";
@@ -59,12 +63,20 @@ public final class CommonFragment extends Fragment
     @InjectPresenter
     CommonPresenter presenter;
 
+    @ProvidePresenter
+    public CommonPresenter provideCommonPresenter() {
+        return new CommonPresenter(
+                photoItemList,
+                storageDir,
+                preferences,
+                new AndroidResourceManager(getContext()));
+    }
+
     private RecyclerViewAdapter adapter;
     private List<PhotoItem> photoItemList;
     private File storageDir;
     private Preferences preferences;
     private GridLayoutManager layoutManager;
-    private AndroidResourceManager resourceManager;
     private int dimens;
 
     public static CommonFragment newInstance(Bundle bundle) {
@@ -96,20 +108,8 @@ public final class CommonFragment extends Fragment
         return view;
     }
 
-    @ProvidePresenter
-    public CommonPresenter provideCommonPresenter() {
-        presenter = new CommonPresenter(
-                photoItemList,
-                storageDir,
-                preferences,
-                resourceManager);
-        return presenter;
-    }
-
     private void init(@NotNull View view) {
         ButterKnife.bind(this, view);
-
-        resourceManager = new AndroidResourceManager(getContext());
 
         getFilesList();
         adapter = new RecyclerViewAdapter(photoItemList, dimens, preferences);
@@ -121,6 +121,21 @@ public final class CommonFragment extends Fragment
         recyclerView.setAdapter(adapter);
 
         fab.setOnClickListener(v -> presenter.capturePhoto());
+    }
+
+    @Override
+    public void startCamera(File file) {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (getActivity() != null) {
+            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                Uri photoUri = FileProvider.getUriForFile(
+                        getActivity(),
+                        getString(R.string.package_name),
+                        file);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                startActivityForResult(takePictureIntent, Const.PHOTO_CAMERA_REQUEST);
+            }
+        }
     }
 
     @Override
@@ -169,21 +184,6 @@ public final class CommonFragment extends Fragment
         new Navigator().openFullscreenPhotoActivity(
                 getContext(),
                 photoItemList.get(position).getPhotoPath());
-    }
-
-    @Override
-    public void startCamera(File file) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (getActivity() != null) {
-            if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-                Uri photoUri = FileProvider.getUriForFile(
-                        getActivity(),
-                        getString(R.string.package_name),
-                        file);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                startActivityForResult(intent, Const.PHOTO_CAMERA_REQUEST);
-            }
-        }
     }
 
     @Override

@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.ui.fragment;
+package online.z0lk1n.android.instagram_lite.ui.fragment.main_bottom_tab;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

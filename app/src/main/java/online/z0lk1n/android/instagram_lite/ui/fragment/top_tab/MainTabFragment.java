@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.ui.fragment;
+package online.z0lk1n.android.instagram_lite.ui.fragment.top_tab;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
-import online.z0lk1n.android.instagram_lite.util.Navigator;
+import online.z0lk1n.android.instagram_lite.util.managers.Navigator;
 
 public final class MainTabFragment extends Fragment {
 

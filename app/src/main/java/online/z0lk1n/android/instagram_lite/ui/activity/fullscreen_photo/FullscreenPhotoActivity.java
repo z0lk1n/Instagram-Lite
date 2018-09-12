@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.ui.activity.fullscreen;
+package online.z0lk1n.android.instagram_lite.ui.activity.fullscreen_photo;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,7 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.util.Const;
-import online.z0lk1n.android.instagram_lite.util.PhotoManager;
+import online.z0lk1n.android.instagram_lite.util.managers.PhotoManager;
 
 public final class FullscreenPhotoActivity extends AppCompatActivity {
 
