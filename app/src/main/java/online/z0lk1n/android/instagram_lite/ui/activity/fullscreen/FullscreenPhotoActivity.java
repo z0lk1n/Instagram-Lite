@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.ui.activity;
+package online.z0lk1n.android.instagram_lite.ui.activity.fullscreen;
 
 import android.os.Bundle;
 import android.os.Handler;

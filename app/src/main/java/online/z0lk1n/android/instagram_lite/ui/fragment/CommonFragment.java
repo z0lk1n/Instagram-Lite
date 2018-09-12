@@ -20,6 +20,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -30,9 +33,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
-import online.z0lk1n.android.instagram_lite.presenter.AndroidResourceManager;
-import online.z0lk1n.android.instagram_lite.presenter.CommonPresenter;
-import online.z0lk1n.android.instagram_lite.presenter.CommonPresenterImpl;
+import online.z0lk1n.android.instagram_lite.presentation.presenter.common.CommonPresenter;
+import online.z0lk1n.android.instagram_lite.presentation.view.common.CommonView;
+import online.z0lk1n.android.instagram_lite.util.AndroidResourceManager;
 import online.z0lk1n.android.instagram_lite.util.Const;
 import online.z0lk1n.android.instagram_lite.util.Navigator;
 import online.z0lk1n.android.instagram_lite.util.PhotoManager;
@@ -43,7 +46,7 @@ import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 public final class CommonFragment extends Fragment
-        implements RecyclerViewAdapter.OnItemClickListener, CommonPresenter.CommonView {
+        implements RecyclerViewAdapter.OnItemClickListener, CommonView {
 
     public static final String NAME = "cb2d00bb-ca6b-45e6-a501-80f70efa65b9";
     private static final String TAG = "CommonFragment";
@@ -53,12 +56,15 @@ public final class CommonFragment extends Fragment
     @BindView(R.id.fab_add_picture)
     FloatingActionButton fab;
 
-    private CommonPresenter presenter;
+    @InjectPresenter
+    CommonPresenter presenter;
+
     private RecyclerViewAdapter adapter;
     private List<PhotoItem> photoItemList;
     private File storageDir;
     private Preferences preferences;
     private GridLayoutManager layoutManager;
+    private AndroidResourceManager resourceManager;
     private int dimens;
 
     public static CommonFragment newInstance(Bundle bundle) {
@@ -90,8 +96,20 @@ public final class CommonFragment extends Fragment
         return view;
     }
 
+    @ProvidePresenter
+    public CommonPresenter provideCommonPresenter() {
+        presenter = new CommonPresenter(
+                photoItemList,
+                storageDir,
+                preferences,
+                resourceManager);
+        return presenter;
+    }
+
     private void init(@NotNull View view) {
         ButterKnife.bind(this, view);
+
+        resourceManager = new AndroidResourceManager(getContext());
 
         getFilesList();
         adapter = new RecyclerViewAdapter(photoItemList, dimens, preferences);
@@ -101,13 +119,6 @@ public final class CommonFragment extends Fragment
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
-
-        presenter = new CommonPresenterImpl(
-                this,
-                photoItemList,
-                storageDir,
-                preferences,
-                new AndroidResourceManager(view.getContext()));
 
         fab.setOnClickListener(v -> presenter.capturePhoto());
     }

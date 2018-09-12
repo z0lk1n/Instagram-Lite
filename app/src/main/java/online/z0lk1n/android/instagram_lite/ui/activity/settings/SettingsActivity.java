@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.ui.activity;
+package online.z0lk1n.android.instagram_lite.ui.activity.settings;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
+import online.z0lk1n.android.instagram_lite.ui.activity.BaseActivity;
 import online.z0lk1n.android.instagram_lite.util.Navigator;
 
 public final class SettingsActivity extends BaseActivity {

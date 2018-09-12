@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.presenter;
+package online.z0lk1n.android.instagram_lite.util;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.ui.activity;
+package online.z0lk1n.android.instagram_lite.ui.activity.main;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
+import online.z0lk1n.android.instagram_lite.ui.activity.BaseActivity;
 import online.z0lk1n.android.instagram_lite.util.CustomFragmentPagerAdapter;
 import online.z0lk1n.android.instagram_lite.util.Navigator;
 import online.z0lk1n.android.instagram_lite.util.TabFragmentFactory;

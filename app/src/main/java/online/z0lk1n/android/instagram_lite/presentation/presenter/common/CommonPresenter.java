@@ -1,4 +1,7 @@
-package online.z0lk1n.android.instagram_lite.presenter;
+package online.z0lk1n.android.instagram_lite.presentation.presenter.common;
+
+import com.arellomobile.mvp.InjectViewState;
+import com.arellomobile.mvp.MvpPresenter;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -11,43 +14,41 @@ import java.util.Locale;
 import java.util.Set;
 
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
+import online.z0lk1n.android.instagram_lite.presentation.view.common.CommonView;
+import online.z0lk1n.android.instagram_lite.util.AndroidResourceManager;
 import online.z0lk1n.android.instagram_lite.util.Const;
 import online.z0lk1n.android.instagram_lite.util.Preferences;
+import online.z0lk1n.android.instagram_lite.util.ResourceManager;
 
-public final class CommonPresenterImpl implements CommonPresenter {
+@InjectViewState
+public final class CommonPresenter extends MvpPresenter<CommonView> {
 
-    private static final String TAG = "CommonPresenterImpl";
+    private static final String TAG = "CommonPresenter";
 
-    private final CommonView commonView;
     private final File storageDir;
     private final Preferences preferences;
     private final ResourceManager resourceManager;
     private List<PhotoItem> photoItemList;
     private String currentFilePath;
 
-    public CommonPresenterImpl(CommonView commonView,
-                               List<PhotoItem> photoItemList,
-                               File storageDir,
-                               Preferences preferences,
-                               AndroidResourceManager resourceManager) {
-        this.commonView = commonView;
+    public CommonPresenter(List<PhotoItem> photoItemList,
+                           File storageDir,
+                           Preferences preferences,
+                           AndroidResourceManager resourceManager) {
         this.photoItemList = photoItemList;
         this.storageDir = storageDir;
         this.preferences = preferences;
         this.resourceManager = resourceManager;
     }
 
-    @Override
     public void onPhotoClick(int position) {
-        commonView.showFullPhoto(position);
+        getViewState().showFullPhoto(position);
     }
 
-    @Override
     public void onPhotoLongClick(int position) {
-        commonView.showDeletePhotoDialog(position);
+        getViewState().showDeletePhotoDialog(position);
     }
 
-    @Override
     public void onFavoritesClick(boolean isChecked, int position) {
         addOrRemoveFavorites(isChecked, position);
     }
@@ -63,7 +64,6 @@ public final class CommonPresenterImpl implements CommonPresenter {
         preferences.setFavorites(favorites);
     }
 
-    @Override
     public void capturePhoto() {
         File photoFile = null;
         try {
@@ -73,7 +73,7 @@ public final class CommonPresenterImpl implements CommonPresenter {
         }
         if (photoFile != null) {
             currentFilePath = photoFile.getPath();
-            commonView.startCamera(photoFile);
+            getViewState().startCamera(photoFile);
         }
     }
 
@@ -84,22 +84,20 @@ public final class CommonPresenterImpl implements CommonPresenter {
         return File.createTempFile(imageFileName, resourceManager.getFIleNameSuffix(), storageDir);
     }
 
-    @Override
     public void addPhoto() {
         photoItemList.add(new PhotoItem(currentFilePath, false));
-        commonView.notifyItem(photoItemList.size() - 1, Const.NOTIFY_ITEM_INSERT);
-        commonView.showNotifyingMessage(resourceManager.getPhotoUploaded());
+        getViewState().notifyItem(photoItemList.size() - 1, Const.NOTIFY_ITEM_INSERT);
+        getViewState().showNotifyingMessage(resourceManager.getPhotoUploaded());
     }
 
-    @Override
     public void deletePhoto(int position) {
         if (position == Const.OUT_OF_ARRAY_POSITION) {
             new File(currentFilePath).delete();
         } else {
             if (new File(photoItemList.get(position).getPhotoPath()).delete()) {
                 photoItemList.remove(position);
-                commonView.notifyItem(position, Const.NOTIFY_ITEM_REMOVE);
-                commonView.showNotifyingMessage(resourceManager.getPhotoDeleted());
+                getViewState().notifyItem(position, Const.NOTIFY_ITEM_REMOVE);
+                getViewState().showNotifyingMessage(resourceManager.getPhotoDeleted());
             }
         }
     }

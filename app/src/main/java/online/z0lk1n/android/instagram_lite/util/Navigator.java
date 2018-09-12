@@ -9,8 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import org.jetbrains.annotations.NotNull;
 
 import online.z0lk1n.android.instagram_lite.R;
-import online.z0lk1n.android.instagram_lite.ui.activity.FullscreenPhotoActivity;
-import online.z0lk1n.android.instagram_lite.ui.activity.SettingsActivity;
+import online.z0lk1n.android.instagram_lite.ui.activity.fullscreen.FullscreenPhotoActivity;
+import online.z0lk1n.android.instagram_lite.ui.activity.settings.SettingsActivity;
 import online.z0lk1n.android.instagram_lite.ui.fragment.CommonFragment;
 import online.z0lk1n.android.instagram_lite.ui.fragment.DatabaseFragment;
 import online.z0lk1n.android.instagram_lite.ui.fragment.NetworkFragment;
