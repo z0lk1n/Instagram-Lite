@@ -6,5 +6,5 @@ import com.arellomobile.mvp.MvpPresenter;
 import online.z0lk1n.android.instagram_lite.presentation.view.main_bottom_tab.DatabaseView;
 
 @InjectViewState
-public class DatabasePresenter extends MvpPresenter<DatabaseView> {
+public final class DatabasePresenter extends MvpPresenter<DatabaseView> {
 }

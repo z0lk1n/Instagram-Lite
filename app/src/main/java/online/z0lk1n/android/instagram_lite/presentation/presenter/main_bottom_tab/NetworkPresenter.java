@@ -6,5 +6,5 @@ import com.arellomobile.mvp.MvpPresenter;
 import online.z0lk1n.android.instagram_lite.presentation.view.main_bottom_tab.NetworkView;
 
 @InjectViewState
-public class NetworkPresenter extends MvpPresenter<NetworkView> {
+public final class NetworkPresenter extends MvpPresenter<NetworkView> {
 }
