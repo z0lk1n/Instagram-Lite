@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="ThemeStandard" parent="AppTheme.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -25,5 +26,13 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
         <item name="appBarLayoutStyle">@style/standard_AppBarLayoutStyle.Dark</item>
         <item name="fabStyle">@style/fabStyle.Dark</item>
+    </style>
+
+    <style name="ThemeFullscreen" parent="AppTheme.NoActionBar">
+        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
     </style>
 </resources>

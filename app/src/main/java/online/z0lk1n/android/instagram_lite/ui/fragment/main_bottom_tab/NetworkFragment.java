@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.ui.fragment;
+package online.z0lk1n.android.instagram_lite.ui.fragment.main_bottom_tab;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,10 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import online.z0lk1n.android.instagram_lite.R;
-import online.z0lk1n.android.instagram_lite.ui.activity.MainActivity;
+import org.jetbrains.annotations.NotNull;
 
-public class NetworkFragment extends Fragment {
+import online.z0lk1n.android.instagram_lite.R;
+
+public final class NetworkFragment extends Fragment {
 
     public static final String NAME = "676e7daa-88da-437c-b675-4075f66de676";
     private static final String TAG = "NetworkFragment";
@@ -26,13 +27,12 @@ public class NetworkFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_network, container, false);
         init(view);
         return view;
     }
 
     private void init(View view) {
-        ((MainActivity) getActivity()).hideFloatingActionButton();
     }
 }

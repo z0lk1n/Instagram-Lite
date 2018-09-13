@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.util;
+package online.z0lk1n.android.instagram_lite.util.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -6,32 +6,41 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ToggleButton;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
+import online.z0lk1n.android.instagram_lite.util.Preferences;
+import online.z0lk1n.android.instagram_lite.util.managers.PhotoManager;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private static final String TAG = "RecyclerViewAdapter";
 
     private List<PhotoItem> photoItemList;
     private OnItemClickListener itemClickListener;
+    private Preferences preferences;
     private int dimens;
 
-    public RecyclerViewAdapter(List<PhotoItem> photoItemList, int dimens) {
+    public RecyclerViewAdapter(List<PhotoItem> photoItemList, int dimens, Preferences preferences) {
         this.photoItemList = photoItemList;
         this.dimens = dimens;
+        this.preferences = preferences;
     }
 
     public interface OnItemClickListener {
-        void onPhotoClick(View view, int position);
+        void onPhotoClick(int position);
 
-        void onPhotoLongClick(View view, int position);
+        void onPhotoLongClick(int position);
 
-        void onFavoritesClick(int position);
+        void onFavoritesClick(boolean isChecked, int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener itemClickListener) {
@@ -40,7 +49,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @NonNull
     @Override
-    public RecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public RecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater
                 .from(viewGroup.getContext())
                 .inflate(R.layout.item_view, viewGroup, false);
@@ -48,7 +57,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(final @NonNull RecyclerViewAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(final @NonNull @NotNull RecyclerViewAdapter.ViewHolder viewHolder, int i) {
         viewHolder.bindView(i);
     }
 
@@ -58,39 +67,40 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.imgView_picture)
         ImageView imgViewPhoto;
-        ImageView imgFavorites;
+        @BindView(R.id.toggle_favorites)
+        ToggleButton toggleFavorites;
 
         ViewHolder(@NonNull final View itemView) {
             super(itemView);
-            imgViewPhoto = itemView.findViewById(R.id.imgView_picture);
-            imgFavorites = itemView.findViewById(R.id.imgView_favorites);
+            ButterKnife.bind(this, itemView);
 
             imgViewPhoto.setOnClickListener(view -> {
                 if (itemClickListener != null) {
-                    itemClickListener.onPhotoClick(itemView, getAdapterPosition());
+                    itemClickListener.onPhotoClick(getAdapterPosition());
                 }
             });
             imgViewPhoto.setOnLongClickListener(view -> {
                 if (itemClickListener != null) {
-                    itemClickListener.onPhotoLongClick(itemView, getAdapterPosition());
+                    itemClickListener.onPhotoLongClick(getAdapterPosition());
                     return true;
                 }
                 return false;
             });
-            imgFavorites.setOnClickListener(view -> {
+
+            toggleFavorites.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (itemClickListener != null) {
-                    itemClickListener.onFavoritesClick(getAdapterPosition());
+                    itemClickListener.onFavoritesClick(isChecked, getAdapterPosition());
                 }
             });
         }
 
         private void bindView(int position) {
             PhotoManager.setPhoto(imgViewPhoto, getFile(position), dimens, dimens);
-            if (photoItemList.get(position).isFavorites()) {
-                imgFavorites.setImageResource(R.drawable.ic_star);
-            } else {
-                imgFavorites.setImageResource(R.drawable.ic_star_border);
+            if (preferences.getFavorites().contains(photoItemList.get(position).getPhotoPath())) {
+                toggleFavorites.setChecked(true);
             }
         }
 

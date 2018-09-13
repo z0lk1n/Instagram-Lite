@@ -7,7 +7,10 @@ import android.content.SharedPreferences;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-public class Preferences {
+import java.util.HashSet;
+import java.util.Set;
+
+public final class Preferences {
 
     private static final String TAG = "Preferences";
 
@@ -20,20 +23,20 @@ public class Preferences {
         editor = sharedPref.edit();
     }
 
+    public Set<String> getFavorites()   {
+        return sharedPref.getStringSet(Const.KEY_PREF_FAVORITES_LIST, new HashSet<>());
+    }
+
+    public void setFavorites(Set<String> favoritesSet) {
+        editor.putStringSet(Const.KEY_PREF_FAVORITES_LIST, favoritesSet).apply();
+    }
+
     public Theme getTheme() {
         return parseTheme(sharedPref.getString(Const.KEY_PREF_THEME, Const.KEY_PREF_STANDARD_THEME));
     }
 
     public void setTheme(Theme theme) {
         editor.putString(Const.KEY_PREF_THEME, mapThemeToString(theme)).apply();
-    }
-
-    public String getPhoto() {
-        return sharedPref.getString(Const.KEY_PREF_PHOTO, null);
-    }
-
-    public void setPhoto(String path) {
-        editor.putString(Const.KEY_PREF_PHOTO, path).apply();
     }
 
     @Contract(pure = true)

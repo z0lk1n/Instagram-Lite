@@ -1,8 +1,7 @@
-package online.z0lk1n.android.instagram_lite.ui.activity;
+package online.z0lk1n.android.instagram_lite.ui.activity.main;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -13,19 +12,31 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
-import online.z0lk1n.android.instagram_lite.util.CustomFragmentPagerAdapter;
+import online.z0lk1n.android.instagram_lite.ui.activity.BaseActivity;
 import online.z0lk1n.android.instagram_lite.util.Navigator;
 import online.z0lk1n.android.instagram_lite.util.TabFragmentFactory;
+import online.z0lk1n.android.instagram_lite.util.adapters.CustomFragmentPagerAdapter;
 
-public class MainActivity extends BaseActivity implements
+public final class MainActivity extends BaseActivity implements
         NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "MainActivity";
 
-    private DrawerLayout drawer;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.container_view_pager)
+    ViewPager viewPager;
+    @BindView(R.id.table_layout)
+    TabLayout tabLayout;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+
     private Navigator navigator;
-    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,25 +46,20 @@ public class MainActivity extends BaseActivity implements
 
     private void init() {
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         TabFragmentFactory tabFragmentFactory = new TabFragmentFactory();
         CustomFragmentPagerAdapter customFragmentPagerAdapter
                 = new CustomFragmentPagerAdapter(getSupportFragmentManager(), tabFragmentFactory);
 
-        ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(customFragmentPagerAdapter);
-
-        TabLayout tabLayout = findViewById(R.id.table_layout);
         tabLayout.setupWithViewPager(viewPager);
-
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
 
         navigator = new Navigator();
-        drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 MainActivity.this,
                 drawer,
@@ -63,10 +69,7 @@ public class MainActivity extends BaseActivity implements
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(MainActivity.this);
-
-        fab = findViewById(R.id.fab_add_picture);
     }
 
     @Override
@@ -80,7 +83,7 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -107,13 +110,5 @@ public class MainActivity extends BaseActivity implements
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public void showFloatingActionButton() {
-        fab.show();
-    }
-
-    public void hideFloatingActionButton() {
-        fab.hide();
     }
 }
