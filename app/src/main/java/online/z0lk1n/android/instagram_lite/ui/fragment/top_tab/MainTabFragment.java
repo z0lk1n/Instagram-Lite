@@ -4,10 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.arellomobile.mvp.MvpAppCompatFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -16,7 +17,7 @@ import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.util.Navigator;
 
-public final class MainTabFragment extends Fragment {
+public final class MainTabFragment extends MvpAppCompatFragment {
 
     public static final String NAME = "6a4545d5-b082-40b6-afc7-87e365395a57";
     private static final String TAG = "MainTabFragment";

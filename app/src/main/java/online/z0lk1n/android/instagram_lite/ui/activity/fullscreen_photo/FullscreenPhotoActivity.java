@@ -4,10 +4,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.media.ExifInterface;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.arellomobile.mvp.MvpAppCompatActivity;
 
 import java.io.File;
 
@@ -17,7 +18,7 @@ import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.util.Const;
 import online.z0lk1n.android.instagram_lite.util.managers.PhotoManager;
 
-public final class FullscreenPhotoActivity extends AppCompatActivity {
+public final class FullscreenPhotoActivity extends MvpAppCompatActivity {
 
     public static final String NAME = "b9e6ee8c-3f43-457d-ad77-4d99891ef7bc";
     private static final String TAG = "FullscreenPhotoActivity";

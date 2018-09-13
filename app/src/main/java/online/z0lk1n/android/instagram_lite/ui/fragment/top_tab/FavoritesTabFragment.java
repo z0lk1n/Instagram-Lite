@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,6 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.arellomobile.mvp.MvpAppCompatFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -30,7 +31,7 @@ import online.z0lk1n.android.instagram_lite.util.Preferences;
 import online.z0lk1n.android.instagram_lite.util.adapters.RecyclerViewAdapter;
 import online.z0lk1n.android.instagram_lite.util.managers.PhotoManager;
 
-public final class FavoritesTabFragment extends Fragment
+public final class FavoritesTabFragment extends MvpAppCompatFragment
         implements RecyclerViewAdapter.OnItemClickListener {
 
     public static final String NAME = "187f27ee-e044-4772-a683-858eaa67a0f4";

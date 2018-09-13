@@ -3,16 +3,17 @@ package online.z0lk1n.android.instagram_lite.ui.fragment.main_bottom_tab;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.arellomobile.mvp.MvpAppCompatFragment;
 
 import org.jetbrains.annotations.NotNull;
 
 import online.z0lk1n.android.instagram_lite.R;
 
-public final class NetworkFragment extends Fragment {
+public final class NetworkFragment extends MvpAppCompatFragment {
 
     public static final String NAME = "676e7daa-88da-437c-b675-4075f66de676";
     private static final String TAG = "NetworkFragment";

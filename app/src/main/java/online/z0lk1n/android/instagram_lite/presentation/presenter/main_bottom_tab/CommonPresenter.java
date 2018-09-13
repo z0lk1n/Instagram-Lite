@@ -1,4 +1,6 @@
-package online.z0lk1n.android.instagram_lite.presentation.presenter.common;
+package online.z0lk1n.android.instagram_lite.presentation.presenter.main_bottom_tab;
+
+import android.support.annotation.NonNull;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
@@ -11,7 +13,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import online.z0lk1n.android.instagram_lite.model.PhotoItem;
-import online.z0lk1n.android.instagram_lite.presentation.view.common.CommonView;
+import online.z0lk1n.android.instagram_lite.presentation.view.main_bottom_tab.CommonView;
 import online.z0lk1n.android.instagram_lite.util.Const;
 import online.z0lk1n.android.instagram_lite.util.Preferences;
 import online.z0lk1n.android.instagram_lite.util.managers.AndroidResourceManager;
@@ -76,6 +78,7 @@ public final class CommonPresenter extends MvpPresenter<CommonView> {
         getViewState().startCamera(createPhotoFileName(), resourceManager.getFileNameSuffix());
     }
 
+    @NonNull
     private String createPhotoFileName() {
         String timeStamp = new SimpleDateFormat(resourceManager.getDateFormat(), Locale.US).format(new Date());
         return resourceManager.getFileNamePrefix() + timeStamp;

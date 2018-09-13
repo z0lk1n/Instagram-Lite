@@ -1,13 +1,14 @@
 package online.z0lk1n.android.instagram_lite.ui.activity;
 
 import android.annotation.SuppressLint;
-import android.support.v7.app.AppCompatActivity;
+
+import com.arellomobile.mvp.MvpAppCompatActivity;
 
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.util.Preferences;
 
 @SuppressLint("Registered")
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends MvpAppCompatActivity {
 
     @Override
     public void setTheme(int resid) {
