@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.model;
+package online.z0lk1n.android.instagram_lite.data.model;
 
 import org.jetbrains.annotations.Contract;
 

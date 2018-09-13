@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import online.z0lk1n.android.instagram_lite.model.PhotoItem;
+import online.z0lk1n.android.instagram_lite.data.Repository;
+import online.z0lk1n.android.instagram_lite.data.RepositoryImpl;
+import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
 import online.z0lk1n.android.instagram_lite.presentation.view.main_bottom_tab.CommonView;
 import online.z0lk1n.android.instagram_lite.util.Const;
 import online.z0lk1n.android.instagram_lite.util.Preferences;
@@ -26,6 +28,7 @@ public final class CommonPresenter extends MvpPresenter<CommonView> {
 
     private final Preferences preferences;
     private final ResourceManager resourceManager;
+    private final Repository repository;
     private List<PhotoItem> photoItemList;
 
     public CommonPresenter(List<PhotoItem> photoItemList,
@@ -34,6 +37,7 @@ public final class CommonPresenter extends MvpPresenter<CommonView> {
         this.photoItemList = photoItemList;
         this.preferences = preferences;
         this.resourceManager = resourceManager;
+        this.repository = RepositoryImpl.getInstance();
     }
 
     public void onPhotoClick(int position) {

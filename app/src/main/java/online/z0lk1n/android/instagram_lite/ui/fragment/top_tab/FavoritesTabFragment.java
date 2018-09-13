@@ -25,7 +25,7 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
-import online.z0lk1n.android.instagram_lite.model.PhotoItem;
+import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
 import online.z0lk1n.android.instagram_lite.util.Navigator;
 import online.z0lk1n.android.instagram_lite.util.Preferences;
 import online.z0lk1n.android.instagram_lite.util.adapters.RecyclerViewAdapter;

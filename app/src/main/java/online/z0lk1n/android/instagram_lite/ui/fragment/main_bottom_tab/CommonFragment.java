@@ -33,7 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
-import online.z0lk1n.android.instagram_lite.model.PhotoItem;
+import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
 import online.z0lk1n.android.instagram_lite.presentation.presenter.main_bottom_tab.CommonPresenter;
 import online.z0lk1n.android.instagram_lite.presentation.view.main_bottom_tab.CommonView;
 import online.z0lk1n.android.instagram_lite.util.Const;
