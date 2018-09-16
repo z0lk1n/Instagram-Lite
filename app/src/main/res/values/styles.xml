@@ -16,19 +16,25 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
 
-    //AppBar
-    <style name="standard_AppBarLayoutStyle" parent="@style/Widget.Design.AppBarLayout">
-        <item name="backgroundTint">@color/colorPrimary</item>
-    </style>
-    <style name="standard_AppBarLayoutStyle.Light">
-        <item name="android:background">@color/colorLightThemePrimary</item>
-    </style>
-    <style name="standard_AppBarLayoutStyle.Dark">  
-        <item name="android:background">@color/colorDarkThemePrimary</item>
+    <style name="FullscreenActionBarStyle" parent="android:Widget.Holo.ActionBar">
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
-    //FAB
-    <style name="fabStyle" parent="@style/Widget.AppCompat.Button">
+    //AppBarLayout
+    <style name="appBarLayoutStyle" parent="@style/Widget.Design.AppBarLayout">
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+    </style>
+    <style name="appBarLayoutStyle.Light">
+        <item name="backgroundTint">@color/colorLightThemePrimary</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+    </style>
+    <style name="appBarLayoutStyle.Dark">  
+        <item name="backgroundTint">@color/colorDarkThemePrimary</item>
+    </style>
+
+    //FloatingActionButton
+    <style name="fabStyle" parent="@style/Widget.MaterialComponents.FloatingActionButton">
         <item name="backgroundTint">@color/colorAccent</item>
     </style>
     <style name="fabStyle.Light">
@@ -38,7 +44,33 @@
         <item name="backgroundTint">@color/colorDarkThemeAccent</item>
     </style>
 
-    <style name="FullscreenActionBarStyle" parent="android:Widget.Holo.ActionBar">
-        <item name="android:background">@android:color/transparent</item>
+    //TabLayout
+    <style name="tabLayoutStyle" parent="@style/Widget.MaterialComponents.TabLayout"/>
+    <style name="tabLayoutStyle.Light">
+        <item name="tabBackground">@color/colorLightThemePrimary</item>
+        <item name="tabTextColor">@android:color/black</item>
+        <item name="tabSelectedTextColor">@color/colorLightThemeAccent</item>
+    </style>
+    <style name="tabLayoutStyle.Dark">
+        <item name="tabBackground">@color/colorDarkThemePrimary</item>
+        <item name="tabTextColor">@color/color_light</item>
+        <item name="tabSelectedTextColor">@color/colorDarkThemeAccent</item>
+    </style>
+
+    //BottomNavigationView
+    <style name="bottomNavigationViewStyle" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+        <item name="itemIconTint">@color/bnv_color_selector_standard</item>
+        <item name="itemTextColor">@color/bnv_color_selector_standard</item>
+    </style>
+    <style name="bottomNavigationViewStyle.Light">
+        <item name="android:backgroundTint">@color/colorLightThemePrimary</item>
+        <item name="itemIconTint">@color/bnv_color_selector_light</item>
+        <item name="itemTextColor">@color/bnv_color_selector_light</item>
+    </style>
+    <style name="bottomNavigationViewStyle.Dark">
+        <item name="android:backgroundTint">@color/colorDarkThemePrimary</item>
+        <item name="itemIconTint">@color/bnv_color_selector_dark</item>
+        <item name="itemTextColor">@color/bnv_color_selector_dark</item>
     </style>
 </resources>

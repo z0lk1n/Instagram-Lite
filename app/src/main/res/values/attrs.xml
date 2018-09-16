@@ -3,5 +3,7 @@
     <declare-styleable name="ThemeStandard">
         <attr name="appBarLayoutStyle" format="reference" />
         <attr name="fabStyle" format="reference" />
+        <attr name="tabLayoutStyle" format="reference" />
+        <attr name="bottomNavigationViewStyle" format="reference" />
     </declare-styleable>
 </resources>

@@ -8,15 +8,11 @@ import com.arellomobile.mvp.MvpPresenter;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
-import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
-import online.z0lk1n.android.instagram_lite.data.repositories.Repository;
-import online.z0lk1n.android.instagram_lite.data.repositories.RepositoryImpl;
+import online.z0lk1n.android.instagram_lite.data.repositories.PhotoRepository;
+import online.z0lk1n.android.instagram_lite.data.repositories.PhotoRepositoryImpl;
 import online.z0lk1n.android.instagram_lite.util.Const;
-import online.z0lk1n.android.instagram_lite.util.Preferences;
 import online.z0lk1n.android.instagram_lite.util.managers.AndroidResourceManager;
 import online.z0lk1n.android.instagram_lite.util.managers.ResourceManager;
 
@@ -25,22 +21,17 @@ public final class CommonPresenter extends MvpPresenter<CommonView> {
 
     private static final String TAG = "CommonPresenter";
 
-    private final Preferences preferences;
     private final ResourceManager resourceManager;
-    private final Repository repository;
-    private List<PhotoItem> photoItemList;
+    private final PhotoRepository photoRepository;
 
-    public CommonPresenter(List<PhotoItem> photoItemList,
-                           Preferences preferences,
-                           AndroidResourceManager resourceManager) {
-        this.photoItemList = photoItemList;
-        this.preferences = preferences;
+    public CommonPresenter(AndroidResourceManager resourceManager) {
         this.resourceManager = resourceManager;
-        this.repository = RepositoryImpl.getInstance();
+        this.photoRepository = PhotoRepositoryImpl.getInstance();
+        updatePhotoList();
     }
 
     public void onPhotoClick(int position) {
-        getViewState().showFullPhoto(photoItemList.get(position).getPhotoPath());
+        getViewState().showFullPhoto(photoRepository.getPhotoPath(position));
     }
 
     public void onPhotoLongClick(int position) {
@@ -48,26 +39,16 @@ public final class CommonPresenter extends MvpPresenter<CommonView> {
     }
 
     public void onFavoritesClick(boolean isChecked, int position) {
-        addOrRemoveFavorites(isChecked, position);
-    }
-
-    private void addOrRemoveFavorites(boolean isChecked, int position) {
-        Set<String> favorites = preferences.getFavorites();
-        photoItemList.get(position).setFavorites(isChecked);
-        if (isChecked) {
-            favorites.add(photoItemList.get(position).getPhotoPath());
-        } else {
-            favorites.remove(photoItemList.get(position).getPhotoPath());
-        }
-        preferences.setFavorites(favorites);
+        photoRepository.changeFavorites(position, isChecked);
     }
 
     public void deletePhoto(int position) {
-        if (new File(photoItemList.get(position).getPhotoPath()).delete()) {
-            photoItemList.remove(position);
+        if (new File(photoRepository.getPhotoPath(position)).delete()) {
+            photoRepository.removePhoto(position);
             updateView(position,
                     Const.NOTIFY_ITEM_REMOVE,
                     resourceManager.getPhotoDeleted());
+            updatePhotoList();
         }
     }
 
@@ -81,21 +62,25 @@ public final class CommonPresenter extends MvpPresenter<CommonView> {
         getViewState().startCamera(createPhotoFileName(), resourceManager.getFileNameSuffix());
     }
 
+    public void addPhoto(String filePath) {
+        photoRepository.addPhoto(filePath, false);
+        updateView(photoRepository.getLastPhotoPosition(),
+                Const.NOTIFY_ITEM_INSERT,
+                resourceManager.getPhotoUploaded());
+    }
+
     @NonNull
     private String createPhotoFileName() {
         String timeStamp = new SimpleDateFormat(resourceManager.getDateFormat(), Locale.US).format(new Date());
         return resourceManager.getFileNamePrefix() + timeStamp;
     }
 
-    public void addPhoto(String filePath) {
-        photoItemList.add(new PhotoItem(filePath, false));
-        updateView(photoItemList.size() - 1,
-                Const.NOTIFY_ITEM_INSERT,
-                resourceManager.getPhotoUploaded());
-    }
-
     private void updateView(int position, int action, String message) {
         getViewState().notifyItem(position, action);
         getViewState().showNotifyingMessage(message);
+    }
+
+    private void updatePhotoList() {
+        getViewState().fillPhotoList(photoRepository.getPhotoList());
     }
 }

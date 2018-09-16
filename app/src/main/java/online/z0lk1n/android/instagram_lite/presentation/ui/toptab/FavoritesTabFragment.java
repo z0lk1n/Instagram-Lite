@@ -18,16 +18,12 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
-import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
+import online.z0lk1n.android.instagram_lite.data.repositories.PhotoRepositoryImpl;
 import online.z0lk1n.android.instagram_lite.util.Navigator;
-import online.z0lk1n.android.instagram_lite.util.Preferences;
 import online.z0lk1n.android.instagram_lite.util.adapters.RecyclerViewAdapter;
 import online.z0lk1n.android.instagram_lite.util.managers.PhotoManager;
 
@@ -40,9 +36,8 @@ public final class FavoritesTabFragment extends MvpAppCompatFragment
     @BindView(R.id.recycler_view_favorites)
     RecyclerView recyclerView;
 
-    private Preferences preferences;
     private RecyclerViewAdapter adapter;
-    private List<PhotoItem> photoItemList;
+    private PhotoRepositoryImpl photoRepository;
     private int numberOfColumns;
     private int dimens;
 
@@ -57,7 +52,6 @@ public final class FavoritesTabFragment extends MvpAppCompatFragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        preferences = new Preferences(context);
         numberOfColumns = PhotoManager.calculateNumberOfColumns(context);
         dimens = PhotoManager.calculateWidthOfPhoto(context, numberOfColumns);
     }
@@ -73,13 +67,11 @@ public final class FavoritesTabFragment extends MvpAppCompatFragment
     private void init(View view) {
         ButterKnife.bind(this, view);
 
-        photoItemList = new ArrayList<>();
-        for (String s : preferences.getFavorites()) {
-            photoItemList.add(new PhotoItem(s, true));
-        }
-
-        adapter = new RecyclerViewAdapter(photoItemList, dimens, preferences);
+        adapter = new RecyclerViewAdapter(dimens);
         adapter.setOnItemClickListener(this);
+
+        photoRepository = PhotoRepositoryImpl.getInstance();
+        adapter.addItems(photoRepository.getPhotoList());
 
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
 
@@ -99,7 +91,7 @@ public final class FavoritesTabFragment extends MvpAppCompatFragment
     public void onPhotoClick(int position) {
         new Navigator().openFullscreenPhotoActivity(
                 getContext(),
-                photoItemList.get(position).getPhotoPath());
+                photoRepository.getPhotoPath(position));
     }
 
     @Override
@@ -109,16 +101,11 @@ public final class FavoritesTabFragment extends MvpAppCompatFragment
 
     @Override
     public void onFavoritesClick(boolean isChecked, int position) {
-        if (!isChecked) {
-            Set<String> favorites = preferences.getFavorites();
-            favorites.remove(photoItemList.get(position).getPhotoPath());
-            preferences.setFavorites(favorites);
-            photoItemList.remove(position);
-            adapter.notifyItemRemoved(position);
-        }
+        photoRepository.changeFavorites(position, isChecked);
+//        adapter.notifyItemRemoved(position);
     }
 
-    public void showDeletePhotoDialog(final int position) {
+    private void showDeletePhotoDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
                 .setTitle(R.string.ask_delete_photo)
                 .setPositiveButton(R.string.ok_button, (dialog, which) -> deletePhoto(position))
@@ -127,12 +114,8 @@ public final class FavoritesTabFragment extends MvpAppCompatFragment
     }
 
     private void deletePhoto(int position) {
-        if (new File(photoItemList.get(position).getPhotoPath()).delete()) {
-            Set<String> favorites = preferences.getFavorites();
-            favorites.remove(photoItemList.get(position).getPhotoPath());
-            preferences.setFavorites(favorites);
-
-            photoItemList.remove(position);
+        if (new File(photoRepository.getPhotoPath(position)).delete()) {
+            photoRepository.removePhoto(position);
             adapter.notifyItemRemoved(position);
             Snackbar.make(recyclerView, R.string.photo_deleted, Snackbar.LENGTH_SHORT).show();
         }

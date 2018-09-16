@@ -11,13 +11,13 @@ import android.widget.ToggleButton;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
-import online.z0lk1n.android.instagram_lite.util.Preferences;
 import online.z0lk1n.android.instagram_lite.util.managers.PhotoManager;
 
 public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
@@ -26,13 +26,11 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
     private List<PhotoItem> photoItemList;
     private OnItemClickListener itemClickListener;
-    private Preferences preferences;
     private int dimens;
 
-    public RecyclerViewAdapter(List<PhotoItem> photoItemList, int dimens, Preferences preferences) {
-        this.photoItemList = photoItemList;
+    public RecyclerViewAdapter(int dimens) {
+        this.photoItemList = new ArrayList<>();
         this.dimens = dimens;
-        this.preferences = preferences;
     }
 
     public interface OnItemClickListener {
@@ -66,6 +64,11 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         return photoItemList.size();
     }
 
+    public void addItems(List<PhotoItem> photoItems) {
+        photoItemList.addAll(photoItems);
+        notifyDataSetChanged();
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.imgView_picture)
@@ -82,6 +85,7 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                     itemClickListener.onPhotoClick(getAdapterPosition());
                 }
             });
+
             imgViewPhoto.setOnLongClickListener(view -> {
                 if (itemClickListener != null) {
                     itemClickListener.onPhotoLongClick(getAdapterPosition());
@@ -99,7 +103,7 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         private void bindView(int position) {
             PhotoManager.setPhoto(imgViewPhoto, getFile(position), dimens, dimens);
-            if (preferences.getFavorites().contains(photoItemList.get(position).getPhotoPath())) {
+            if (photoItemList.get(position).isFavorites()) {
                 toggleFavorites.setChecked(true);
             }
         }

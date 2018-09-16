@@ -27,7 +27,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,7 +37,6 @@ import online.z0lk1n.android.instagram_lite.presentation.mvp.mainbottomtab.Commo
 import online.z0lk1n.android.instagram_lite.presentation.mvp.mainbottomtab.CommonView;
 import online.z0lk1n.android.instagram_lite.util.Const;
 import online.z0lk1n.android.instagram_lite.util.Navigator;
-import online.z0lk1n.android.instagram_lite.util.Preferences;
 import online.z0lk1n.android.instagram_lite.util.adapters.RecyclerViewAdapter;
 import online.z0lk1n.android.instagram_lite.util.managers.AndroidResourceManager;
 import online.z0lk1n.android.instagram_lite.util.managers.PhotoManager;
@@ -63,16 +61,11 @@ public final class CommonFragment extends MvpAppCompatFragment
     @NotNull
     @ProvidePresenter
     CommonPresenter provideCommonPresenter() {
-        return new CommonPresenter(
-                photoItemList,
-                preferences,
-                new AndroidResourceManager(getContext()));
+        return new CommonPresenter(new AndroidResourceManager(getContext()));
     }
 
     private RecyclerViewAdapter adapter;
-    private List<PhotoItem> photoItemList;
     private File storageDir;
-    private Preferences preferences;
     private GridLayoutManager layoutManager;
     private int dimens;
     private String currentFilePath;
@@ -88,8 +81,6 @@ public final class CommonFragment extends MvpAppCompatFragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        photoItemList = new ArrayList<>();
-        preferences = new Preferences(context);
         storageDir = context.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         int numberOfColumns = PhotoManager.calculateNumberOfColumns(context);
         dimens = PhotoManager.calculateWidthOfPhoto(context, numberOfColumns);
@@ -109,8 +100,7 @@ public final class CommonFragment extends MvpAppCompatFragment
     private void init(@NotNull View view) {
         ButterKnife.bind(this, view);
 
-        getFilesList();
-        adapter = new RecyclerViewAdapter(photoItemList, dimens, preferences);
+        adapter = new RecyclerViewAdapter(dimens);
         adapter.setOnItemClickListener(this);
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -219,11 +209,13 @@ public final class CommonFragment extends MvpAppCompatFragment
         adapter.setOnItemClickListener(null);
     }
 
-    private void getFilesList() {
-        if (photoItemList.size() != storageDir.listFiles().length) {
+    @Override
+    public void fillPhotoList(List<PhotoItem> photoItems) {
+        if (photoItems.size() != storageDir.listFiles().length) {
             for (File file : storageDir.listFiles()) {
-                photoItemList.add(new PhotoItem(file.getPath(), false));
+                photoItems.add(new PhotoItem(file.getPath(), false));
             }
+            adapter.addItems(photoItems);
         }
     }
 }

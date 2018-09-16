@@ -4,6 +4,10 @@ import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
+import java.util.List;
+
+import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
+
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface CommonView extends MvpView {
     void showDeletePhotoDialog(int position);
@@ -15,4 +19,6 @@ public interface CommonView extends MvpView {
     void notifyItem(int position, int action);
 
     void startCamera(String fileName, String suffix);
+
+    void fillPhotoList(List<PhotoItem> photoItems);
 }
