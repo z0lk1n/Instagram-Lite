@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.data;
+package online.z0lk1n.android.instagram_lite.data.repositories;
 
 import org.jetbrains.annotations.Contract;
 

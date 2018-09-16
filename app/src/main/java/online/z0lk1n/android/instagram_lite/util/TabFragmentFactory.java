@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 
 import org.jetbrains.annotations.Contract;
 
-import online.z0lk1n.android.instagram_lite.ui.fragment.top_tab.FavoritesTabFragment;
-import online.z0lk1n.android.instagram_lite.ui.fragment.top_tab.MainTabFragment;
+import online.z0lk1n.android.instagram_lite.presentation.ui.toptab.FavoritesTabFragment;
+import online.z0lk1n.android.instagram_lite.presentation.ui.toptab.MainTabFragment;
 
 public final class TabFragmentFactory {
 
