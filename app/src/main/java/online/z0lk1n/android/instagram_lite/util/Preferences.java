@@ -9,8 +9,6 @@ import org.jetbrains.annotations.NotNull;
 
 public final class Preferences {
 
-    private static final String TAG = "Preferences";
-
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
 

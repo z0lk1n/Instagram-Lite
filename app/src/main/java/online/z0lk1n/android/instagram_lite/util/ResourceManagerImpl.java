@@ -1,14 +1,15 @@
-package online.z0lk1n.android.instagram_lite.util.managers;
+package online.z0lk1n.android.instagram_lite.util;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 
 import online.z0lk1n.android.instagram_lite.R;
 
-public final class AndroidResourceManager implements ResourceManager {
+public final class ResourceManagerImpl implements ResourceManager {
+
     private Context context;
 
-    public AndroidResourceManager(Context context) {
+    public ResourceManagerImpl(Context context) {
         this.context = context;
     }
 
@@ -46,5 +47,11 @@ public final class AndroidResourceManager implements ResourceManager {
     @Override
     public String getFailCapturePhoto() {
         return context.getResources().getString(R.string.fail_capture_photo);
+    }
+
+    @NonNull
+    @Override
+    public String getPackageName() {
+        return context.getResources().getString(R.string.package_name);
     }
 }

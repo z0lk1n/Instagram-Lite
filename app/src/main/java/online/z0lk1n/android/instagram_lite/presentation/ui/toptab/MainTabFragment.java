@@ -20,12 +20,10 @@ import online.z0lk1n.android.instagram_lite.util.Navigator;
 public final class MainTabFragment extends MvpAppCompatFragment {
 
     public static final String NAME = "6a4545d5-b082-40b6-afc7-87e365395a57";
-    private static final String TAG = "MainTabFragment";
-
-    @BindView(R.id.bottom_navigation_view)
-    BottomNavigationView bottomNavigationView;
 
     private Navigator navigator;
+
+    @BindView(R.id.bottom_navigation_view) BottomNavigationView bottomNavigationView;
 
     public static MainTabFragment newInstance(Bundle bundle) {
         MainTabFragment currentFragment = new MainTabFragment();

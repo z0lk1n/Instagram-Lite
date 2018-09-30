@@ -16,7 +16,6 @@ import online.z0lk1n.android.instagram_lite.R;
 public final class DatabaseFragment extends MvpAppCompatFragment {
 
     public static final String NAME = "ba536e1d-3a9d-4db9-9b8c-9e7539d9a20b";
-    private static final String TAG = "DatabaseFragment";
 
     public static DatabaseFragment newInstance(Bundle bundle) {
         DatabaseFragment currentFragment = new DatabaseFragment();

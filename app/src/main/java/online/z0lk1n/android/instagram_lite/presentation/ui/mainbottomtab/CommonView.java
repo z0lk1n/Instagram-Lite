@@ -1,15 +1,16 @@
-package online.z0lk1n.android.instagram_lite.presentation.mvp.mainbottomtab;
+package online.z0lk1n.android.instagram_lite.presentation.ui.mainbottomtab;
 
 import com.arellomobile.mvp.MvpView;
-import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
+import com.arellomobile.mvp.viewstate.strategy.AddToEndStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 
 import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
 
-@StateStrategyType(AddToEndSingleStrategy.class)
+@StateStrategyType(AddToEndStrategy.class)
 public interface CommonView extends MvpView {
+
     void showDeletePhotoDialog(int position);
 
     void showFullPhoto(String photoPath);
@@ -18,7 +19,7 @@ public interface CommonView extends MvpView {
 
     void notifyItem(int position, int action);
 
-    void startCamera(String fileName, String suffix);
+    void startCamera();
 
-    void fillPhotoList(List<PhotoItem> photoItems);
+    void updatePhotoList(List<PhotoItem> photoItems);
 }

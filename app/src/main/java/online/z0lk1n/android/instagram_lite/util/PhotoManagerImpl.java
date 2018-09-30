@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.util.managers;
+package online.z0lk1n.android.instagram_lite.util;
 
 import android.content.Context;
 import android.support.media.ExifInterface;
@@ -7,34 +7,40 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.io.IOException;
 
 import online.z0lk1n.android.instagram_lite.R;
 
-public final class PhotoManager {
+public final class PhotoManagerImpl implements PhotoManager {
 
-    private static final String TAG = "PhotoManager";
+    private Context context;
 
-    public static int calculateNumberOfColumns(@NotNull Context context) {
+    public PhotoManagerImpl(Context context) {
+        this.context = context;
+    }
+
+    @Override
+    public int calculateNumberOfColumns() {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         return (int) (dpWidth / 180);
     }
 
-    public static int calculateWidthOfPhoto(@NotNull Context context, int columns) {
+    @Override
+    public int calculateWidthOfPhoto() {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        return displayMetrics.widthPixels / columns;
+        return displayMetrics.widthPixels / calculateNumberOfColumns();
     }
 
-    public static int calculateHeightOfPhoto(@NotNull Context context) {
+    @Override
+    public int calculateHeightOfPhoto() {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return displayMetrics.heightPixels;
     }
 
-    public static int getOrientationPhoto(String filePath) {
+    @Override
+    public int getOrientationPhoto(String filePath) {
         ExifInterface exif = null;
         int orientation = 0;
         try {
@@ -49,7 +55,8 @@ public final class PhotoManager {
         return orientation;
     }
 
-    public static void setPhoto(ImageView imageView, File file, int width, int height) {
+    @Override
+    public void setPhoto(ImageView imageView, File file, int width, int height) {
         Picasso.get()
                 .load(file)
                 .resize(width, height)

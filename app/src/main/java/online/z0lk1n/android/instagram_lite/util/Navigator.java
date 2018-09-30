@@ -18,8 +18,6 @@ import online.z0lk1n.android.instagram_lite.presentation.ui.settings.SettingsFra
 
 public final class Navigator {
 
-    private static final String TAG = "Navigator";
-
     public void openSettingsActivity(@NotNull AppCompatActivity activity) {
         activity.startActivity(new Intent(activity, SettingsActivity.class));
     }

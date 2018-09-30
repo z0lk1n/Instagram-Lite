@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.util.adapters;
+package online.z0lk1n.android.instagram_lite.util;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -18,19 +18,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
-import online.z0lk1n.android.instagram_lite.util.managers.PhotoManager;
 
 public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private static final String TAG = "RecyclerViewAdapter";
-
     private List<PhotoItem> photoItemList;
     private OnItemClickListener itemClickListener;
+    private PhotoManager photoManager;
     private int dimens;
 
-    public RecyclerViewAdapter(int dimens) {
-        this.photoItemList = new ArrayList<>();
+    public RecyclerViewAdapter(PhotoManager photoManager, int dimens) {
+        this.photoManager = photoManager;
         this.dimens = dimens;
+        this.photoItemList = new ArrayList<>();
     }
 
     public interface OnItemClickListener {
@@ -65,16 +64,15 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     public void addItems(List<PhotoItem> photoItems) {
+        photoItemList.clear();
         photoItemList.addAll(photoItems);
         notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.imgView_picture)
-        ImageView imgViewPhoto;
-        @BindView(R.id.toggle_favorites)
-        ToggleButton toggleFavorites;
+        @BindView(R.id.imgView_picture) ImageView imgViewPhoto;
+        @BindView(R.id.toggle_favorites) ToggleButton toggleFavorites;
 
         ViewHolder(@NonNull final View itemView) {
             super(itemView);
@@ -102,7 +100,7 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
 
         private void bindView(int position) {
-            PhotoManager.setPhoto(imgViewPhoto, getFile(position), dimens, dimens);
+            photoManager.setPhoto(imgViewPhoto, getFile(position), dimens, dimens);
             if (photoItemList.get(position).isFavorites()) {
                 toggleFavorites.setChecked(true);
             }

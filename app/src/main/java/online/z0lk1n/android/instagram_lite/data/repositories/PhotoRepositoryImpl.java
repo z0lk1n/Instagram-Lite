@@ -9,8 +9,6 @@ import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
 
 public final class PhotoRepositoryImpl implements PhotoRepository {
 
-    private static final String TAG = "PhotoRepositoryImpl";
-
     private static volatile PhotoRepositoryImpl instance = new PhotoRepositoryImpl();
     private List<PhotoItem> photoItemList;
 

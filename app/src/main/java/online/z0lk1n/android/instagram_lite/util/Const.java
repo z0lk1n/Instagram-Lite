@@ -2,8 +2,6 @@ package online.z0lk1n.android.instagram_lite.util;
 
 public final class Const {
 
-    private static final String TAG = "Const";
-
     public static final String KEY_PREF_PHOTO = "69835d5e-2227-4937-a4e8-2abd24401a3c";
     public static final String KEY_PREF_THEME = "17f76cce-0e1d-4794-aa03-ecad88592a92";
     public static final String KEY_PREF_FAVORITES_LIST = "c92994fe-bcef-4e91-b4c6-87f664a91ea8";

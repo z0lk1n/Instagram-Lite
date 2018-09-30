@@ -16,27 +16,20 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.presentation.ui.global.BaseActivity;
+import online.z0lk1n.android.instagram_lite.util.CustomFragmentPagerAdapter;
 import online.z0lk1n.android.instagram_lite.util.Navigator;
 import online.z0lk1n.android.instagram_lite.util.TabFragmentFactory;
-import online.z0lk1n.android.instagram_lite.util.adapters.CustomFragmentPagerAdapter;
 
 public final class MainActivity extends BaseActivity implements
         NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String TAG = "MainActivity";
-
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.container_view_pager)
-    ViewPager viewPager;
-    @BindView(R.id.table_layout)
-    TabLayout tabLayout;
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawer;
-    @BindView(R.id.nav_view)
-    NavigationView navigationView;
-
     private Navigator navigator;
+
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.container_view_pager) ViewPager viewPager;
+    @BindView(R.id.table_layout) TabLayout tabLayout;
+    @BindView(R.id.drawer_layout) DrawerLayout drawer;
+    @BindView(R.id.nav_view) NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

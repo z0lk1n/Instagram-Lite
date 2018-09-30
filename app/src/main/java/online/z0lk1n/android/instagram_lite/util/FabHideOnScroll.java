@@ -13,8 +13,6 @@ import org.jetbrains.annotations.Contract;
 
 public final class FabHideOnScroll extends FloatingActionButton.Behavior {
 
-    private static final String TAG = "FabHideOnScroll";
-
     public FabHideOnScroll(Context context, AttributeSet attrs) {
         super(context, attrs);
     }

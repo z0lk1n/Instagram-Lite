@@ -2,15 +2,12 @@ package online.z0lk1n.android.instagram_lite.presentation.ui.mainbottomtab;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -33,13 +30,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
-import online.z0lk1n.android.instagram_lite.presentation.mvp.mainbottomtab.CommonPresenter;
-import online.z0lk1n.android.instagram_lite.presentation.mvp.mainbottomtab.CommonView;
+import online.z0lk1n.android.instagram_lite.presentation.presenters.mainbottomtab.CommonPresenter;
 import online.z0lk1n.android.instagram_lite.util.Const;
+import online.z0lk1n.android.instagram_lite.util.FileManager;
+import online.z0lk1n.android.instagram_lite.util.FileManagerImpl;
 import online.z0lk1n.android.instagram_lite.util.Navigator;
-import online.z0lk1n.android.instagram_lite.util.adapters.RecyclerViewAdapter;
-import online.z0lk1n.android.instagram_lite.util.managers.AndroidResourceManager;
-import online.z0lk1n.android.instagram_lite.util.managers.PhotoManager;
+import online.z0lk1n.android.instagram_lite.util.PhotoManager;
+import online.z0lk1n.android.instagram_lite.util.PhotoManagerImpl;
+import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
+import online.z0lk1n.android.instagram_lite.util.ResourceManagerImpl;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -48,12 +47,16 @@ public final class CommonFragment extends MvpAppCompatFragment
         implements RecyclerViewAdapter.OnItemClickListener, CommonView {
 
     public static final String NAME = "cb2d00bb-ca6b-45e6-a501-80f70efa65b9";
-    private static final String TAG = "CommonFragment";
 
-    @BindView(R.id.recycler_view_common)
-    RecyclerView recyclerView;
-    @BindView(R.id.fab_add_picture)
-    FloatingActionButton fab;
+    private RecyclerViewAdapter adapter;
+    private GridLayoutManager layoutManager;
+    private PhotoManager photoManager;
+    private FileManager fileManager;
+    private String currentFilePath;
+    private int dimens;
+
+    @BindView(R.id.recycler_view_common) RecyclerView recyclerView;
+    @BindView(R.id.fab_add_picture) FloatingActionButton fab;
 
     @InjectPresenter
     CommonPresenter presenter;
@@ -61,14 +64,9 @@ public final class CommonFragment extends MvpAppCompatFragment
     @NotNull
     @ProvidePresenter
     CommonPresenter provideCommonPresenter() {
-        return new CommonPresenter(new AndroidResourceManager(getContext()));
+        fileManager = new FileManagerImpl(getContext());
+        return new CommonPresenter(new ResourceManagerImpl(getContext()), photoManager, fileManager);
     }
-
-    private RecyclerViewAdapter adapter;
-    private File storageDir;
-    private GridLayoutManager layoutManager;
-    private int dimens;
-    private String currentFilePath;
 
     public static CommonFragment newInstance(Bundle bundle) {
         CommonFragment currentFragment = new CommonFragment();
@@ -81,9 +79,9 @@ public final class CommonFragment extends MvpAppCompatFragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        storageDir = context.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        int numberOfColumns = PhotoManager.calculateNumberOfColumns(context);
-        dimens = PhotoManager.calculateWidthOfPhoto(context, numberOfColumns);
+        photoManager = new PhotoManagerImpl(context);
+        int numberOfColumns = photoManager.calculateNumberOfColumns();
+        dimens = photoManager.calculateWidthOfPhoto();
         layoutManager = new GridLayoutManager(context, numberOfColumns);
     }
 
@@ -100,7 +98,7 @@ public final class CommonFragment extends MvpAppCompatFragment
     private void init(@NotNull View view) {
         ButterKnife.bind(this, view);
 
-        adapter = new RecyclerViewAdapter(dimens);
+        adapter = new RecyclerViewAdapter(photoManager, dimens);
         adapter.setOnItemClickListener(this);
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -112,29 +110,21 @@ public final class CommonFragment extends MvpAppCompatFragment
     }
 
     @Override
-    public void startCamera(String fileName, String suffix) {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (getActivity() != null) {
-            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                File photoFile = null;
-                try {
-                    photoFile = File.createTempFile(fileName, suffix, storageDir);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+    public void startCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                if (photoFile != null) {
-                    currentFilePath = photoFile.getAbsolutePath();
+        if (getActivity() == null || intent.resolveActivity(getActivity().getPackageManager()) == null) {
+            return;
+        }
 
-                    Uri photoUri = FileProvider.getUriForFile(
-                            getActivity(),
-                            getString(R.string.package_name),
-                            photoFile);
+        try {
+            File photoFile = fileManager.createFile();
+            currentFilePath = photoFile.getAbsolutePath();
 
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                    startActivityForResult(takePictureIntent, Const.PHOTO_CAMERA_REQUEST);
-                }
-            }
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, fileManager.getUriFromFile(photoFile));
+            startActivityForResult(intent, Const.PHOTO_CAMERA_REQUEST);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -172,6 +162,9 @@ public final class CommonFragment extends MvpAppCompatFragment
 
     @Override
     public void showDeletePhotoDialog(final int position) {
+        if (getContext() == null) {
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
                 .setTitle(R.string.ask_delete_photo)
                 .setPositiveButton(R.string.ok_button, (dialog, which) -> presenter.deletePhoto(position))
@@ -181,6 +174,9 @@ public final class CommonFragment extends MvpAppCompatFragment
 
     @Override
     public void showFullPhoto(String photoPath) {
+        if (getContext() == null) {
+            return;
+        }
         new Navigator().openFullscreenPhotoActivity(getContext(), photoPath);
     }
 
@@ -210,12 +206,7 @@ public final class CommonFragment extends MvpAppCompatFragment
     }
 
     @Override
-    public void fillPhotoList(List<PhotoItem> photoItems) {
-        if (photoItems.size() != storageDir.listFiles().length) {
-            for (File file : storageDir.listFiles()) {
-                photoItems.add(new PhotoItem(file.getPath(), false));
-            }
-            adapter.addItems(photoItems);
-        }
+    public void updatePhotoList(List<PhotoItem> photoItems) {
+        adapter.addItems(photoItems);
     }
 }

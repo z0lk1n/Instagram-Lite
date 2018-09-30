@@ -24,22 +24,22 @@ import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.data.repositories.PhotoRepositoryImpl;
 import online.z0lk1n.android.instagram_lite.util.Navigator;
-import online.z0lk1n.android.instagram_lite.util.adapters.RecyclerViewAdapter;
-import online.z0lk1n.android.instagram_lite.util.managers.PhotoManager;
+import online.z0lk1n.android.instagram_lite.util.PhotoManager;
+import online.z0lk1n.android.instagram_lite.util.PhotoManagerImpl;
+import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
 
 public final class FavoritesTabFragment extends MvpAppCompatFragment
         implements RecyclerViewAdapter.OnItemClickListener {
 
     public static final String NAME = "187f27ee-e044-4772-a683-858eaa67a0f4";
-    private static final String TAG = "FavoritesTabFragment";
-
-    @BindView(R.id.recycler_view_favorites)
-    RecyclerView recyclerView;
 
     private RecyclerViewAdapter adapter;
     private PhotoRepositoryImpl photoRepository;
+    private PhotoManager photoManager;
     private int numberOfColumns;
     private int dimens;
+
+    @BindView(R.id.recycler_view_favorites) RecyclerView recyclerView;
 
     public static FavoritesTabFragment newInstance(Bundle bundle) {
         FavoritesTabFragment currentFragment = new FavoritesTabFragment();
@@ -52,8 +52,9 @@ public final class FavoritesTabFragment extends MvpAppCompatFragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        numberOfColumns = PhotoManager.calculateNumberOfColumns(context);
-        dimens = PhotoManager.calculateWidthOfPhoto(context, numberOfColumns);
+        photoManager = new PhotoManagerImpl(context);
+        numberOfColumns = photoManager.calculateNumberOfColumns();
+        dimens = photoManager.calculateWidthOfPhoto();
     }
 
     @Nullable
@@ -67,7 +68,7 @@ public final class FavoritesTabFragment extends MvpAppCompatFragment
     private void init(View view) {
         ButterKnife.bind(this, view);
 
-        adapter = new RecyclerViewAdapter(dimens);
+        adapter = new RecyclerViewAdapter(photoManager, dimens);
         adapter.setOnItemClickListener(this);
 
         photoRepository = PhotoRepositoryImpl.getInstance();

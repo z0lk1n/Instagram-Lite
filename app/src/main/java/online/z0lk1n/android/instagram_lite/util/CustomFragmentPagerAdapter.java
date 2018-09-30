@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.util.adapters;
+package online.z0lk1n.android.instagram_lite.util;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,11 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import org.jetbrains.annotations.Contract;
 
-import online.z0lk1n.android.instagram_lite.util.TabFragmentFactory;
-
 public final class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
-
-    private static final String TAG = "CustomFragmentPagerAdapter";
 
     private final TabFragmentFactory fragmentFactory;
 

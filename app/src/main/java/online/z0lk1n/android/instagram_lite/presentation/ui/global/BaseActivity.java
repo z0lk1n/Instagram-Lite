@@ -11,7 +11,7 @@ import online.z0lk1n.android.instagram_lite.util.Preferences;
 public class BaseActivity extends MvpAppCompatActivity {
 
     @Override
-    public void setTheme(int resid) {
+    public void setTheme(int resId) {
         super.setTheme(getCurrentTheme());
     }
 

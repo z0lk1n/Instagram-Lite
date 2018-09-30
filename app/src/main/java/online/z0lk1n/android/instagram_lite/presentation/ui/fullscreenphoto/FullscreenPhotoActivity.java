@@ -9,29 +9,40 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
+import online.z0lk1n.android.instagram_lite.presentation.presenters.fullscreenphoto.FullscreenPhotoPresenter;
 import online.z0lk1n.android.instagram_lite.util.Const;
-import online.z0lk1n.android.instagram_lite.util.managers.PhotoManager;
+import online.z0lk1n.android.instagram_lite.util.PhotoManager;
+import online.z0lk1n.android.instagram_lite.util.PhotoManagerImpl;
+import online.z0lk1n.android.instagram_lite.util.SchedulersProviderImpl;
 
-public final class FullscreenPhotoActivity extends MvpAppCompatActivity {
+public final class FullscreenPhotoActivity extends MvpAppCompatActivity implements FullscreenPhotoView {
 
     public static final String NAME = "b9e6ee8c-3f43-457d-ad77-4d99891ef7bc";
-    private static final String TAG = "FullscreenPhotoActivity";
-
-    @BindView(R.id.toolbar_fullscreen)
-    Toolbar toolbar;
-    @BindView(R.id.fullscreen_photo)
-    ImageView imageView;
-
     private static final int UI_ANIMATION_DELAY = 300;
+
     private final Handler hideHandler = new Handler();
     private final Runnable hideRunnable = this::hide;
+    private PhotoManager photoManager;
     private boolean isVisible;
+
+    @BindView(R.id.toolbar_fullscreen) Toolbar toolbar;
+    @BindView(R.id.fullscreen_photo) ImageView imageView;
+
+    @InjectPresenter
+    FullscreenPhotoPresenter presenter;
+
+    @ProvidePresenter
+    public FullscreenPhotoPresenter provideFullscreenPhotoPresenter() {
+        return new FullscreenPhotoPresenter(new SchedulersProviderImpl());
+    }
 
     private final Runnable hidePart2Runnable = () ->
             imageView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
@@ -62,20 +73,21 @@ public final class FullscreenPhotoActivity extends MvpAppCompatActivity {
             actionBar.setDisplayShowHomeEnabled(true);
         }
 
+        photoManager = new PhotoManagerImpl(this);
         isVisible = true;
 
-        int width = PhotoManager.calculateWidthOfPhoto(this, 1);
-        int height = PhotoManager.calculateHeightOfPhoto(this);
+        int width = photoManager.calculateWidthOfPhoto();
+        int height = photoManager.calculateHeightOfPhoto();
         File file = new File(getIntent().getStringExtra(Const.KEY_FULLSCREEN_PHOTO));
-        switch (PhotoManager.getOrientationPhoto(file.getPath())) {
+        switch (photoManager.getOrientationPhoto(file.getPath())) {
             case ExifInterface.ORIENTATION_NORMAL:
-                PhotoManager.setPhoto(imageView, file, width, 0);
+                photoManager.setPhoto(imageView, file, width, 0);
                 break;
             case ExifInterface.ORIENTATION_ROTATE_90:
-                PhotoManager.setPhoto(imageView, file, 0, height);
+                photoManager.setPhoto(imageView, file, 0, height);
                 break;
             default:
-                PhotoManager.setPhoto(imageView, file, width, width);
+                photoManager.setPhoto(imageView, file, width, width);
                 break;
         }
 

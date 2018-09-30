@@ -1,6 +1,7 @@
-package online.z0lk1n.android.instagram_lite.util.managers;
+package online.z0lk1n.android.instagram_lite.util;
 
 public interface ResourceManager {
+
     String getDateFormat();
 
     String getFileNamePrefix();
@@ -12,4 +13,6 @@ public interface ResourceManager {
     String getPhotoDeleted();
 
     String getFailCapturePhoto();
+
+    String getPackageName();
 }

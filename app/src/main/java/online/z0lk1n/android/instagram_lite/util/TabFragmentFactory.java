@@ -9,7 +9,6 @@ import online.z0lk1n.android.instagram_lite.presentation.ui.toptab.MainTabFragme
 
 public final class TabFragmentFactory {
 
-    private static final String TAG = "TabFragmentFactory";
     private static final String[] TITLES = {"Main", "Favorites"};
 
     public Fragment createFragment(int position) {
