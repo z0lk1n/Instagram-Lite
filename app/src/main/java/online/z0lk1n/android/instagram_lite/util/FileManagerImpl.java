@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -32,54 +31,42 @@ public class FileManagerImpl implements FileManager {
     @Override
     public List<PhotoItem> updatePhotoListFromDir(List<PhotoItem> photoItemList) {
         for (File file : storageDir.listFiles()) {
-            photoItemList.add(new PhotoItem(file.getName()));
+            photoItemList.add(new PhotoItem(file.getAbsolutePath()));
         }
         return photoItemList;
     }
 
     @Override
-    public File createFile() throws IOException {
-        return File.createTempFile(
-                createPhotoFileName(),
-                resources.getFileNameSuffix(),
-                storageDir);
-    }
-
-    @Override
-    public Uri getUriFromFile(File file) {
+    public Uri createUriForIntent() {
         return FileProvider.getUriForFile(
                 context,
                 resources.getPackageName(),
-                file);
+                createFile());
     }
 
-    @Override
-    public Uri gerUriFromFileName(String fileName)  {
-        return Uri.parse(getAbsoluteFilePath(fileName));
-    }
-
-    @Override
-    public void deleteFile(String source) {
-        context.getContentResolver().delete(Uri.parse(source), null, null);
-    }
-
-    @Override
-    public boolean deleteFileByName(String fileName) {
-        return new File(getAbsoluteFilePath(fileName)).delete();
-    }
-
-    @Override
-    public String getAbsoluteFilePath(String fileName) {
-        return storageDirPath + fileName;
-    }
-
-    private String getStorageDirPath() {
-        return storageDir.getAbsolutePath() + "/";
+    @NonNull
+    private File createFile() {
+        return new File(storageDirPath + createPhotoFileName());
     }
 
     @NonNull
     private String createPhotoFileName() {
         String timeStamp = new SimpleDateFormat(resources.getDateFormat(), Locale.US).format(new Date());
-        return resources.getFileNamePrefix() + timeStamp;
+        return resources.getFileNamePrefix() + timeStamp + resources.getFileNameSuffix();
+    }
+
+    @Override
+    public String getPhotoPath(String fileName) {
+        return storageDirPath + fileName;
+    }
+
+    @Override
+    public boolean deleteFile(String photoPath) {
+        return new File(photoPath).delete();
+    }
+
+    @NonNull
+    private String getStorageDirPath() {
+        return storageDir.getAbsolutePath() + "/";
     }
 }

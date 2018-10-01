@@ -40,7 +40,6 @@ import online.z0lk1n.android.instagram_lite.util.PhotoManagerImpl;
 import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
 import online.z0lk1n.android.instagram_lite.util.ResourceManagerImpl;
 
-import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 public final class CommonFragment extends MvpAppCompatFragment
@@ -118,7 +117,7 @@ public final class CommonFragment extends MvpAppCompatFragment
         }
 
         try {
-            currentUriFile = fileManager.getUriFromFile(fileManager.createFile());
+            currentUriFile = fileManager.createUriForIntent();
             intent.putExtra(MediaStore.EXTRA_OUTPUT, currentUriFile);
             startActivityForResult(intent, Const.PHOTO_CAMERA_REQUEST);
         } catch (IOException e) {
@@ -129,17 +128,8 @@ public final class CommonFragment extends MvpAppCompatFragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Const.PHOTO_CAMERA_REQUEST) {
-            switch (resultCode) {
-                case RESULT_OK:
-                    presenter.addPhoto(currentUriFile.getLastPathSegment());
-                    break;
-                case RESULT_CANCELED:
-                    presenter.failCapturePhoto(currentUriFile.toString());
-                    break;
-                default:
-                    break;
-            }
+        if (requestCode == Const.PHOTO_CAMERA_REQUEST && resultCode == RESULT_OK) {
+            presenter.addPhoto(currentUriFile.getLastPathSegment());
         }
     }
 

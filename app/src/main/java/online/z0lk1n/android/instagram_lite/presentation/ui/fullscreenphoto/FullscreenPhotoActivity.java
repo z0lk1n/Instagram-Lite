@@ -1,6 +1,5 @@
 package online.z0lk1n.android.instagram_lite.presentation.ui.fullscreenphoto;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.media.ExifInterface;
@@ -12,6 +11,8 @@ import android.widget.ImageView;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,16 +77,16 @@ public final class FullscreenPhotoActivity extends MvpAppCompatActivity implemen
 
         int width = photoManager.calculateWidthOfPhoto();
         int height = photoManager.calculateHeightOfPhoto();
-        Uri uri = Uri.parse(getIntent().getStringExtra(Const.KEY_FULLSCREEN_PHOTO));
-        switch (photoManager.getOrientationPhoto(uri.getPath())) {
+        File file = new File(getIntent().getStringExtra(Const.KEY_FULLSCREEN_PHOTO));
+        switch (photoManager.getOrientationPhoto(file.getAbsolutePath())) {
             case ExifInterface.ORIENTATION_NORMAL:
-                photoManager.setPhoto(imageView, uri, width, 0);
+                photoManager.setPhoto(imageView, file, width, 0);
                 break;
             case ExifInterface.ORIENTATION_ROTATE_90:
-                photoManager.setPhoto(imageView, uri, 0, height);
+                photoManager.setPhoto(imageView, file, 0, height);
                 break;
             default:
-                photoManager.setPhoto(imageView, uri, width, width);
+                photoManager.setPhoto(imageView, file, width, width);
                 break;
         }
 

@@ -1,6 +1,5 @@
 package online.z0lk1n.android.instagram_lite.util;
 
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +10,7 @@ import android.widget.ToggleButton;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +49,7 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     @NonNull
     @Override
     public RecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater
-                .from(viewGroup.getContext())
+        View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.item_view, viewGroup, false);
         return new ViewHolder(view);
     }
@@ -80,37 +79,28 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            imgViewPhoto.setOnClickListener(view -> {
-                if (itemClickListener != null) {
-                    itemClickListener.onPhotoClick(getAdapterPosition());
-                }
-            });
+            imgViewPhoto.setOnClickListener(view ->
+                    itemClickListener.onPhotoClick(getAdapterPosition()));
 
             imgViewPhoto.setOnLongClickListener(view -> {
-                if (itemClickListener != null) {
                     itemClickListener.onPhotoLongClick(getAdapterPosition());
                     return true;
-                }
-                return false;
             });
 
-            toggleFavorites.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (itemClickListener != null) {
-                    itemClickListener.onFavoritesClick(isChecked, getAdapterPosition());
-                }
-            });
+            toggleFavorites.setOnCheckedChangeListener((buttonView, isChecked) ->
+                    itemClickListener.onFavoritesClick(isChecked, getAdapterPosition()));
         }
 
         private void bindView(int position) {
-            photoManager.setPhoto(imgViewPhoto, getUri(position), dimens, dimens);
+            photoManager.setPhoto(imgViewPhoto, getFile(position), dimens, dimens);
             if (photoItemList.get(position).isFavorites()) {
                 toggleFavorites.setChecked(true);
             }
         }
 
         @NonNull
-        private Uri getUri(int position) {
-            return fileManager.gerUriFromFileName(photoItemList.get(position).getName());
+        private File getFile(int position) {
+            return new File(photoItemList.get(position).getPhotoPath());
         }
     }
 }

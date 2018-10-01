@@ -6,7 +6,7 @@ import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
 
 public interface PhotoRepository {
 
-    String getFileName(int position);
+    String getPhotoPath(int position);
 
     List<PhotoItem> getPhotoList();
 

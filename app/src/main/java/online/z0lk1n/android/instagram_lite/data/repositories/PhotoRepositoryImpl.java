@@ -25,8 +25,8 @@ public final class PhotoRepositoryImpl implements PhotoRepository {
     }
 
     @Override
-    public String getFileName(int position) {
-        return photoItemList.get(position).getName();
+    public String getPhotoPath(int position) {
+        return photoItemList.get(position).getPhotoPath();
     }
 
     @Override

@@ -84,7 +84,7 @@ public final class FavoritesTabFragment extends MvpAppCompatFragment
     public void onPhotoClick(int position) {
 //        new Navigator().openFullscreenPhotoActivity(
 //                getContext(),
-//                photoRepository.getFileName(position));
+//                photoRepository.getName(position));
     }
 
     @Override
@@ -107,7 +107,7 @@ public final class FavoritesTabFragment extends MvpAppCompatFragment
 //    }
 //
 //    private void deletePhoto(int position) {
-//        if (new File(photoRepository.getFileName(position)).delete()) {
+//        if (new File(photoRepository.getName(position)).delete()) {
 //            photoRepository.removePhoto(position);
 //            adapter.notifyItemRemoved(position);
 //            Snackbar.make(recyclerView, R.string.photo_deleted, Snackbar.LENGTH_SHORT).show();

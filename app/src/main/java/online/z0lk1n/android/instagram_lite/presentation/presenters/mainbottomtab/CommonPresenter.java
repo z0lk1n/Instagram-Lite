@@ -33,7 +33,7 @@ public final class CommonPresenter extends MvpPresenter<CommonView> {
     }
 
     public void onPhotoClick(int position) {
-        getViewState().showFullPhoto(fileManager.gerUriFromFileName(repository.getFileName(position)).toString());
+        getViewState().showFullPhoto(fileManager.getPhotoPath(repository.getPhotoPath(position)).toString());
     }
 
     public void onPhotoLongClick(int position) {
@@ -45,7 +45,7 @@ public final class CommonPresenter extends MvpPresenter<CommonView> {
     }
 
     public void deletePhoto(int position) {
-        if (fileManager.deleteFileByName(repository.getFileName(position))) {
+        if (fileManager.deleteFile(repository.getPhotoPath(position))) {
             repository.removePhoto(position);
             updateView(position,
                     Const.NOTIFY_ITEM_REMOVE,
@@ -54,17 +54,12 @@ public final class CommonPresenter extends MvpPresenter<CommonView> {
         }
     }
 
-    public void failCapturePhoto(String source) {
-        fileManager.deleteFile(source);
-        getViewState().showNotifyingMessage(resources.getFailCapturePhoto());
-    }
-
     public void capturePhoto() {
         getViewState().startCamera();
     }
 
     public void addPhoto(String fileName) {
-        repository.addPhoto(fileName);
+        repository.addPhoto(fileManager.getPhotoPath(fileName));
         updateView(repository.getLastPhotoPosition(),
                 Const.NOTIFY_ITEM_INSERT,
                 resources.getPhotoUploaded());
