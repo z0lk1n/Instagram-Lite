@@ -15,4 +15,6 @@ public interface FileManager {
     File createFile() throws IOException;
 
     Uri getUriFromFile(File file);
+
+    void deleteFile(String source);
 }

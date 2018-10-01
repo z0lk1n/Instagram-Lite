@@ -1,5 +1,6 @@
 package online.z0lk1n.android.instagram_lite.util;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
@@ -55,5 +56,10 @@ public class FileManagerImpl implements FileManager {
     private String createPhotoFileName() {
         String timeStamp = new SimpleDateFormat(resources.getDateFormat(), Locale.US).format(new Date());
         return resources.getFileNamePrefix() + timeStamp;
+    }
+
+    @Override
+    public void deleteFile(String source)  {
+        context.getContentResolver().delete(Uri.parse(source), null, null);
     }
 }

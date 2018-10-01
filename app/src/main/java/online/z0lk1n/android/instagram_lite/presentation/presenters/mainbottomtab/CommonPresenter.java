@@ -56,10 +56,9 @@ public final class CommonPresenter extends MvpPresenter<CommonView> {
         }
     }
 
-    public void failCapturePhoto(String filePath) {
-        if (new File(filePath).delete()) {
-            getViewState().showNotifyingMessage(resources.getFailCapturePhoto());
-        }
+    public void failCapturePhoto(String source) {
+        fileManager.deleteFile(source);
+        getViewState().showNotifyingMessage(resources.getFailCapturePhoto());
     }
 
     public void capturePhoto() {

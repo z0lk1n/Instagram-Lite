@@ -2,6 +2,7 @@ package online.z0lk1n.android.instagram_lite.presentation.ui.mainbottomtab;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -53,6 +54,7 @@ public final class CommonFragment extends MvpAppCompatFragment
     private PhotoManager photoManager;
     private FileManager fileManager;
     private String currentFilePath;
+    private Uri currentUriFile;
     private int dimens;
 
     @BindView(R.id.recycler_view_common) RecyclerView recyclerView;
@@ -119,9 +121,10 @@ public final class CommonFragment extends MvpAppCompatFragment
 
         try {
             File photoFile = fileManager.createFile();
+            currentUriFile = fileManager.getUriFromFile(photoFile);
             currentFilePath = photoFile.getAbsolutePath();
 
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, fileManager.getUriFromFile(photoFile));
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, currentUriFile);
             startActivityForResult(intent, Const.PHOTO_CAMERA_REQUEST);
         } catch (IOException e) {
             e.printStackTrace();
@@ -137,7 +140,7 @@ public final class CommonFragment extends MvpAppCompatFragment
                     presenter.addPhoto(currentFilePath);
                     break;
                 case RESULT_CANCELED:
-                    presenter.failCapturePhoto(currentFilePath);
+                    presenter.failCapturePhoto(currentUriFile.toString());
                     break;
                 default:
                     break;
