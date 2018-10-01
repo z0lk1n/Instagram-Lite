@@ -25,8 +25,8 @@ public final class PhotoRepositoryImpl implements PhotoRepository {
     }
 
     @Override
-    public String getPhotoPath(int position) {
-        return photoItemList.get(position).getPhotoPath();
+    public String getFileName(int position) {
+        return photoItemList.get(position).getName();
     }
 
     @Override
@@ -40,8 +40,8 @@ public final class PhotoRepositoryImpl implements PhotoRepository {
     }
 
     @Override
-    public void addPhoto(String photoPath, boolean favorites) {
-        photoItemList.add(new PhotoItem(photoPath, favorites));
+    public void addPhoto(String fileName) {
+        photoItemList.add(new PhotoItem(fileName));
     }
 
     @Override

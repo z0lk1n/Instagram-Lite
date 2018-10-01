@@ -1,5 +1,6 @@
 package online.z0lk1n.android.instagram_lite.util;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +11,6 @@ import android.widget.ToggleButton;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +24,12 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     private List<PhotoItem> photoItemList;
     private OnItemClickListener itemClickListener;
     private PhotoManager photoManager;
+    private FileManager fileManager;
     private int dimens;
 
-    public RecyclerViewAdapter(PhotoManager photoManager, int dimens) {
+    public RecyclerViewAdapter(PhotoManager photoManager, FileManager fileManager, int dimens) {
         this.photoManager = photoManager;
+        this.fileManager = fileManager;
         this.dimens = dimens;
         this.photoItemList = new ArrayList<>();
     }
@@ -100,15 +102,15 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
 
         private void bindView(int position) {
-            photoManager.setPhoto(imgViewPhoto, getFile(position), dimens, dimens);
+            photoManager.setPhoto(imgViewPhoto, getUri(position), dimens, dimens);
             if (photoItemList.get(position).isFavorites()) {
                 toggleFavorites.setChecked(true);
             }
         }
 
         @NonNull
-        private File getFile(int position) {
-            return new File(photoItemList.get(position).getPhotoPath());
+        private Uri getUri(int position) {
+            return fileManager.gerUriFromFileName(photoItemList.get(position).getName());
         }
     }
 }

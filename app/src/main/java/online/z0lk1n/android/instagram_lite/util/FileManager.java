@@ -16,5 +16,11 @@ public interface FileManager {
 
     Uri getUriFromFile(File file);
 
+    Uri gerUriFromFileName(String fileName);
+
     void deleteFile(String source);
+
+    boolean deleteFileByName(String fileName);
+
+    String getAbsoluteFilePath(String fileName);
 }

@@ -1,13 +1,13 @@
 package online.z0lk1n.android.instagram_lite.util;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.media.ExifInterface;
 import android.util.DisplayMetrics;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
 import java.io.IOException;
 
 import online.z0lk1n.android.instagram_lite.R;
@@ -56,9 +56,9 @@ public final class PhotoManagerImpl implements PhotoManager {
     }
 
     @Override
-    public void setPhoto(ImageView imageView, File file, int width, int height) {
+    public void setPhoto(ImageView imageView, Uri uri, int width, int height) {
         Picasso.get()
-                .load(file)
+                .load(uri)
                 .resize(width, height)
                 .placeholder(R.drawable.ic_photo)
                 .error(R.drawable.ic_broken_image)

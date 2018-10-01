@@ -23,7 +23,6 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -53,7 +52,6 @@ public final class CommonFragment extends MvpAppCompatFragment
     private GridLayoutManager layoutManager;
     private PhotoManager photoManager;
     private FileManager fileManager;
-    private String currentFilePath;
     private Uri currentUriFile;
     private int dimens;
 
@@ -100,7 +98,7 @@ public final class CommonFragment extends MvpAppCompatFragment
     private void init(@NotNull View view) {
         ButterKnife.bind(this, view);
 
-        adapter = new RecyclerViewAdapter(photoManager, dimens);
+        adapter = new RecyclerViewAdapter(photoManager, fileManager, dimens);
         adapter.setOnItemClickListener(this);
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -120,10 +118,7 @@ public final class CommonFragment extends MvpAppCompatFragment
         }
 
         try {
-            File photoFile = fileManager.createFile();
-            currentUriFile = fileManager.getUriFromFile(photoFile);
-            currentFilePath = photoFile.getAbsolutePath();
-
+            currentUriFile = fileManager.getUriFromFile(fileManager.createFile());
             intent.putExtra(MediaStore.EXTRA_OUTPUT, currentUriFile);
             startActivityForResult(intent, Const.PHOTO_CAMERA_REQUEST);
         } catch (IOException e) {
@@ -137,7 +132,7 @@ public final class CommonFragment extends MvpAppCompatFragment
         if (requestCode == Const.PHOTO_CAMERA_REQUEST) {
             switch (resultCode) {
                 case RESULT_OK:
-                    presenter.addPhoto(currentFilePath);
+                    presenter.addPhoto(currentUriFile.getLastPathSegment());
                     break;
                 case RESULT_CANCELED:
                     presenter.failCapturePhoto(currentUriFile.toString());

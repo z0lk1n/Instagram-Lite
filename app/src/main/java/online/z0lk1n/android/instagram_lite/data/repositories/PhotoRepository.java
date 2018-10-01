@@ -6,7 +6,7 @@ import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
 
 public interface PhotoRepository {
 
-    String getPhotoPath(int position);
+    String getFileName(int position);
 
     List<PhotoItem> getPhotoList();
 
@@ -14,7 +14,7 @@ public interface PhotoRepository {
 
     void removePhoto(int position);
 
-    void addPhoto(String photoPath, boolean favorites);
+    void addPhoto(String fileName);
 
     void changeFavorites(int position, boolean favorites);
 }

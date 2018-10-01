@@ -4,10 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +13,11 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.data.repositories.PhotoRepositoryImpl;
-import online.z0lk1n.android.instagram_lite.util.Navigator;
 import online.z0lk1n.android.instagram_lite.util.PhotoManager;
-import online.z0lk1n.android.instagram_lite.util.PhotoManagerImpl;
 import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
 
 public final class FavoritesTabFragment extends MvpAppCompatFragment
@@ -52,9 +44,9 @@ public final class FavoritesTabFragment extends MvpAppCompatFragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        photoManager = new PhotoManagerImpl(context);
-        numberOfColumns = photoManager.calculateNumberOfColumns();
-        dimens = photoManager.calculateWidthOfPhoto();
+//        photoManager = new PhotoManagerImpl(context);
+//        numberOfColumns = photoManager.calculateNumberOfColumns();
+//        dimens = photoManager.calculateWidthOfPhoto();
     }
 
     @Nullable
@@ -68,57 +60,57 @@ public final class FavoritesTabFragment extends MvpAppCompatFragment
     private void init(View view) {
         ButterKnife.bind(this, view);
 
-        adapter = new RecyclerViewAdapter(photoManager, dimens);
-        adapter.setOnItemClickListener(this);
-
-        photoRepository = PhotoRepositoryImpl.getInstance();
-        adapter.addItems(photoRepository.getPhotoList());
-
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
-
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
+//        adapter = new RecyclerViewAdapter(photoManager, dimens);
+//        adapter.setOnItemClickListener(this);
+//
+//        photoRepository = PhotoRepositoryImpl.getInstance();
+//        adapter.addItems(photoRepository.getPhotoList());
+//
+//        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
+//
+//        recyclerView.setItemAnimator(new DefaultItemAnimator());
+//        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        adapter.setOnItemClickListener(null);
+//        adapter.setOnItemClickListener(null);
     }
 
     @Override
     public void onPhotoClick(int position) {
-        new Navigator().openFullscreenPhotoActivity(
-                getContext(),
-                photoRepository.getPhotoPath(position));
+//        new Navigator().openFullscreenPhotoActivity(
+//                getContext(),
+//                photoRepository.getFileName(position));
     }
 
     @Override
     public void onPhotoLongClick(int position) {
-        showDeletePhotoDialog(position);
+//        showDeletePhotoDialog(position);
     }
 
     @Override
     public void onFavoritesClick(boolean isChecked, int position) {
-        photoRepository.changeFavorites(position, isChecked);
-//        adapter.notifyItemRemoved(position);
+//        photoRepository.changeFavorites(position, isChecked);
+////        adapter.notifyItemRemoved(position);
     }
 
-    private void showDeletePhotoDialog(final int position) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
-                .setTitle(R.string.ask_delete_photo)
-                .setPositiveButton(R.string.ok_button, (dialog, which) -> deletePhoto(position))
-                .setNegativeButton(R.string.cancel_button, (dialog, which) -> dialog.dismiss());
-        builder.show();
-    }
-
-    private void deletePhoto(int position) {
-        if (new File(photoRepository.getPhotoPath(position)).delete()) {
-            photoRepository.removePhoto(position);
-            adapter.notifyItemRemoved(position);
-            Snackbar.make(recyclerView, R.string.photo_deleted, Snackbar.LENGTH_SHORT).show();
-        }
-    }
+//    private void showDeletePhotoDialog(final int position) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
+//                .setTitle(R.string.ask_delete_photo)
+//                .setPositiveButton(R.string.ok_button, (dialog, which) -> deletePhoto(position))
+//                .setNegativeButton(R.string.cancel_button, (dialog, which) -> dialog.dismiss());
+//        builder.show();
+//    }
+//
+//    private void deletePhoto(int position) {
+//        if (new File(photoRepository.getFileName(position)).delete()) {
+//            photoRepository.removePhoto(position);
+//            adapter.notifyItemRemoved(position);
+//            Snackbar.make(recyclerView, R.string.photo_deleted, Snackbar.LENGTH_SHORT).show();
+//        }
+//    }
 }

@@ -1,8 +1,7 @@
 package online.z0lk1n.android.instagram_lite.util;
 
+import android.net.Uri;
 import android.widget.ImageView;
-
-import java.io.File;
 
 public interface PhotoManager {
 
@@ -14,5 +13,5 @@ public interface PhotoManager {
 
     int getOrientationPhoto(String filePath);
 
-    void setPhoto(ImageView imageView, File file, int width, int height);
+    void setPhoto(ImageView imageView, Uri uri, int width, int height);
 }

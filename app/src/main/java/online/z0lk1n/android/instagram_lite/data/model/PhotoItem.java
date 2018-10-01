@@ -4,17 +4,17 @@ import org.jetbrains.annotations.Contract;
 
 public final class PhotoItem {
 
-    private final String photoPath;
+    private final String name;
     private boolean isFavorites;
 
-    public PhotoItem(String photoPath, boolean isFavorites) {
-        this.photoPath = photoPath;
-        this.isFavorites = isFavorites;
+    public PhotoItem(String name) {
+        this.name = name;
+        this.isFavorites = false;
     }
 
     @Contract(pure = true)
-    public String getPhotoPath() {
-        return photoPath;
+    public String getName() {
+        return name;
     }
 
     @Contract(pure = true)

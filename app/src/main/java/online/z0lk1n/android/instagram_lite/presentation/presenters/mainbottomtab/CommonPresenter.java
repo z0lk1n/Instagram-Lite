@@ -3,8 +3,6 @@ package online.z0lk1n.android.instagram_lite.presentation.presenters.mainbottomt
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import java.io.File;
-
 import online.z0lk1n.android.instagram_lite.data.repositories.PhotoRepository;
 import online.z0lk1n.android.instagram_lite.data.repositories.PhotoRepositoryImpl;
 import online.z0lk1n.android.instagram_lite.presentation.ui.mainbottomtab.CommonView;
@@ -35,7 +33,7 @@ public final class CommonPresenter extends MvpPresenter<CommonView> {
     }
 
     public void onPhotoClick(int position) {
-        getViewState().showFullPhoto(repository.getPhotoPath(position));
+        getViewState().showFullPhoto(fileManager.gerUriFromFileName(repository.getFileName(position)).toString());
     }
 
     public void onPhotoLongClick(int position) {
@@ -47,7 +45,7 @@ public final class CommonPresenter extends MvpPresenter<CommonView> {
     }
 
     public void deletePhoto(int position) {
-        if (new File(repository.getPhotoPath(position)).delete()) {
+        if (fileManager.deleteFileByName(repository.getFileName(position))) {
             repository.removePhoto(position);
             updateView(position,
                     Const.NOTIFY_ITEM_REMOVE,
@@ -65,8 +63,8 @@ public final class CommonPresenter extends MvpPresenter<CommonView> {
         getViewState().startCamera();
     }
 
-    public void addPhoto(String filePath) {
-        repository.addPhoto(filePath, false);
+    public void addPhoto(String fileName) {
+        repository.addPhoto(fileName);
         updateView(repository.getLastPhotoPosition(),
                 Const.NOTIFY_ITEM_INSERT,
                 resources.getPhotoUploaded());
