@@ -25,7 +25,6 @@ import online.z0lk1n.android.instagram_lite.util.SchedulersProviderImpl;
 
 public final class FullscreenPhotoActivity extends MvpAppCompatActivity implements FullscreenPhotoView {
 
-    public static final String NAME = "b9e6ee8c-3f43-457d-ad77-4d99891ef7bc";
     private static final int UI_ANIMATION_DELAY = 300;
 
     private final Handler hideHandler = new Handler();
@@ -35,8 +34,7 @@ public final class FullscreenPhotoActivity extends MvpAppCompatActivity implemen
     @BindView(R.id.toolbar_fullscreen) Toolbar toolbar;
     @BindView(R.id.fullscreen_photo) ImageView imageView;
 
-    @InjectPresenter
-    FullscreenPhotoPresenter presenter;
+    @InjectPresenter FullscreenPhotoPresenter presenter;
 
     @ProvidePresenter
     public FullscreenPhotoPresenter provideFullscreenPhotoPresenter() {

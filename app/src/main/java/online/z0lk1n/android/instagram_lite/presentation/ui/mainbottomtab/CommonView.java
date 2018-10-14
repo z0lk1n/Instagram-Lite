@@ -13,8 +13,6 @@ public interface CommonView extends MvpView {
 
     void showDeletePhotoDialog(int position);
 
-    void showFullPhoto(String photoPath);
-
     void showNotifyingMessage(String message);
 
     void notifyItem(int position, int action);

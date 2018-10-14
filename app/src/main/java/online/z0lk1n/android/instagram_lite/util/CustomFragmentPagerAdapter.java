@@ -5,32 +5,40 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import org.jetbrains.annotations.Contract;
+import online.z0lk1n.android.instagram_lite.presentation.ui.Screens;
 
 public final class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    private final TabFragmentFactory fragmentFactory;
+    private static final String[] TITLES = {"Main", "Favorites"};
 
-    public CustomFragmentPagerAdapter(FragmentManager fm, TabFragmentFactory fragmentFactory) {
-        super(fm);
-        this.fragmentFactory = fragmentFactory;
+    public CustomFragmentPagerAdapter(FragmentManager fragmentManager) {
+        super(fragmentManager);
     }
 
     @Override
     public Fragment getItem(int i) {
-        return fragmentFactory.createFragment(i);
+        return createFragment(i);
     }
 
-    @Contract(pure = true)
     @Override
     public int getCount() {
-        return fragmentFactory.getFragmentsCount();
+        return TITLES.length;
     }
 
-    @Contract(pure = true)
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return fragmentFactory.getFragmentTitle(position);
+        return TITLES[position];
+    }
+
+    private Fragment createFragment(int position) {
+        switch (position) {
+            case 0:
+                return new Screens.MainTabScreen().getFragment();
+            case 1:
+                return new Screens.FavoritesTabScreen().getFragment();
+            default:
+                throw new IllegalArgumentException("Could not create fragment for position :" + position);
+        }
     }
 }

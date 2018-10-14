@@ -8,16 +8,28 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import org.jetbrains.annotations.NotNull;
 
+import online.z0lk1n.android.instagram_lite.App;
 import online.z0lk1n.android.instagram_lite.R;
+import online.z0lk1n.android.instagram_lite.presentation.presenters.mainbottomtab.DatabasePresenter;
 
-public final class DatabaseFragment extends MvpAppCompatFragment {
+public final class DatabaseFragment extends MvpAppCompatFragment implements DatabaseView {
 
-    public static final String NAME = "ba536e1d-3a9d-4db9-9b8c-9e7539d9a20b";
+    @InjectPresenter DatabasePresenter presenter;
 
-    public static DatabaseFragment newInstance(Bundle bundle) {
+    @NonNull
+    @ProvidePresenter
+    DatabasePresenter provideDatabasePresenter() {
+        DatabasePresenter presenter = new DatabasePresenter();
+        App.getInstance().getAppComponent().inject(presenter);
+        return presenter;
+    }
+
+    public static DatabaseFragment getNewInstance(Bundle bundle) {
         DatabaseFragment currentFragment = new DatabaseFragment();
         Bundle args = new Bundle();
         args.putBundle("gettedArgs", bundle);
@@ -34,5 +46,6 @@ public final class DatabaseFragment extends MvpAppCompatFragment {
     }
 
     private void init(View view) {
+        App.getInstance().getAppComponent().inject(this);
     }
 }

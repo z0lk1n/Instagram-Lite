@@ -14,7 +14,7 @@ import java.util.Locale;
 
 import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
 
-public class FileManagerImpl implements FileManager {
+public final class FileManagerImpl implements FileManager {
 
     private final Context context;
     private final ResourceManager resources;

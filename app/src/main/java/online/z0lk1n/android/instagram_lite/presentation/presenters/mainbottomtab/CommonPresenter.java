@@ -3,37 +3,40 @@ package online.z0lk1n.android.instagram_lite.presentation.presenters.mainbottomt
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
+import javax.inject.Inject;
+
 import online.z0lk1n.android.instagram_lite.data.repositories.PhotoRepository;
 import online.z0lk1n.android.instagram_lite.data.repositories.PhotoRepositoryImpl;
+import online.z0lk1n.android.instagram_lite.presentation.ui.Screens;
 import online.z0lk1n.android.instagram_lite.presentation.ui.mainbottomtab.CommonView;
 import online.z0lk1n.android.instagram_lite.util.Const;
 import online.z0lk1n.android.instagram_lite.util.FileManager;
 import online.z0lk1n.android.instagram_lite.util.PhotoManager;
 import online.z0lk1n.android.instagram_lite.util.ResourceManager;
-import online.z0lk1n.android.instagram_lite.util.ResourceManagerImpl;
-import online.z0lk1n.android.instagram_lite.util.SchedulersProvider;
-import online.z0lk1n.android.instagram_lite.util.SchedulersProviderImpl;
+import ru.terrakok.cicerone.Router;
 
 @InjectViewState
 public final class CommonPresenter extends MvpPresenter<CommonView> {
 
-    private final ResourceManager resources;
-    private final SchedulersProvider schedulers;
-    private final PhotoManager photoManager;
-    private final FileManager fileManager;
     private final PhotoRepository repository;
 
-    public CommonPresenter(ResourceManagerImpl resources, PhotoManager photoManager, FileManager fileManager) {
-        this.resources = resources;
-        this.photoManager = photoManager;
-        this.fileManager = fileManager;
-        this.schedulers = new SchedulersProviderImpl();
+    @Inject ResourceManager resources;
+    @Inject FileManager fileManager;
+    @Inject PhotoManager photoManager;
+    @Inject Router router;
+
+    public CommonPresenter() {
         this.repository = PhotoRepositoryImpl.getInstance();
+    }
+
+    @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
         updatePhotoList();
     }
 
-    public void onPhotoClick(int position) {
-        getViewState().showFullPhoto(fileManager.getPhotoPath(repository.getPhotoPath(position)).toString());
+    public void showFullPhoto(int position) {
+        router.navigateTo(new Screens.FullscreenPhotoScreen(fileManager.getPhotoPath(repository.getPhotoPath(position))));
     }
 
     public void onPhotoLongClick(int position) {

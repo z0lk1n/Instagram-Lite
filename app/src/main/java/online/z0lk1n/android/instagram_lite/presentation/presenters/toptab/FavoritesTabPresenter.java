@@ -7,4 +7,5 @@ import online.z0lk1n.android.instagram_lite.presentation.ui.toptab.FavoritesTabV
 
 @InjectViewState
 public final class FavoritesTabPresenter extends MvpPresenter<FavoritesTabView> {
+
 }

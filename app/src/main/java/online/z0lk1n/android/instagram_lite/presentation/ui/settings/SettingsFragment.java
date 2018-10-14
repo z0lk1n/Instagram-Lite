@@ -1,5 +1,6 @@
 package online.z0lk1n.android.instagram_lite.presentation.ui.settings;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.TaskStackBuilder;
@@ -14,12 +15,16 @@ import online.z0lk1n.android.instagram_lite.util.Theme;
 
 public final class SettingsFragment extends PreferenceFragmentCompat {
 
-    public static final String NAME = "1b7cc406-5e05-431f-9cbe-cc1401f03152";
-
     private Preferences preferences;
     private Preference prefDefaultTheme;
     private Preference prefLightTheme;
     private Preference prefDarkTheme;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        preferences = new Preferences(context);
+    }
 
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
@@ -29,7 +34,6 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     private void init() {
-        preferences = new Preferences(getActivity());
         prefDefaultTheme = findPreference(Const.KEY_PREF_STANDARD_THEME);
         prefLightTheme = findPreference(Const.KEY_PREF_LIGHT_THEME);
         prefDarkTheme = findPreference(Const.KEY_PREF_DARK_THEME);
@@ -51,12 +55,13 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     public void changeTheme(Theme theme) {
-        if (preferences.getTheme() != theme) {
-            preferences.setTheme(theme);
-            TaskStackBuilder.create(getActivity())
-                    .addNextIntent(new Intent(getActivity(), MainActivity.class))
-                    .addNextIntent(getActivity().getIntent())
-                    .startActivities();
+        if (preferences.getTheme() == theme || getActivity() == null) {
+            return;
         }
+        preferences.setTheme(theme);
+        TaskStackBuilder.create(getActivity())
+                .addNextIntent(new Intent(getActivity(), MainActivity.class))
+                .addNextIntent(getActivity().getIntent())
+                .startActivities();
     }
 }
