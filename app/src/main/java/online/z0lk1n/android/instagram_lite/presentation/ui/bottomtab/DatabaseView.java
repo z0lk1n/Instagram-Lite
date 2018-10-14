@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.presentation.ui.mainbottomtab;
+package online.z0lk1n.android.instagram_lite.presentation.ui.bottomtab;
 
 import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndStrategy;

@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
+import online.z0lk1n.android.instagram_lite.presentation.ui.bottomtab.CommonFragment;
+import online.z0lk1n.android.instagram_lite.presentation.ui.bottomtab.DatabaseFragment;
+import online.z0lk1n.android.instagram_lite.presentation.ui.bottomtab.NetworkFragment;
 import online.z0lk1n.android.instagram_lite.presentation.ui.fullscreenphoto.FullscreenPhotoActivity;
 import online.z0lk1n.android.instagram_lite.presentation.ui.main.MainActivity;
-import online.z0lk1n.android.instagram_lite.presentation.ui.mainbottomtab.CommonFragment;
-import online.z0lk1n.android.instagram_lite.presentation.ui.mainbottomtab.DatabaseFragment;
-import online.z0lk1n.android.instagram_lite.presentation.ui.mainbottomtab.NetworkFragment;
 import online.z0lk1n.android.instagram_lite.presentation.ui.settings.SettingsActivity;
 import online.z0lk1n.android.instagram_lite.presentation.ui.settings.SettingsFragment;
 import online.z0lk1n.android.instagram_lite.presentation.ui.toptab.FavoritesTabFragment;

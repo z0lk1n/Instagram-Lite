@@ -21,7 +21,6 @@ import online.z0lk1n.android.instagram_lite.presentation.presenters.fullscreenph
 import online.z0lk1n.android.instagram_lite.util.Const;
 import online.z0lk1n.android.instagram_lite.util.PhotoManager;
 import online.z0lk1n.android.instagram_lite.util.PhotoManagerImpl;
-import online.z0lk1n.android.instagram_lite.util.SchedulersProviderImpl;
 
 public final class FullscreenPhotoActivity extends MvpAppCompatActivity implements FullscreenPhotoView {
 
@@ -38,7 +37,7 @@ public final class FullscreenPhotoActivity extends MvpAppCompatActivity implemen
 
     @ProvidePresenter
     public FullscreenPhotoPresenter provideFullscreenPhotoPresenter() {
-        return new FullscreenPhotoPresenter(new SchedulersProviderImpl());
+        return new FullscreenPhotoPresenter();
     }
 
     private final Runnable hidePart2Runnable = () ->

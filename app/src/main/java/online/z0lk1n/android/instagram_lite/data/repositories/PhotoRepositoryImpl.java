@@ -49,7 +49,6 @@ public final class PhotoRepositoryImpl implements PhotoRepository {
         photoItemList.get(position).setFavorites(favorites);
     }
 
-    @Contract(pure = true)
     @Override
     public List<PhotoItem> getPhotoList() {
         return photoItemList;

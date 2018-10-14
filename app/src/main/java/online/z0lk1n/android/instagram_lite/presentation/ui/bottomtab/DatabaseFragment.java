@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.presentation.ui.mainbottomtab;
+package online.z0lk1n.android.instagram_lite.presentation.ui.bottomtab;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,22 +15,22 @@ import org.jetbrains.annotations.NotNull;
 
 import online.z0lk1n.android.instagram_lite.App;
 import online.z0lk1n.android.instagram_lite.R;
-import online.z0lk1n.android.instagram_lite.presentation.presenters.mainbottomtab.NetworkPresenter;
+import online.z0lk1n.android.instagram_lite.presentation.presenters.bottomtab.DatabasePresenter;
 
-public final class NetworkFragment extends MvpAppCompatFragment implements NetworkView {
+public final class DatabaseFragment extends MvpAppCompatFragment implements DatabaseView {
 
-    @InjectPresenter NetworkPresenter presenter;
+    @InjectPresenter DatabasePresenter presenter;
 
     @NonNull
     @ProvidePresenter
-    NetworkPresenter provideNetworkPresenter() {
-        NetworkPresenter presenter = new NetworkPresenter();
+    DatabasePresenter provideDatabasePresenter() {
+        DatabasePresenter presenter = new DatabasePresenter();
         App.getInstance().getAppComponent().inject(presenter);
         return presenter;
     }
 
-    public static NetworkFragment getNewInstance(Bundle bundle) {
-        NetworkFragment currentFragment = new NetworkFragment();
+    public static DatabaseFragment getNewInstance(Bundle bundle) {
+        DatabaseFragment currentFragment = new DatabaseFragment();
         Bundle args = new Bundle();
         args.putBundle("gettedArgs", bundle);
         currentFragment.setArguments(args);
@@ -40,7 +40,7 @@ public final class NetworkFragment extends MvpAppCompatFragment implements Netwo
     @Nullable
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_network, container, false);
+        View view = inflater.inflate(R.layout.fragment_database, container, false);
         init(view);
         return view;
     }

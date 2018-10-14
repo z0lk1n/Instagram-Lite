@@ -1,4 +1,4 @@
-package online.z0lk1n.android.instagram_lite.presentation.ui.mainbottomtab;
+package online.z0lk1n.android.instagram_lite.presentation.ui.bottomtab;
 
 import android.content.Context;
 import android.content.Intent;
@@ -33,7 +33,7 @@ import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.App;
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
-import online.z0lk1n.android.instagram_lite.presentation.presenters.mainbottomtab.CommonPresenter;
+import online.z0lk1n.android.instagram_lite.presentation.presenters.bottomtab.CommonPresenter;
 import online.z0lk1n.android.instagram_lite.util.Const;
 import online.z0lk1n.android.instagram_lite.util.FileManager;
 import online.z0lk1n.android.instagram_lite.util.PhotoManager;

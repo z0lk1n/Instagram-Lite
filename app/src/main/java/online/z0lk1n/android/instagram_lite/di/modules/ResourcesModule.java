@@ -8,7 +8,7 @@ import online.z0lk1n.android.instagram_lite.util.ResourceManager;
 import online.z0lk1n.android.instagram_lite.util.ResourceManagerImpl;
 
 @Module
-public class ResourceManagerModule {
+public class ResourcesModule {
 
     @Provides
     public ResourceManager provideResourceManager(Context context) {
