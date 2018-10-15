@@ -14,13 +14,18 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import java.io.File;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import online.z0lk1n.android.instagram_lite.App;
 import online.z0lk1n.android.instagram_lite.R;
 import online.z0lk1n.android.instagram_lite.presentation.presenters.fullscreenphoto.FullscreenPhotoPresenter;
 import online.z0lk1n.android.instagram_lite.util.Const;
 import online.z0lk1n.android.instagram_lite.util.PhotoManager;
-import online.z0lk1n.android.instagram_lite.util.PhotoManagerImpl;
+import ru.terrakok.cicerone.Navigator;
+import ru.terrakok.cicerone.NavigatorHolder;
+import ru.terrakok.cicerone.android.support.SupportAppNavigator;
 
 public final class FullscreenPhotoActivity extends MvpAppCompatActivity implements FullscreenPhotoView {
 
@@ -28,16 +33,22 @@ public final class FullscreenPhotoActivity extends MvpAppCompatActivity implemen
 
     private final Handler hideHandler = new Handler();
     private final Runnable hideRunnable = this::hide;
-    private boolean isVisible;
 
     @BindView(R.id.toolbar_fullscreen) Toolbar toolbar;
     @BindView(R.id.fullscreen_photo) ImageView imageView;
+
+    @Inject PhotoManager photoManager;
+    @Inject NavigatorHolder navigatorHolder;
+
+    private Navigator navigator = new SupportAppNavigator(this, -1);
 
     @InjectPresenter FullscreenPhotoPresenter presenter;
 
     @ProvidePresenter
     public FullscreenPhotoPresenter provideFullscreenPhotoPresenter() {
-        return new FullscreenPhotoPresenter();
+        FullscreenPhotoPresenter presenter = new FullscreenPhotoPresenter();
+        App.getInstance().getAppComponent().inject(presenter);
+        return presenter;
     }
 
     private final Runnable hidePart2Runnable = () ->
@@ -57,11 +68,13 @@ public final class FullscreenPhotoActivity extends MvpAppCompatActivity implemen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        App.getInstance().getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fullscreen_photo);
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
@@ -69,12 +82,11 @@ public final class FullscreenPhotoActivity extends MvpAppCompatActivity implemen
             actionBar.setDisplayShowHomeEnabled(true);
         }
 
-        PhotoManager photoManager = new PhotoManagerImpl(this);
-        isVisible = true;
-
         int width = photoManager.calculateWidthOfPhoto();
         int height = photoManager.calculateHeightOfPhoto();
+
         File file = new File(getIntent().getStringExtra(Const.KEY_FULLSCREEN_PHOTO));
+
         switch (photoManager.getOrientationPhoto(file.getAbsolutePath())) {
             case ExifInterface.ORIENTATION_NORMAL:
                 photoManager.setPhoto(imageView, file, width, 0);
@@ -87,7 +99,7 @@ public final class FullscreenPhotoActivity extends MvpAppCompatActivity implemen
                 break;
         }
 
-        imageView.setOnClickListener(view -> toggle());
+        imageView.setOnClickListener(view -> presenter.pushToggle());
     }
 
     @Override
@@ -103,29 +115,41 @@ public final class FullscreenPhotoActivity extends MvpAppCompatActivity implemen
         return true;
     }
 
-    private void toggle() {
-        if (isVisible) {
-            hide();
-        } else {
-            show();
-        }
+    @Override
+    public void onBackPressed() {
+        presenter.onBackPressed();
     }
 
-    private void hide() {
+    @Override
+    public void hide() {
         ActionBar actionBar = getSupportActionBar();
+
         if (actionBar != null) {
             actionBar.hide();
         }
-        isVisible = false;
+
         hideHandler.removeCallbacks(showPart2Runnable);
         hideHandler.postDelayed(hidePart2Runnable, UI_ANIMATION_DELAY);
     }
 
-    private void show() {
+    @Override
+    public void show() {
         imageView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
-        isVisible = true;
+
         hideHandler.removeCallbacks(hidePart2Runnable);
         hideHandler.postDelayed(showPart2Runnable, UI_ANIMATION_DELAY);
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        navigatorHolder.setNavigator(navigator);
+    }
+
+    @Override
+    protected void onPause() {
+        navigatorHolder.removeNavigator();
+        super.onPause();
     }
 }

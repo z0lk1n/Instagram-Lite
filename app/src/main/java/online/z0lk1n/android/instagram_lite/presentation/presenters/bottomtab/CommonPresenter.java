@@ -11,7 +11,6 @@ import online.z0lk1n.android.instagram_lite.presentation.ui.Screens;
 import online.z0lk1n.android.instagram_lite.presentation.ui.bottomtab.CommonView;
 import online.z0lk1n.android.instagram_lite.util.Const;
 import online.z0lk1n.android.instagram_lite.util.FileManager;
-import online.z0lk1n.android.instagram_lite.util.PhotoManager;
 import online.z0lk1n.android.instagram_lite.util.ResourceManager;
 import ru.terrakok.cicerone.Router;
 
@@ -22,7 +21,6 @@ public final class CommonPresenter extends MvpPresenter<CommonView> {
 
     @Inject ResourceManager resources;
     @Inject FileManager fileManager;
-    @Inject PhotoManager photoManager;
     @Inject Router router;
 
     public CommonPresenter() {
@@ -50,9 +48,7 @@ public final class CommonPresenter extends MvpPresenter<CommonView> {
     public void deletePhoto(int position) {
         if (fileManager.deleteFile(repository.getPhotoPath(position))) {
             repository.removePhoto(position);
-            updateView(position,
-                    Const.NOTIFY_ITEM_REMOVE,
-                    resources.getPhotoDeleted());
+            updateView(position, Const.NOTIFY_ITEM_REMOVE, resources.getPhotoDeleted());
             updatePhotoList();
         }
     }
@@ -63,9 +59,7 @@ public final class CommonPresenter extends MvpPresenter<CommonView> {
 
     public void addPhoto(String fileName) {
         repository.addPhoto(fileManager.getPhotoPath(fileName));
-        updateView(repository.getLastPhotoPosition(),
-                Const.NOTIFY_ITEM_INSERT,
-                resources.getPhotoUploaded());
+        updateView(repository.getLastPhotoPosition(), Const.NOTIFY_ITEM_INSERT, resources.getPhotoUploaded());
     }
 
     private void updateView(int position, int action, String message) {
@@ -75,5 +69,9 @@ public final class CommonPresenter extends MvpPresenter<CommonView> {
 
     private void updatePhotoList() {
         getViewState().updatePhotoList(fileManager.updatePhotoListFromDir(repository.getPhotoList()));
+    }
+
+    public void closeDialog() {
+        getViewState().closeDialog();
     }
 }

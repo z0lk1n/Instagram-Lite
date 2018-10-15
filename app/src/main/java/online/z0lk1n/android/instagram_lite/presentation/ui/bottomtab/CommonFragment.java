@@ -47,8 +47,8 @@ public final class CommonFragment extends MvpAppCompatFragment
     private static final int PHOTO_CAMERA_REQUEST = 1;
 
     private RecyclerViewAdapter adapter;
-    private GridLayoutManager layoutManager;
     private Uri currentUriFile;
+    private AlertDialog alertDialog;
 
     @BindView(R.id.recycler_view_common) RecyclerView recyclerView;
     @BindView(R.id.fab_add_picture) FloatingActionButton fab;
@@ -78,7 +78,7 @@ public final class CommonFragment extends MvpAppCompatFragment
     public void onAttach(Context context) {
         super.onAttach(context);
         App.getInstance().getAppComponent().inject(this);
-        layoutManager = new GridLayoutManager(context, photoManager.calculateNumberOfColumns());
+
     }
 
     @NonNull
@@ -92,8 +92,10 @@ public final class CommonFragment extends MvpAppCompatFragment
     private void init(@NotNull View view) {
         ButterKnife.bind(this, view);
 
-        adapter = new RecyclerViewAdapter(photoManager, fileManager, photoManager.calculateWidthOfPhoto());
+        adapter = new RecyclerViewAdapter(photoManager, photoManager.calculateWidthOfPhoto());
         adapter.setOnItemClickListener(this);
+
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), photoManager.calculateNumberOfColumns());
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(layoutManager);
@@ -151,8 +153,8 @@ public final class CommonFragment extends MvpAppCompatFragment
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
                 .setTitle(R.string.ask_delete_photo)
                 .setPositiveButton(R.string.ok_button, (dialog, which) -> presenter.deletePhoto(position))
-                .setNegativeButton(R.string.cancel_button, (dialog, which) -> dialog.dismiss());
-        builder.show();
+                .setNegativeButton(R.string.cancel_button, (dialog, which) -> presenter.closeDialog());
+        alertDialog = builder.show();
     }
 
     @Override
@@ -183,5 +185,14 @@ public final class CommonFragment extends MvpAppCompatFragment
     @Override
     public void updatePhotoList(List<PhotoItem> photoItems) {
         adapter.addItems(photoItems);
+    }
+
+    @Override
+    public void closeDialog() {
+        if (alertDialog == null) {
+            return;
+        }
+        alertDialog.dismiss();
+        alertDialog = null;
     }
 }

@@ -1,7 +1,5 @@
 package online.z0lk1n.android.instagram_lite.data.repositories;
 
-import org.jetbrains.annotations.Contract;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +14,6 @@ public final class PhotoRepositoryImpl implements PhotoRepository {
         this.photoItemList = new ArrayList<>();
     }
 
-    @Contract(pure = true)
     public static synchronized PhotoRepositoryImpl getInstance() {
         if (instance == null) {
             instance = new PhotoRepositoryImpl();

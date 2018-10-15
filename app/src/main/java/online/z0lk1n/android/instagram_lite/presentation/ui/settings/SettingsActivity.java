@@ -48,6 +48,7 @@ public final class SettingsActivity extends BaseActivity {
     private void init() {
         setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();

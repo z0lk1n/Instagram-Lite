@@ -20,4 +20,6 @@ public interface CommonView extends MvpView {
     void startCamera();
 
     void updatePhotoList(List<PhotoItem> photoItems);
+
+    void closeDialog();
 }

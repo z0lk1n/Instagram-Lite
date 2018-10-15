@@ -13,10 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -24,21 +26,29 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.App;
 import online.z0lk1n.android.instagram_lite.R;
-import online.z0lk1n.android.instagram_lite.data.repositories.PhotoRepositoryImpl;
-import online.z0lk1n.android.instagram_lite.util.FileManager;
+import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
+import online.z0lk1n.android.instagram_lite.presentation.presenters.toptab.FavoritesTabPresenter;
 import online.z0lk1n.android.instagram_lite.util.PhotoManager;
 import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
 
 public final class FavoritesTabFragment extends MvpAppCompatFragment
-        implements RecyclerViewAdapter.OnItemClickListener {
+        implements RecyclerViewAdapter.OnItemClickListener, FavoritesTabView {
 
     private RecyclerViewAdapter adapter;
-    private PhotoRepositoryImpl photoRepository;
+    private AlertDialog alertDialog;
+
+    @Inject PhotoManager photoManager;
 
     @BindView(R.id.recycler_view_favorites) RecyclerView recyclerView;
 
-    @Inject PhotoManager photoManager;
-    @Inject FileManager fileManager;
+    @InjectPresenter FavoritesTabPresenter presenter;
+
+    @ProvidePresenter
+    FavoritesTabPresenter provideFavoritesTabPresenter() {
+        FavoritesTabPresenter presenter = new FavoritesTabPresenter();
+        App.getInstance().getAppComponent().inject(presenter);
+        return presenter;
+    }
 
     public static FavoritesTabFragment getNewInstance(Bundle bundle) {
         FavoritesTabFragment currentFragment = new FavoritesTabFragment();
@@ -61,16 +71,10 @@ public final class FavoritesTabFragment extends MvpAppCompatFragment
 
         ButterKnife.bind(this, view);
 
-        int numberOfColumns = photoManager.calculateNumberOfColumns();
-        int dimens = photoManager.calculateWidthOfPhoto();
-
-        adapter = new RecyclerViewAdapter(photoManager, fileManager, dimens);
+        adapter = new RecyclerViewAdapter(photoManager, photoManager.calculateWidthOfPhoto());
         adapter.setOnItemClickListener(this);
 
-        photoRepository = PhotoRepositoryImpl.getInstance();
-        adapter.addItems(photoRepository.getPhotoList());
-
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), photoManager.calculateNumberOfColumns());
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(layoutManager);
@@ -86,35 +90,52 @@ public final class FavoritesTabFragment extends MvpAppCompatFragment
 
     @Override
     public void onPhotoClick(int position) {
-//        new Navigator().openFullscreenPhotoActivity(
-//                getContext(),
-//                photoRepository.getName(position));
+        presenter.showFullPhoto(position);
     }
 
     @Override
     public void onPhotoLongClick(int position) {
-        showDeletePhotoDialog(position);
+        presenter.onPhotoLongClick(position);
     }
 
     @Override
     public void onFavoritesClick(boolean isChecked, int position) {
-        photoRepository.changeFavorites(position, isChecked);
+        presenter.onFavoritesClick(isChecked, position);
+    }
+
+    @Override
+    public void showNotifyingMessage(String message) {
+        Snackbar.make(recyclerView, message, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void notifyItemRemoved(int position) {
         adapter.notifyItemRemoved(position);
     }
 
-    private void showDeletePhotoDialog(final int position) {
+    @Override
+    public void showDeletePhotoDialog(final int position) {
+        if (getContext() == null) {
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
                 .setTitle(R.string.ask_delete_photo)
-                .setPositiveButton(R.string.ok_button, (dialog, which) -> deletePhoto(position))
-                .setNegativeButton(R.string.cancel_button, (dialog, which) -> dialog.dismiss());
-        builder.show();
+                .setPositiveButton(R.string.ok_button, (dialog, which) -> presenter.deletePhoto(position))
+                .setNegativeButton(R.string.cancel_button, (dialog, which) -> presenter.closeDialog());
+        alertDialog = builder.show();
     }
 
-    private void deletePhoto(int position) {
-        if (new File(photoRepository.getPhotoPath(position)).delete()) {
-            photoRepository.removePhoto(position);
-            adapter.notifyItemRemoved(position);
-            Snackbar.make(recyclerView, R.string.photo_deleted, Snackbar.LENGTH_SHORT).show();
+    @Override
+    public void updatePhotoList(List<PhotoItem> photoItems) {
+        adapter.addItems(photoItems);
+    }
+
+    @Override
+    public void closeDialog() {
+        if (alertDialog == null) {
+            return;
         }
+        alertDialog.dismiss();
+        alertDialog = null;
     }
 }

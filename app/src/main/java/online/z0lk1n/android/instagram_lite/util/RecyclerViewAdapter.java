@@ -24,12 +24,10 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     private List<PhotoItem> photoItemList;
     private OnItemClickListener itemClickListener;
     private PhotoManager photoManager;
-    private FileManager fileManager;
     private int dimens;
 
-    public RecyclerViewAdapter(PhotoManager photoManager, FileManager fileManager, int dimens) {
+    public RecyclerViewAdapter(PhotoManager photoManager, int dimens) {
         this.photoManager = photoManager;
-        this.fileManager = fileManager;
         this.dimens = dimens;
         this.photoItemList = new ArrayList<>();
     }
