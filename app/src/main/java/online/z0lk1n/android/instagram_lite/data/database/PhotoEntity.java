@@ -11,18 +11,20 @@ public class PhotoEntity {
     @PrimaryKey
     @ColumnInfo(name = "photo_path")
     private String photoPath;
-    @ColumnInfo(name = "favorites")
-    private boolean isFavorites;
-    @ColumnInfo(name = "url")
-    private String Url;
+
+    @ColumnInfo(name = "is_remote")
+    private boolean isRemote;
+
+    @ColumnInfo(name = "is_favorite")
+    private boolean isFavorite;
 
     public PhotoEntity() {
     }
 
-    public PhotoEntity(String photoPath, boolean isFavorites, String url) {
+    public PhotoEntity(String photoPath, boolean isRemote, boolean isFavorite) {
         this.photoPath = photoPath;
-        this.isFavorites = isFavorites;
-        Url = url;
+        this.isRemote = isRemote;
+        this.isFavorite = isFavorite;
     }
 
     public String getPhotoPath() {
@@ -33,19 +35,19 @@ public class PhotoEntity {
         this.photoPath = photoPath;
     }
 
-    public boolean isFavorites() {
-        return isFavorites;
+    public boolean isRemote() {
+        return isRemote;
     }
 
-    public void setFavorites(boolean favorites) {
-        isFavorites = favorites;
+    public void setRemote(boolean remote) {
+        isRemote = remote;
     }
 
-    public String getUrl() {
-        return Url;
+    public boolean isFavorite() {
+        return isFavorite;
     }
 
-    public void setUrl(String url) {
-        Url = url;
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }

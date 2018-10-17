@@ -13,22 +13,14 @@ import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
 
 public final class PhotoRepositoryImpl implements PhotoRepository {
 
-    private static volatile PhotoRepositoryImpl instance = new PhotoRepositoryImpl();
+    private final PhotoDAO database;
     private List<PhotoItem> photoItemList;
-    private PhotoDAO photoDAO;
 
-    @Inject PhotoDatabase db;
+    @Inject PhotoDatabase photoDatabase;
 
-    private PhotoRepositoryImpl() {
+    public PhotoRepositoryImpl() {
+        this.database = photoDatabase.photoDAO();
         this.photoItemList = new ArrayList<>();
-        this.photoDAO = db.photoDAO();
-    }
-
-    public static synchronized PhotoRepositoryImpl getInstance() {
-        if (instance == null) {
-            instance = new PhotoRepositoryImpl();
-        }
-        return instance;
     }
 
     @Override
@@ -58,6 +50,6 @@ public final class PhotoRepositoryImpl implements PhotoRepository {
 
     @Override
     public Single<List<PhotoEntity>> getPhotoList() {
-        return photoDAO.getAllPhoto();
+        return database.getAllPhoto();
     }
 }

@@ -3,11 +3,12 @@ package online.z0lk1n.android.instagram_lite.di;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import online.z0lk1n.android.instagram_lite.data.repositories.PhotoRepositoryImpl;
 import online.z0lk1n.android.instagram_lite.di.modules.AppModule;
-import online.z0lk1n.android.instagram_lite.di.modules.DatabaseModule;
 import online.z0lk1n.android.instagram_lite.di.modules.FileManagerModule;
 import online.z0lk1n.android.instagram_lite.di.modules.NavigationModule;
 import online.z0lk1n.android.instagram_lite.di.modules.PhotoManagerModule;
+import online.z0lk1n.android.instagram_lite.di.modules.RepositoryModule;
 import online.z0lk1n.android.instagram_lite.di.modules.ResourcesModule;
 import online.z0lk1n.android.instagram_lite.di.modules.SchedulersModule;
 import online.z0lk1n.android.instagram_lite.presentation.presenters.bottomtab.CommonPresenter;
@@ -33,7 +34,7 @@ import online.z0lk1n.android.instagram_lite.presentation.ui.toptab.MainTabFragme
         FileManagerModule.class,
         ResourcesModule.class,
         SchedulersModule.class,
-        DatabaseModule.class
+        RepositoryModule.class
 })
 public interface AppComponent {
 
@@ -64,4 +65,6 @@ public interface AppComponent {
     void inject(SettingsActivity activity);
 
     void inject(MainActivity activity);
+
+    void inject(PhotoRepositoryImpl repository);
 }
