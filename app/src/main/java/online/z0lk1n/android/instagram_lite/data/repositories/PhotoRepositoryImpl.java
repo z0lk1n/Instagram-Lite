@@ -3,15 +3,25 @@ package online.z0lk1n.android.instagram_lite.data.repositories;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import io.reactivex.Single;
+import online.z0lk1n.android.instagram_lite.data.database.PhotoDAO;
+import online.z0lk1n.android.instagram_lite.data.database.PhotoDatabase;
+import online.z0lk1n.android.instagram_lite.data.database.PhotoEntity;
 import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
 
 public final class PhotoRepositoryImpl implements PhotoRepository {
 
     private static volatile PhotoRepositoryImpl instance = new PhotoRepositoryImpl();
     private List<PhotoItem> photoItemList;
+    private PhotoDAO photoDAO;
+
+    @Inject PhotoDatabase db;
 
     private PhotoRepositoryImpl() {
         this.photoItemList = new ArrayList<>();
+        this.photoDAO = db.photoDAO();
     }
 
     public static synchronized PhotoRepositoryImpl getInstance() {
@@ -47,7 +57,7 @@ public final class PhotoRepositoryImpl implements PhotoRepository {
     }
 
     @Override
-    public List<PhotoItem> getPhotoList() {
-        return photoItemList;
+    public Single<List<PhotoEntity>> getPhotoList() {
+        return photoDAO.getAllPhoto();
     }
 }

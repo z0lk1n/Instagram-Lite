@@ -2,13 +2,14 @@ package online.z0lk1n.android.instagram_lite.data.repositories;
 
 import java.util.List;
 
-import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
+import io.reactivex.Single;
+import online.z0lk1n.android.instagram_lite.data.database.PhotoEntity;
 
 public interface PhotoRepository {
 
     String getPhotoPath(int position);
 
-    List<PhotoItem> getPhotoList();
+    Single<List<PhotoEntity>> getPhotoList();
 
     int getLastPhotoPosition();
 

@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import online.z0lk1n.android.instagram_lite.di.modules.AppModule;
+import online.z0lk1n.android.instagram_lite.di.modules.DatabaseModule;
 import online.z0lk1n.android.instagram_lite.di.modules.FileManagerModule;
 import online.z0lk1n.android.instagram_lite.di.modules.NavigationModule;
 import online.z0lk1n.android.instagram_lite.di.modules.PhotoManagerModule;
@@ -31,7 +32,8 @@ import online.z0lk1n.android.instagram_lite.presentation.ui.toptab.MainTabFragme
         PhotoManagerModule.class,
         FileManagerModule.class,
         ResourcesModule.class,
-        SchedulersModule.class
+        SchedulersModule.class,
+        DatabaseModule.class
 })
 public interface AppComponent {
 
