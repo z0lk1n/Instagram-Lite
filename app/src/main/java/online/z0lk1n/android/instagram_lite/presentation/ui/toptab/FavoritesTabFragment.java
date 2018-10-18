@@ -26,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.App;
 import online.z0lk1n.android.instagram_lite.R;
-import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
+import online.z0lk1n.android.instagram_lite.data.database.PhotoEntity;
 import online.z0lk1n.android.instagram_lite.presentation.presenters.toptab.FavoritesTabPresenter;
 import online.z0lk1n.android.instagram_lite.util.PhotoManager;
 import online.z0lk1n.android.instagram_lite.util.RecyclerViewAdapter;
@@ -89,18 +89,18 @@ public final class FavoritesTabFragment extends MvpAppCompatFragment
     }
 
     @Override
-    public void onPhotoClick(int position) {
-        presenter.showFullPhoto(position);
+    public void onPhotoClick(String photoPath) {
+        presenter.showFullPhoto(photoPath);
     }
 
     @Override
-    public void onPhotoLongClick(int position) {
-        presenter.onPhotoLongClick(position);
+    public void onPhotoLongClick(String photoPath) {
+        presenter.onPhotoLongClick(photoPath);
     }
 
     @Override
-    public void onFavoritesClick(boolean isChecked, int position) {
-        presenter.onFavoritesClick(isChecked, position);
+    public void onFavoritesClick(boolean isChecked, String photoPath) {
+        presenter.onFavoritesClick(isChecked, photoPath);
     }
 
     @Override
@@ -114,19 +114,19 @@ public final class FavoritesTabFragment extends MvpAppCompatFragment
     }
 
     @Override
-    public void showDeletePhotoDialog(final int position) {
+    public void showDeletePhotoDialog(final String photoPath) {
         if (getContext() == null) {
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
                 .setTitle(R.string.ask_delete_photo)
-                .setPositiveButton(R.string.ok_button, (dialog, which) -> presenter.deletePhoto(position))
+                .setPositiveButton(R.string.ok_button, (dialog, which) -> presenter.deletePhoto(photoPath))
                 .setNegativeButton(R.string.cancel_button, (dialog, which) -> presenter.closeDialog());
         alertDialog = builder.show();
     }
 
     @Override
-    public void updatePhotoList(List<PhotoItem> photoItems) {
+    public void updatePhotoList(List<PhotoEntity> photoItems) {
         adapter.addItems(photoItems);
     }
 

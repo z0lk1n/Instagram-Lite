@@ -17,11 +17,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.R;
-import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
+import online.z0lk1n.android.instagram_lite.data.database.PhotoEntity;
 
 public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private List<PhotoItem> photoItemList;
+    private List<PhotoEntity> photoList;
     private OnItemClickListener itemClickListener;
     private PhotoManager photoManager;
     private int dimens;
@@ -29,15 +29,15 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     public RecyclerViewAdapter(PhotoManager photoManager, int dimens) {
         this.photoManager = photoManager;
         this.dimens = dimens;
-        this.photoItemList = new ArrayList<>();
+        this.photoList = new ArrayList<>();
     }
 
     public interface OnItemClickListener {
-        void onPhotoClick(int position);
+        void onPhotoClick(String photoPath);
 
-        void onPhotoLongClick(int position);
+        void onPhotoLongClick(String photoPath);
 
-        void onFavoritesClick(boolean isChecked, int position);
+        void onFavoritesClick(boolean isChecked, String photoPath);
     }
 
     public void setOnItemClickListener(OnItemClickListener itemClickListener) {
@@ -59,12 +59,12 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public int getItemCount() {
-        return photoItemList.size();
+        return photoList.size();
     }
 
-    public void addItems(List<PhotoItem> photoItems) {
-        photoItemList.clear();
-        photoItemList.addAll(photoItems);
+    public void addItems(List<PhotoEntity> photoEntity) {
+        photoList.clear();
+        photoList.addAll(photoEntity);
         notifyDataSetChanged();
     }
 
@@ -78,27 +78,31 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             ButterKnife.bind(this, itemView);
 
             imgViewPhoto.setOnClickListener(view ->
-                    itemClickListener.onPhotoClick(getAdapterPosition()));
+                    itemClickListener.onPhotoClick(getPhotoPath(getAdapterPosition())));
 
             imgViewPhoto.setOnLongClickListener(view -> {
-                    itemClickListener.onPhotoLongClick(getAdapterPosition());
+                    itemClickListener.onPhotoLongClick(getPhotoPath(getAdapterPosition()));
                     return true;
             });
 
             toggleFavorites.setOnCheckedChangeListener((buttonView, isChecked) ->
-                    itemClickListener.onFavoritesClick(isChecked, getAdapterPosition()));
+                    itemClickListener.onFavoritesClick(isChecked, getPhotoPath(getAdapterPosition())));
         }
 
         private void bindView(int position) {
             photoManager.setPhoto(imgViewPhoto, getFile(position), dimens, dimens);
-            if (photoItemList.get(position).isFavorites()) {
+            if (photoList.get(position).isFavorite()) {
                 toggleFavorites.setChecked(true);
             }
         }
 
         @NonNull
         private File getFile(int position) {
-            return new File(photoItemList.get(position).getPhotoPath());
+            return new File(getPhotoPath(position));
+        }
+
+        private String getPhotoPath(int position)   {
+            return photoList.get(position).getPhotoPath();
         }
     }
 }

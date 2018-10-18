@@ -7,15 +7,11 @@ import online.z0lk1n.android.instagram_lite.data.database.PhotoEntity;
 
 public interface PhotoRepository {
 
-    String getPhotoPath(int position);
-
     Single<List<PhotoEntity>> getPhotoList();
 
-    int getLastPhotoPosition();
+    void removePhoto(PhotoEntity photoEntity);
 
-    void removePhoto(int position);
+    void addPhoto(PhotoEntity photoEntity);
 
-    void addPhoto(String fileName);
-
-    void changeFavorites(int position, boolean favorites);
+    void changeFavorites(PhotoEntity photoEntity);
 }

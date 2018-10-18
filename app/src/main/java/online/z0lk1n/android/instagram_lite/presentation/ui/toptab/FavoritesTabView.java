@@ -6,12 +6,12 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 
-import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
+import online.z0lk1n.android.instagram_lite.data.database.PhotoEntity;
 
 @StateStrategyType(AddToEndStrategy.class)
 public interface FavoritesTabView extends MvpView {
 
-    void showDeletePhotoDialog(final int position);
+    void showDeletePhotoDialog(final String photoPath);
 
     void notifyItemRemoved(int position);
 
@@ -19,5 +19,5 @@ public interface FavoritesTabView extends MvpView {
 
     void showNotifyingMessage(String message);
 
-    void updatePhotoList(List<PhotoItem> photoItems);
+    void updatePhotoList(List<PhotoEntity> photoEntities);
 }

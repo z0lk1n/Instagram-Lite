@@ -4,10 +4,12 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 @Entity(indices = {@Index(value = {"photo_path"}, unique = true)})
 public class PhotoEntity {
 
+    @NonNull
     @PrimaryKey
     @ColumnInfo(name = "photo_path")
     private String photoPath;
@@ -21,17 +23,18 @@ public class PhotoEntity {
     public PhotoEntity() {
     }
 
-    public PhotoEntity(String photoPath, boolean isRemote, boolean isFavorite) {
+    public PhotoEntity(@NonNull String photoPath, boolean isRemote, boolean isFavorite) {
         this.photoPath = photoPath;
         this.isRemote = isRemote;
         this.isFavorite = isFavorite;
     }
 
+    @NonNull
     public String getPhotoPath() {
         return photoPath;
     }
 
-    public void setPhotoPath(String photoPath) {
+    public void setPhotoPath(@NonNull String photoPath) {
         this.photoPath = photoPath;
     }
 

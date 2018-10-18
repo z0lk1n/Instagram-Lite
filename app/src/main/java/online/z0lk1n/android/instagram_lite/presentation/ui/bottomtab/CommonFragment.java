@@ -32,7 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import online.z0lk1n.android.instagram_lite.App;
 import online.z0lk1n.android.instagram_lite.R;
-import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
+import online.z0lk1n.android.instagram_lite.data.database.PhotoEntity;
 import online.z0lk1n.android.instagram_lite.presentation.presenters.bottomtab.CommonPresenter;
 import online.z0lk1n.android.instagram_lite.util.Const;
 import online.z0lk1n.android.instagram_lite.util.FileManager;
@@ -126,33 +126,33 @@ public final class CommonFragment extends MvpAppCompatFragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PHOTO_CAMERA_REQUEST && resultCode == RESULT_OK) {
-            presenter.addPhoto(currentUriFile.getLastPathSegment());
+            presenter.addPhoto(fileManager.getPhotoPath(currentUriFile.getLastPathSegment()));
         }
     }
 
     @Override
-    public void onPhotoClick(int position) {
-        presenter.showFullPhoto(position);
+    public void onPhotoClick(String photoPath) {
+        presenter.showFullPhoto(photoPath);
     }
 
     @Override
-    public void onPhotoLongClick(int position) {
-        presenter.onPhotoLongClick(position);
+    public void onPhotoLongClick(String photoPath) {
+        presenter.onPhotoLongClick(photoPath);
     }
 
     @Override
-    public void onFavoritesClick(boolean isChecked, int position) {
-        presenter.onFavoritesClick(isChecked, position);
+    public void onFavoritesClick(boolean isChecked, String photoPath) {
+        presenter.onFavoritesClick(isChecked, photoPath);
     }
 
     @Override
-    public void showDeletePhotoDialog(final int position) {
+    public void showDeletePhotoDialog(final String photoPath) {
         if (getContext() == null) {
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
                 .setTitle(R.string.ask_delete_photo)
-                .setPositiveButton(R.string.ok_button, (dialog, which) -> presenter.deletePhoto(position))
+                .setPositiveButton(R.string.ok_button, (dialog, which) -> presenter.deletePhoto(photoPath))
                 .setNegativeButton(R.string.cancel_button, (dialog, which) -> presenter.closeDialog());
         alertDialog = builder.show();
     }
@@ -183,8 +183,8 @@ public final class CommonFragment extends MvpAppCompatFragment
     }
 
     @Override
-    public void updatePhotoList(List<PhotoItem> photoItems) {
-        adapter.addItems(photoItems);
+    public void updatePhotoList(List<PhotoEntity> photoEntities) {
+        adapter.addItems(photoEntities);
     }
 
     @Override

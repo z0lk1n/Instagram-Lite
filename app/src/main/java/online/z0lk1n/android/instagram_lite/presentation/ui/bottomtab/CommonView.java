@@ -6,12 +6,12 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 
-import online.z0lk1n.android.instagram_lite.data.model.PhotoItem;
+import online.z0lk1n.android.instagram_lite.data.database.PhotoEntity;
 
 @StateStrategyType(AddToEndStrategy.class)
 public interface CommonView extends MvpView {
 
-    void showDeletePhotoDialog(int position);
+    void showDeletePhotoDialog(final String photoPath);
 
     void showNotifyingMessage(String message);
 
@@ -19,7 +19,7 @@ public interface CommonView extends MvpView {
 
     void startCamera();
 
-    void updatePhotoList(List<PhotoItem> photoItems);
+    void updatePhotoList(List<PhotoEntity> photoEntities);
 
     void closeDialog();
 }
