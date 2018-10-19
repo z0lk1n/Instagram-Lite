@@ -80,4 +80,12 @@ public final class MainTabFragment extends MvpAppCompatFragment implements MainT
         }
         return navigator;
     }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser && navigator != null){
+            presenter.showFragment(bottomNavigationView.getSelectedItemId());
+        }
+    }
 }

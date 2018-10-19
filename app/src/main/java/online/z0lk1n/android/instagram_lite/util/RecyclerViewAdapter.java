@@ -21,6 +21,15 @@ import online.z0lk1n.android.instagram_lite.data.database.PhotoEntity;
 
 public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
+    public interface OnItemClickListener {
+
+        void onPhotoClick(String photoPath);
+
+        void onPhotoLongClick(String photoPath);
+
+        void onFavoritesClick(boolean isChecked, String photoPath);
+    }
+
     private List<PhotoEntity> photoList;
     private OnItemClickListener itemClickListener;
     private PhotoManager photoManager;
@@ -30,14 +39,6 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         this.photoManager = photoManager;
         this.dimens = dimens;
         this.photoList = new ArrayList<>();
-    }
-
-    public interface OnItemClickListener {
-        void onPhotoClick(String photoPath);
-
-        void onPhotoLongClick(String photoPath);
-
-        void onFavoritesClick(boolean isChecked, String photoPath);
     }
 
     public void setOnItemClickListener(OnItemClickListener itemClickListener) {

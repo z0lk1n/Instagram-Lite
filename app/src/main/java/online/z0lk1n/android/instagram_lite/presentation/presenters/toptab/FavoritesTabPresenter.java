@@ -64,7 +64,7 @@ public final class FavoritesTabPresenter extends MvpPresenter<FavoritesTabView> 
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe(() -> getViewState().notifyItemRemoved(currentList.indexOf(photo)));
-        //TODO 19.10.18 maybe updatePhotoList();
+        updatePhotoList();
     }
 
     @SuppressLint("CheckResult")
@@ -86,7 +86,7 @@ public final class FavoritesTabPresenter extends MvpPresenter<FavoritesTabView> 
     }
 
     @SuppressLint("CheckResult")
-    private void updatePhotoList() {
+    public void updatePhotoList() {
         repository.getPhotoList()
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())

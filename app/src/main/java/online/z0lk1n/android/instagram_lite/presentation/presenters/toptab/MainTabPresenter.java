@@ -18,16 +18,18 @@ public class MainTabPresenter extends MvpPresenter<MainTabView> {
     public boolean showFragment(int itemId) {
         switch (itemId) {
             case R.id.action_common:
-                router.navigateTo(new Screens.CommonScreen());
+                router.replaceScreen(new Screens.CommonScreen());
                 return true;
             case R.id.action_network:
-                router.navigateTo(new Screens.NetworkScreen());
+                router.replaceScreen(new Screens.NetworkScreen());
                 return true;
             case R.id.action_database:
-                router.navigateTo(new Screens.DatabaseScreen());
+                router.replaceScreen(new Screens.DatabaseScreen());
                 return true;
             default:
                 return false;
         }
     }
+
+
 }

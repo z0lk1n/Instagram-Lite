@@ -56,12 +56,17 @@ public final class CommonPresenter extends MvpPresenter<CommonView> {
 
     @SuppressLint("CheckResult")
     public void onFavoritesClick(boolean isChecked, String photoPath) {
-        Completable.fromAction(() -> {
-            PhotoEntity photo = findByPhotoPath(photoPath);
-            photo.setFavorite(isChecked);
-            repository.changeFavorites(photo);
-        }).subscribeOn(schedulers.io());
-    }
+        Completable
+                .fromAction(() -> {
+                    PhotoEntity photo = findByPhotoPath(photoPath);
+                    photo.setFavorite(isChecked);
+                    repository.changeFavorites(photo);
+                })
+                .subscribeOn(schedulers.io())
+                .observeOn(schedulers.ui())
+                .subscribe(() -> { });
+        updatePhotoList();
+        }
 
     @SuppressLint("CheckResult")
     public void deletePhoto(String photoPath) {
@@ -95,7 +100,7 @@ public final class CommonPresenter extends MvpPresenter<CommonView> {
     }
 
     @SuppressLint("CheckResult")
-    private void updatePhotoList() {
+    public void updatePhotoList() {
         repository.getPhotoList()
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())

@@ -195,4 +195,18 @@ public final class CommonFragment extends MvpAppCompatFragment
         alertDialog.dismiss();
         alertDialog = null;
     }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser){
+            presenter.updatePhotoList();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.updatePhotoList();
+    }
 }

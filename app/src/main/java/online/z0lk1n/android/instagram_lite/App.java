@@ -2,6 +2,8 @@ package online.z0lk1n.android.instagram_lite;
 
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
+
 import org.jetbrains.annotations.Contract;
 
 import online.z0lk1n.android.instagram_lite.di.AppComponent;
@@ -21,6 +23,7 @@ public class App extends Application {
         instance = this;
         appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
         Timber.plant(new Timber.DebugTree());
+        Stetho.initializeWithDefaults(this);
     }
 
     @Contract(pure = true)

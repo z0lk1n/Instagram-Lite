@@ -72,6 +72,9 @@ dependencies {
     // Log Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
+    // Debug bridge Stetho
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+
     implementation 'org.jetbrains:annotations:16.0.1'
 
     testImplementation 'junit:junit:4.12'
