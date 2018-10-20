@@ -2,7 +2,7 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="online.z0lk1n.android.instagram_lite">
+    package="online.z0lk1n.android.photocollector">
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".App"
+        android:name="online.z0lk1n.android.photocollector.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -23,7 +23,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".presentation.ui.main.MainActivity"
+            android:name="online.z0lk1n.android.photocollector.presentation.ui.main.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,11 +33,11 @@
         </activity>
 
         <activity
-            android:name=".presentation.ui.settings.SettingsActivity"
+            android:name="online.z0lk1n.android.photocollector.presentation.ui.settings.SettingsActivity"
             android:label="@string/settings" />
 
         <activity
-            android:name=".presentation.ui.fullscreenphoto.FullscreenPhotoActivity"
+            android:name="online.z0lk1n.android.photocollector.presentation.ui.fullscreenphoto.FullscreenPhotoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/ThemeFullscreen" />
 

@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">Instagram-Lite</string>
+    <string name="app_name">Photo Collector</string>
     <string name="package_name">online.z0lk1n.android.instagram_lite</string>
     <string name="color_style">Color Style</string>
     <string name="default_theme">Default Theme</string>
@@ -26,4 +26,10 @@
     <string name="database_title">Database</string>
     <string name="network_title">Network</string>
     <string name="fail_capture_photo">Fail capture photo!</string>
+
+    //Instagram
+    <string name="instagram_id">eaa…</string>
+    <string name="instagram_secret">71f…</string>
+    <string name="APP_ID">449…</string>
+    <string name="callback_url">http:// …</string>
 </resources>
