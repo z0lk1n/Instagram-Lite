@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "online.z0lk1n.android.instagram_lite"
+        applicationId "online.z0lk1n.android.photocollector"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
@@ -24,27 +24,70 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:28.0.0-rc02'
-    implementation 'com.android.support:support-v4:28.0.0-rc02'
-    implementation 'com.android.support:design:28.0.0-rc02'
-    implementation "com.android.support:preference-v7:28.0.0-rc02"
-    implementation 'com.android.support:recyclerview-v7:28.0.0-rc02'
-    implementation 'com.android.support:cardview-v7:28.0.0-rc02'
-    implementation "com.android.support:exifinterface:28.0.0-rc02"
+
+    // Support libraries
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+    implementation "com.android.support:preference-v7:28.0.0"
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.android.support:cardview-v7:28.0.0'
+    implementation "com.android.support:exifinterface:28.0.0"
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 
-    implementation 'com.squareup.picasso:picasso:2.71828'
-
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-
+    // MVP Moxy
     implementation 'com.arello-mobile:moxy:1.5.5'
     implementation 'com.arello-mobile:moxy-app-compat:1.5.5'
     annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.5'
 
+    // RxJava 2
+    implementation "io.reactivex.rxjava2:rxjava:2.1.16"
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.2"
+
+    // DI Dagger 2
+    implementation 'com.google.dagger:dagger:2.17'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.17'
+
+    // ORM Room
+    implementation 'android.arch.persistence.room:runtime:1.1.1'
+    annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
+    implementation 'android.arch.persistence.room:rxjava2:1.1.1'
+
+    // Retrofit 2
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+
+    // Butter Knife
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    // Image Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    // Navigation Cicerone
+    implementation 'ru.terrakok.cicerone:cicerone:4.0.2'
+
+    // Log Timber
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    // Debug bridge Stetho
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+
+    implementation 'org.jetbrains:annotations:16.0.1'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation 'org.jetbrains:annotations:15.0'
-    implementation 'org.jetbrains:annotations:15.0'
+
+    testImplementation 'org.mockito:mockito-core:2.15.0'
+
+    androidTestImplementation 'com.squareup.okhttp3:mockwebserver:3.6.0'
+
+    androidTestImplementation 'com.google.dagger:dagger:2.17'
+    androidTestAnnotationProcessor 'com.google.dagger:dagger-compiler:2.17'
+
+    testImplementation 'com.google.dagger:dagger:2.17'
+    testAnnotationProcessor 'com.google.dagger:dagger-compiler:2.17'
 }
