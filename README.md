@@ -1,1 +1,1 @@
-# Instagram-Lite
+# Photo Collector
