@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import online.z0lk1n.android.photocollector.data.repositories.PhotoRepositoryImpl;
+import online.z0lk1n.android.photocollector.di.modules.ApiModule;
 import online.z0lk1n.android.photocollector.di.modules.AppModule;
 import online.z0lk1n.android.photocollector.di.modules.FileManagerModule;
 import online.z0lk1n.android.photocollector.di.modules.NavigationModule;
@@ -29,6 +30,7 @@ import online.z0lk1n.android.photocollector.presentation.ui.toptab.MainTabFragme
 @Singleton
 @Component(modules = {
         AppModule.class,
+        ApiModule.class,
         NavigationModule.class,
         PhotoManagerModule.class,
         FileManagerModule.class,
