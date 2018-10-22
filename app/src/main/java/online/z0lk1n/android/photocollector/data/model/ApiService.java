@@ -4,9 +4,10 @@ import java.util.List;
 
 import io.reactivex.Single;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 public interface ApiService {
 
-    @GET
-    Single<List<PhotoItem>> getPhoto(String url);
+    @GET("photos/?client_id={id}")
+    Single<List<PhotoItemNet>> getPhotoList(@Path("id") String id);
 }
