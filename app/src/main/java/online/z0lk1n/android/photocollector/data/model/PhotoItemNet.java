@@ -12,7 +12,7 @@ public class PhotoItemNet {
         this.urls = urls;
     }
 
-    public String[] getUrls() {
-        return urls;
+    public String getPhotoUrl() {
+        return urls[2];
     }
 }

@@ -50,7 +50,7 @@ public final class CommonFragment extends MvpAppCompatFragment
     private Uri currentUriFile;
     private AlertDialog alertDialog;
 
-    @BindView(R.id.recycler_view_common) RecyclerView recyclerView;
+    @BindView(R.id.rv_common) RecyclerView recyclerView;
     @BindView(R.id.fab_add_picture) FloatingActionButton fab;
 
     @Inject PhotoManager photoManager;

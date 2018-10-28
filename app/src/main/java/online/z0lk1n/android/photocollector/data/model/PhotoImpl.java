@@ -4,7 +4,6 @@ import java.util.List;
 
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
-import online.z0lk1n.android.photocollector.util.ApiConst;
 
 public class PhotoImpl implements Photo {
 
@@ -15,8 +14,8 @@ public class PhotoImpl implements Photo {
     }
 
     @Override
-    public Single<List<PhotoItemNet>> getPhotoList(String id) {
-        return api.getPhotoList(ApiConst.ACCESS_KEY)
+    public Single<List<PhotoItemNet>> getPhotoList(String clientId) {
+        return api.getPhotoList(clientId)
                 .subscribeOn(Schedulers.io());
     }
 }
