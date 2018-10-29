@@ -15,4 +15,6 @@ public interface PhotoManager {
     int getOrientationPhoto(String filePath);
 
     void setPhoto(ImageView imageView, File file, int width, int height);
+
+    void setPhoto(ImageView imageView, String url, int width, int height);
 }

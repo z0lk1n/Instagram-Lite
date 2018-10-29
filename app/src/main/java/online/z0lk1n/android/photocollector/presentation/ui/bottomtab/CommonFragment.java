@@ -78,7 +78,6 @@ public final class CommonFragment extends MvpAppCompatFragment
     public void onAttach(Context context) {
         super.onAttach(context);
         App.getInstance().getAppComponent().inject(this);
-
     }
 
     @NonNull

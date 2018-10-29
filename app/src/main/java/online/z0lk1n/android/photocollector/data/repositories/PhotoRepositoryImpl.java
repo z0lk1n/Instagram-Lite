@@ -26,12 +26,27 @@ public final class PhotoRepositoryImpl implements PhotoRepository {
     }
 
     @Override
+    public void addAllPhotos(List<PhotoEntity> photoEntities) {
+        db.insertAll(photoEntities);
+    }
+
+    @Override
     public void changeFavorites(PhotoEntity photoEntity) {
         db.update(photoEntity);
     }
 
     @Override
     public Single<List<PhotoEntity>> getPhotoList() {
-        return db.getAllPhoto();
+        return db.getAllPhotos();
+    }
+
+    @Override
+    public Single<List<PhotoEntity>> getLocalPhotoList() {
+        return db.getAllLocalPhotos();
+    }
+
+    @Override
+    public Single<List<PhotoEntity>> getNetworkPhotoList() {
+        return db.getAllNetworkPhotos();
     }
 }

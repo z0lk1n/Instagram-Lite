@@ -4,7 +4,6 @@ import java.util.List;
 
 import io.reactivex.Single;
 
-public interface Photo {
-
-    Single<List<PhotoItemNet>> getPhotoList(String id);
+public interface Photos {
+    Single<List<PhotoModel>> getPhotos(String id);
 }

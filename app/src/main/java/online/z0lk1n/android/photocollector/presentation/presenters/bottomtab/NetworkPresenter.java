@@ -11,7 +11,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import online.z0lk1n.android.photocollector.data.database.PhotoEntity;
-import online.z0lk1n.android.photocollector.data.model.Photo;
+import online.z0lk1n.android.photocollector.data.model.PhotoModel;
+import online.z0lk1n.android.photocollector.data.model.Photos;
+import online.z0lk1n.android.photocollector.data.repositories.PhotoRepository;
 import online.z0lk1n.android.photocollector.presentation.ui.Screens;
 import online.z0lk1n.android.photocollector.presentation.ui.bottomtab.NetworkView;
 import online.z0lk1n.android.photocollector.util.ApiConst;
@@ -22,13 +24,14 @@ import timber.log.Timber;
 @InjectViewState
 public final class NetworkPresenter extends MvpPresenter<NetworkView> {
 
-    private static final String MSG_ERROR_PHOTO_LIST = "Failed to get photo list";
+    private static final String MSG_ERROR_PHOTO_LIST = "Failed to get photos list";
 
     private List<PhotoEntity> currentList;
 
     @Inject Router router;
+    @Inject PhotoRepository repository;
     @Inject SchedulersProvider schedulers;
-    @Inject Photo photo;
+    @Inject Photos photos;
 
     public NetworkPresenter() {
         this.currentList = new ArrayList<>();
@@ -52,22 +55,32 @@ public final class NetworkPresenter extends MvpPresenter<NetworkView> {
 
     @SuppressLint("CheckResult")
     private void updatePhotoList() {
-        photo.getPhotoList(ApiConst.ACCESS_KEY)
-//                .map(photoItemNets -> {
-//                    List<PhotoEntity> photoEntities = new ArrayList<>();
-//                    for (PhotoItemNet item : photoItemNets) {
-//                        photoEntities.add(new PhotoEntity(item.getPhotoUrl(), false, false));
-//                    }
-//                    photoEntities.add(new PhotoEntity("dfsdfsdfsdf", false, false));
-//                    return photoEntities;
-//                })
+        photos.getPhotos(ApiConst.ACCESS_KEY)
+                .map(photoModels -> {
+                    List<PhotoEntity> photoEntities = new ArrayList<>();
+                    for (PhotoModel photo : photoModels) {
+                        photoEntities.add(new PhotoEntity(photo.getUrls().getRegular(), true, false));
+                    }
+                    repository.addAllPhotos(photoEntities);
+                    return photoEntities;
+                })
                 .observeOn(schedulers.ui())
-                .subscribe(photoItemNets -> {
-                    Timber.d(String.valueOf(photoItemNets.size()));
-//                    currentList = photoEntities;
-//                    getViewState().updatePhotoList(photoEntities);
+                .subscribe(photoEntities -> {
+                    currentList = photoEntities;
+                    getViewState().updatePhotoList(photoEntities);
                 }, throwable -> {
-//                    Timber.d(throwable, MSG_ERROR_PHOTO_LIST);
+                    Timber.d(throwable, MSG_ERROR_PHOTO_LIST);
+                    getViewState().showNotifyingMessage(MSG_ERROR_PHOTO_LIST);
+                });
+
+        repository.getNetworkPhotoList()
+                .subscribeOn(schedulers.io())
+                .observeOn(schedulers.ui())
+                .subscribe(photoEntities -> {
+                    currentList = photoEntities;
+                    getViewState().updatePhotoList(photoEntities);
+                }, throwable -> {
+                    Timber.d(throwable, MSG_ERROR_PHOTO_LIST);
                     getViewState().showNotifyingMessage(MSG_ERROR_PHOTO_LIST);
                 });
     }

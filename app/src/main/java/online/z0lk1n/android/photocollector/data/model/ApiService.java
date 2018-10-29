@@ -9,5 +9,5 @@ import retrofit2.http.Query;
 public interface ApiService {
 
     @GET("photos/")
-    Single<List<PhotoItemNet>> getPhotoList(@Query("client_id") String clientId);
+    Single<List<PhotoModel>> getPhotos(@Query("client_id") String clientId);
 }

@@ -5,17 +5,16 @@ import java.util.List;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
-public class PhotoImpl implements Photo {
+public class PhotosImpl implements Photos {
 
     private final ApiService api;
 
-    public PhotoImpl(ApiService api) {
+    public PhotosImpl(ApiService api) {
         this.api = api;
     }
 
     @Override
-    public Single<List<PhotoItemNet>> getPhotoList(String clientId) {
-        return api.getPhotoList(clientId)
-                .subscribeOn(Schedulers.io());
+    public Single<List<PhotoModel>> getPhotos(String clientId) {
+        return api.getPhotos(clientId).subscribeOn(Schedulers.io());
     }
 }

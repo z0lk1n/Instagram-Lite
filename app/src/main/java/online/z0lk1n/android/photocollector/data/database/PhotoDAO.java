@@ -30,7 +30,13 @@ public interface PhotoDAO {
     void deleteAll();
 
     @Query("SELECT * FROM photoentity")
-    Single<List<PhotoEntity>> getAllPhoto();
+    Single<List<PhotoEntity>> getAllPhotos();
+
+    @Query("SELECT * FROM photoentity WHERE is_remote = 0")
+    Single<List<PhotoEntity>> getAllLocalPhotos();
+
+    @Query("SELECT * FROM photoentity WHERE is_remote = 1")
+    Single<List<PhotoEntity>> getAllNetworkPhotos();
 
     @Query("SELECT * FROM photoentity WHERE photo_path LIKE :photoPath")
     Single<PhotoEntity> getByPhotoPath(String photoPath);
