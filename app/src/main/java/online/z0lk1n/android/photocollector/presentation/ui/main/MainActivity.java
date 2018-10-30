@@ -62,6 +62,8 @@ public final class MainActivity extends BaseActivity implements
         CustomFragmentPagerAdapter customFragmentPagerAdapter
                 = new CustomFragmentPagerAdapter(getSupportFragmentManager());
 
+        //TODO 30.10.2018 recyclerview + snaphelper = viewpager without viewpager
+
         viewPager.setAdapter(customFragmentPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
