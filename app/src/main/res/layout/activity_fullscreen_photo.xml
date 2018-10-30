@@ -22,7 +22,7 @@
         android:id="@+id/fullscreen_photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="Fullscreen photo"
+        android:contentDescription="Fullscreen photos"
         android:gravity="center"
         android:keepScreenOn="true" />
 </FrameLayout>

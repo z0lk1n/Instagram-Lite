@@ -91,7 +91,12 @@ public final class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
 
         private void bindView(int position) {
-            photoManager.setPhoto(imgViewPhoto, getFile(position), dimens, dimens);
+            if(photoList.get(position).isRemote())  {
+                photoManager.setPhoto(imgViewPhoto, getPhotoPath(position), dimens, dimens);
+            }else {
+                photoManager.setPhoto(imgViewPhoto, getFile(position), dimens, dimens);
+            }
+
             if (photoList.get(position).isFavorite()) {
                 toggleFavorites.setChecked(true);
             }

@@ -64,4 +64,14 @@ public final class PhotoManagerImpl implements PhotoManager {
                 .error(R.drawable.ic_broken_image)
                 .into(imageView);
     }
+
+    @Override
+    public void setPhoto(ImageView imageView, String url, int width, int height) {
+        Picasso.get()
+                .load(url)
+                .resize(width, height)
+                .placeholder(R.drawable.ic_photo)
+                .error(R.drawable.ic_broken_image)
+                .into(imageView);
+    }
 }

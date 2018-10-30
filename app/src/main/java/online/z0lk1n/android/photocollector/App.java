@@ -21,6 +21,8 @@ public class App extends Application {
         instance = this;
         appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
         Timber.plant(new Timber.DebugTree());
+
+        // chrome://inspect/#devices
         Stetho.initializeWithDefaults(this);
     }
 
