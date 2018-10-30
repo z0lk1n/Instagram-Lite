@@ -9,10 +9,7 @@ import android.support.v4.content.FileProvider;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-
-import online.z0lk1n.android.photocollector.data.model.PhotoItem;
 
 public final class FileManagerImpl implements FileManager {
 
@@ -28,20 +25,14 @@ public final class FileManagerImpl implements FileManager {
         this.storageDirPath = getStorageDirPath();
     }
 
-    @Override
-    public List<PhotoItem> updatePhotoListFromDir(List<PhotoItem> photoItemList) {
-        for (File file : storageDir.listFiles()) {
-            photoItemList.add(new PhotoItem(file.getAbsolutePath()));
-        }
-        return photoItemList;
+    @NonNull
+    private String getStorageDirPath() {
+        return storageDir.getAbsolutePath() + "/";
     }
 
     @Override
     public Uri createUriForIntent() {
-        return FileProvider.getUriForFile(
-                context,
-                resources.getPackageName(),
-                createFile());
+        return FileProvider.getUriForFile(context, resources.getPackageName(), createFile());
     }
 
     @NonNull
@@ -63,10 +54,5 @@ public final class FileManagerImpl implements FileManager {
     @Override
     public boolean deleteFile(String photoPath) {
         return new File(photoPath).delete();
-    }
-
-    @NonNull
-    private String getStorageDirPath() {
-        return storageDir.getAbsolutePath() + "/";
     }
 }

@@ -26,7 +26,7 @@ import timber.log.Timber;
 @InjectViewState
 public final class CommonPresenter extends MvpPresenter<CommonView> {
 
-    private static final String MSG_ERROR_PHOTO_LIST = "Failed to get photo list";
+    private static final String MSG_ERROR_PHOTO_LIST = "Failed to get photos list";
 
     private List<PhotoEntity> currentList;
 
@@ -58,9 +58,10 @@ public final class CommonPresenter extends MvpPresenter<CommonView> {
                 })
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
-                .subscribe(() -> { });
+                .subscribe(() -> {
+                });
         updatePhotoList();
-        }
+    }
 
     @SuppressLint("CheckResult")
     public void deletePhoto(String photoPath) {
@@ -95,7 +96,7 @@ public final class CommonPresenter extends MvpPresenter<CommonView> {
 
     @SuppressLint("CheckResult")
     private void updatePhotoList() {
-        repository.getPhotoList()
+        repository.getLocalPhotoList()
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui())
                 .subscribe(photoEntities -> {
