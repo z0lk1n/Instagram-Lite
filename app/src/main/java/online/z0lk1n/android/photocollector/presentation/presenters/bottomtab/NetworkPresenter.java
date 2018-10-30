@@ -41,13 +41,7 @@ public final class NetworkPresenter extends MvpPresenter<NetworkView> {
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        photos.getPhotos(ApiConst.ACCESS_KEY)
-                .map(photoEntities -> {
-                    repository.addAllPhotos(photoEntities);
-                    return photoEntities;
-                })
-                .observeOn(schedulers.ui())
-                .subscribe();
+        loadPhotos();
     }
 
     public void showFullPhoto(String photoPath) {
@@ -98,6 +92,24 @@ public final class NetworkPresenter extends MvpPresenter<NetworkView> {
                     getViewState().updatePhotoList(photoEntities);
                 }, throwable -> {
                     Timber.d(throwable, MSG_ERROR_PHOTO_LIST);
+                    getViewState().showNotifyingMessage(MSG_ERROR_PHOTO_LIST);
+                });
+    }
+
+    @SuppressLint("CheckResult")
+    public void loadPhotos() {
+        getViewState().showLoading();
+        photos.getPhotos(ApiConst.ACCESS_KEY)
+                .map(photoEntities -> {
+                    repository.addAllPhotos(photoEntities);
+                    return photoEntities;
+                })
+                .observeOn(schedulers.ui())
+                .subscribe(photoEntities -> {
+                    getViewState().hideLoading();
+                }, throwable -> {
+                    getViewState().hideLoading();
+                    Timber.e(throwable, MSG_ERROR_PHOTO_LIST);
                     getViewState().showNotifyingMessage(MSG_ERROR_PHOTO_LIST);
                 });
     }

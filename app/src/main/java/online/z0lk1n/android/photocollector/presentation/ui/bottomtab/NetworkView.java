@@ -14,4 +14,8 @@ public interface NetworkView extends MvpView {
     void showNotifyingMessage(String message);
 
     void updatePhotoList(List<PhotoEntity> photoEntities);
+
+    void showLoading();
+
+    void hideLoading();
 }

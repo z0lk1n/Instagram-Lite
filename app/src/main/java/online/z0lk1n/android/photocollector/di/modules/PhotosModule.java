@@ -9,7 +9,7 @@ import online.z0lk1n.android.photocollector.data.model.Photos;
 import online.z0lk1n.android.photocollector.data.model.PhotosImpl;
 
 @Module(includes = ApiModule.class)
-public class PhotoModule {
+public class PhotosModule {
 
     @Singleton
     @Provides
