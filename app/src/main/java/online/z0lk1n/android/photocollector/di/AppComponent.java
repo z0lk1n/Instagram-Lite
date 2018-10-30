@@ -8,7 +8,7 @@ import online.z0lk1n.android.photocollector.di.modules.AppModule;
 import online.z0lk1n.android.photocollector.di.modules.FileManagerModule;
 import online.z0lk1n.android.photocollector.di.modules.NavigationModule;
 import online.z0lk1n.android.photocollector.di.modules.PhotoManagerModule;
-import online.z0lk1n.android.photocollector.di.modules.PhotoModule;
+import online.z0lk1n.android.photocollector.di.modules.PhotosModule;
 import online.z0lk1n.android.photocollector.di.modules.RepositoryModule;
 import online.z0lk1n.android.photocollector.di.modules.ResourcesModule;
 import online.z0lk1n.android.photocollector.di.modules.SchedulersModule;
@@ -36,7 +36,7 @@ import online.z0lk1n.android.photocollector.presentation.ui.toptab.MainTabFragme
         ResourcesModule.class,
         SchedulersModule.class,
         RepositoryModule.class,
-        PhotoModule.class
+        PhotosModule.class
 })
 public interface AppComponent {
 

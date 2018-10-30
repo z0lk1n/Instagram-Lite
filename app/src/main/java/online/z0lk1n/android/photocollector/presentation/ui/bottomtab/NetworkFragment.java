@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -36,6 +37,7 @@ public final class NetworkFragment extends MvpAppCompatFragment
 
     private RecyclerViewAdapter adapter;
 
+    @BindView(R.id.pb_network) ProgressBar progressBar;
     @BindView(R.id.rv_network) RecyclerView recyclerView;
 
     @InjectPresenter NetworkPresenter presenter;
@@ -121,5 +123,15 @@ public final class NetworkFragment extends MvpAppCompatFragment
     @Override
     public void showNotifyingMessage(String message) {
         Snackbar.make(recyclerView, message, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoading() {
+        progressBar.setVisibility(View.GONE);
     }
 }
